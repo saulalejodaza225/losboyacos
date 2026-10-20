@@ -317,7 +317,7 @@ var app=$('#app'), vA=$('#vA'), vB=$('#vB'), poster=$('#poster'), sheet=$('#shee
 var invite=$('#invite'), hint=$('#hint'), pulse=$('#pulse'), enter=$('#enter'), loader=$('#loader'), bar=$('#bar');
 var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 var conn = navigator.connection || {};
-var lowData = conn.saveData === true || /^(slow-2g|2g|3g)$/.test(conn.effectiveType || '');
+var lowData = conn.saveData === true || /^(slow-2g|2g)$/.test(conn.effectiveType || '');
 var phase='loading', current='home', picks={}, lastFocus=null;
 
 function setPhase(p){phase=p; app.dataset.phase=p}
@@ -448,7 +448,18 @@ function fallbackStatic(){
   showInvite(false);
 }
 
-enter.addEventListener('click',function(e){ e.stopPropagation(); startIntro(); });
+enter.addEventListener('click',function(e){
+  e.stopPropagation();
+  if(enter.dataset.mode==='static'){          // modo ahorro / reducir animaciones: el usuario pide el video
+    enter.dataset.mode=''; enter.textContent='Toca para entrar'; enter.hidden=true;
+    staticMode=false; sheet.classList.remove('fade');
+    invite.classList.remove('on'); hint.classList.remove('on'); pulse.classList.remove('on');
+    vA.hidden=false; vB.hidden=false; vA.preload='auto'; vB.preload='auto';
+    loader.classList.remove('done'); setPhase('loading'); loadVideos();
+    return;
+  }
+  startIntro();
+});
 
 /* carga con barra fina */
 function progress(){
@@ -462,8 +473,12 @@ function boot(){
     sheet.classList.add('fade');
     vA.hidden=true; vB.hidden=true; vA.preload='none'; vB.preload='none';
     loader.classList.add('done'); setPhase('loop'); showInvite(false);
+    enter.textContent='Ver video'; enter.dataset.mode='static'; enter.hidden=false;   // el video siempre se puede ver
     return;
   }
+  loadVideos();
+}
+function loadVideos(){
   var started=false;
   var go=function(){ if(started) return; started=true; loader.firstElementChild.style.width='100%'; setTimeout(function(){loader.classList.add('done')},300); startIntro(); };
   var check=function(){ progress(); if(vA.readyState>=3 && vB.readyState>=2) go(); };
