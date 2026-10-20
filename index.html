@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0E0C0B">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230E0C0B'/%3E%3Cpath d='M9 7h4v14h8v4H9z' fill='%23C8281E'/%3E%3C/svg%3E">
+<title>Los Boyacos · Servicio automotriz en Suba</title>
+<meta name="description" content="Los Boyacos, servicio automotriz multimarca en Suba, Bogotá: frenos, suspensión, mecánica general, motor, dirección, llantas, baterías y asistencia en carretera.">
+<link rel="preload" as="image" href="assets/poster.webp" type="image/webp">
+
+<!-- Open Graph. Cambia la URL base por el dominio final (las rutas deben ser absolutas para que redes sociales las lean). -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_CO">
+<meta property="og:title" content="Los Boyacos · Servicio automotriz en Suba">
+<meta property="og:description" content="Entra a la sala de espera. Servicios, repuestos y ayuda en carretera.">
+<meta property="og:image" content="assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<!-- <meta property="og:url" content="https://DOMINIO-FINAL/"> -->
+<!-- <link rel="canonical" href="https://DOMINIO-FINAL/"> -->
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AutoRepair",
+  "name": "Los Boyacos",
+  "description": "Servicio automotriz multimarca en Suba, Bogotá.",
+  "image": "assets/og.jpg",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Carrera 94A #145A-83",
+    "addressLocality": "Suba, Bogotá",
+    "addressCountry": "CO"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer service",
+    "url": "https://wa.me/[WHATSAPP_NUMERO]"
+  }
+}
+</script>
+
+<!-- GA4: pega aquí el snippet con tu ID real (G-XXXXXXXXXX). No hay ID todavía.
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-..."></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-...');</script>
+-->
+<!-- Píxel de Meta: pega aquí el snippet con tu ID real. No hay ID todavía.
+<script>/* fbq init */</script>
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --bg:#0E0C0B; --surface:#1A1614; --border:#2E2724;
+  --text:#F4EFEA; --text-2:#A89E96;
+  --accent:#C8281E; --wa:#25D366;
+  --font-title:"Barlow Condensed","Arial Narrow",Impact,sans-serif;
+  --font-body:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px);
+  --sal:env(safe-area-inset-left,0px); --sar:env(safe-area-inset-right,0px);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:#000;color:var(--text);font-family:var(--font-body);overflow:hidden;overflow-x:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--text);outline-offset:3px}
+
+#app{position:relative;width:min(100vw,430px);height:100vh;height:100dvh;margin:0 auto;background:var(--bg);overflow:hidden;isolation:isolate}
+#app>.layer{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+#poster{z-index:0}
+#vA{z-index:1}
+#vB{z-index:2;opacity:0;transition:opacity .15s linear}
+#vB.show{opacity:1}
+.layer[hidden]{display:none}
+#shade{position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(14,12,11,.78) 0,rgba(14,12,11,.35) 30%,rgba(14,12,11,0) 48%,rgba(14,12,11,0) 78%,rgba(14,12,11,.45) 100%)}
+
+/* cargador */
+#loader{position:absolute;left:0;right:0;bottom:0;height:2px;z-index:9;background:transparent;transition:opacity .3s}
+#loader i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s ease-out}
+#loader.done{opacity:0}
+
+/* botón de entrada (fallback autoplay) */
+#enter{position:absolute;z-index:6;left:50%;bottom:calc(18% + var(--sab));transform:translateX(-50%);
+  min-height:48px;padding:0 28px;white-space:nowrap;border:1px solid var(--text);border-radius:999px;
+  background:rgba(14,12,11,.6);color:var(--text);font-family:var(--font-title);font-weight:600;
+  font-size:20px;letter-spacing:.14em;text-transform:uppercase;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+#enter[hidden]{display:none}
+
+/* invitación */
+#invite{position:absolute;z-index:4;left:0;right:0;top:calc(var(--sat) + 9%);padding:0 24px;text-align:center;pointer-events:none;
+  opacity:0;transform:translateY(8px);transition:opacity .7s ease,transform .7s ease}
+#invite.on{opacity:1;transform:none}
+#invite h1{font-family:var(--font-title);font-weight:700;font-size:clamp(44px,14vw,60px);line-height:.95;letter-spacing:.06em;text-transform:uppercase}
+#invite .rule{display:block;width:44px;height:2px;background:var(--accent);margin:14px auto 12px}
+#invite p{font-size:14px;letter-spacing:.08em;color:var(--text-2)}
+#hint{position:absolute;z-index:4;left:0;right:0;bottom:calc(9% + var(--sab));text-align:center;font-size:13px;letter-spacing:.06em;color:var(--text);
+  opacity:0;transition:opacity .7s ease .3s;pointer-events:none;text-shadow:0 1px 8px #000}
+#hint.on{opacity:.9}
+#pulse{position:absolute;z-index:4;left:37%;top:62%;width:0;height:0;pointer-events:none;opacity:0;transition:opacity .6s}
+#pulse.on{opacity:1}
+#pulse::before,#pulse::after{content:"";position:absolute;left:-28px;top:-28px;width:56px;height:56px;border-radius:50%;border:1.5px solid var(--accent);animation:pulse 2.4s ease-out infinite}
+#pulse::after{animation-delay:1.2s}
+@keyframes pulse{0%{transform:scale(.35);opacity:.9}100%{transform:scale(1.7);opacity:0}}
+
+/* hoja del catálogo */
+#sheet{position:absolute;z-index:8;left:0;right:0;bottom:0;height:calc(100% - var(--sat) - 7%);display:flex;flex-direction:column;
+  background:rgba(26,22,20,.92);border:1px solid var(--border);border-bottom:0;border-radius:20px 20px 0 0;overflow:hidden;
+  transform-origin:50% 100%;transform:translateY(22%) scale(.82);opacity:0;visibility:hidden;
+  transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .35s ease,visibility 0s linear .5s}
+@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){
+  #sheet{background:rgba(26,22,20,.72);-webkit-backdrop-filter:blur(22px) saturate(1.1);backdrop-filter:blur(22px) saturate(1.1)}
+}
+#sheet.open{transform:none;opacity:1;visibility:visible;transition-delay:0s}
+#sheet.guard{pointer-events:none}
+#sheet.fade{transform:none;transition:opacity .25s ease,visibility 0s linear .25s}
+#sheet.fade.open{transition-delay:0s}
+.head{flex:none;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 8px 6px 20px;min-height:60px;border-bottom:1px solid var(--border)}
+.head h2{font-family:var(--font-title);font-weight:700;font-size:28px;letter-spacing:.08em;text-transform:uppercase;line-height:1}
+.ibtn{min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:12px;color:var(--text)}
+.ibtn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.back{padding:0 10px 0 4px;font-size:14px;color:var(--text-2)}
+.back[hidden]{display:none}
+.hl{display:flex;align-items:center;gap:2px;min-width:0}
+
+.body{flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;padding:20px 20px 24px;-webkit-overflow-scrolling:touch}
+.view[hidden]{display:none}
+.lead{font-size:14px;color:var(--text-2);margin-bottom:16px;line-height:1.5}
+
+.cards{display:grid;gap:12px}
+.card{display:flex;align-items:center;gap:16px;width:100%;min-height:92px;padding:16px;text-align:left;
+  background:var(--surface);border:1px solid var(--border);border-radius:16px;transition:border-color .2s,transform .15s}
+.card:active{transform:scale(.985);border-color:#4a3e38}
+.card .ic{flex:none;width:44px;height:44px;display:grid;place-items:center;border-radius:12px;border:1px solid var(--border);color:var(--text)}
+.card .ic svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.card .tx{flex:1;min-width:0}
+.card b{display:block;font-family:var(--font-title);font-weight:700;font-size:23px;letter-spacing:.05em;text-transform:uppercase;line-height:1.05}
+.card small{display:block;margin-top:5px;font-size:13px;color:var(--text-2);line-height:1.35}
+.card .chev{flex:none;width:18px;height:18px;stroke:var(--text-2);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.card.alert .ic{border-color:var(--accent);color:var(--accent)}
+
+.list{list-style:none;display:grid;gap:8px}
+.item{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:52px;padding:12px 16px;text-align:left;font-size:15px;
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;position:relative}
+.item[aria-pressed="true"]{border-color:var(--accent);background:#211a17}
+.item[aria-pressed="true"]::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none}
+.note{margin-top:14px;font-size:12px;color:var(--text-2)}
+.big{font-family:var(--font-title);font-weight:700;font-size:34px;line-height:1.05;letter-spacing:.03em;text-transform:uppercase;margin:6px 0 10px}
+.bar-accent{display:block;width:44px;height:2px;background:var(--accent);margin:0 0 16px}
+
+.addr{margin-top:22px;padding:16px;border:1px solid var(--border);border-radius:16px;background:var(--surface);font-size:14px;line-height:1.5}
+.addr span{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2);margin-bottom:4px}
+.addr a.map{display:inline-flex;align-items:center;min-height:44px;margin-top:4px;color:var(--text);text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--accent)}
+
+/* botones */
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 10px;border-radius:14px;font-weight:600;font-size:14px;line-height:1.15;width:100%}
+.btn svg{width:20px;height:20px;fill:currentColor;flex:none}
+.btn.wa{background:var(--wa);color:#06260f}
+.btn.call{background:transparent;color:var(--text);border:1px solid var(--text-2)}
+.btn.call svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.btn.primary{background:var(--accent);color:#fff;border:0}
+.btn.primary svg{stroke:#fff}
+.stack{display:grid;gap:12px;margin-top:20px}
+
+.bar{flex:none;display:grid;grid-template-columns:1.8fr 1fr;gap:10px;padding:12px calc(16px + var(--sar)) calc(12px + var(--sab)) calc(16px + var(--sal));border-top:1px solid var(--border);background:rgba(14,12,11,.85)}
+.bar[hidden]{display:none}
+
+@media (prefers-reduced-motion:reduce){
+  #pulse::before,#pulse::after{animation:none;opacity:.6;transform:scale(1)}
+  #invite{transition:opacity .3s}
+}
+@media (max-width:360px){.card b{font-size:21px}.big{font-size:30px}}
+</style>
+</head>
+<body>
+<main id="app" data-phase="loading">
+  <img id="poster" class="layer" src="assets/poster.webp" alt="Sala de espera del taller: mesa de centro de nogal con un catálogo abierto" fetchpriority="high">
+  <!-- El src se asigna por JS (data-src) para no descargar nada con Save-Data / conexión lenta -->
+  <video id="vA" class="layer" muted playsinline webkit-playsinline preload="auto" poster="assets/poster.webp" data-src="assets/clip1-entrada.mp4" aria-hidden="true" tabindex="-1"></video>
+  <video id="vB" class="layer" muted loop playsinline webkit-playsinline preload="auto" poster="assets/poster.webp" data-src="assets/clip2-loop.mp4" aria-hidden="true" tabindex="-1"></video>
+  <div id="shade"></div>
+
+  <div id="invite">
+    <h1>Los Boyacos</h1>
+    <i class="rule"></i>
+    <p>Servicio automotriz · Suba</p>
+  </div>
+  <div id="pulse" aria-hidden="true"></div>
+  <p id="hint">Toca el catálogo para abrirlo</p>
+  <button id="enter" type="button" hidden>Toca para entrar</button>
+  <div id="loader" role="progressbar" aria-label="Cargando" aria-valuemin="0" aria-valuemax="100"><i></i></div>
+
+  <section id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" inert>
+    <header class="head">
+      <div class="hl">
+        <button class="ibtn back" id="back" type="button" hidden aria-label="Volver al catálogo">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg><span>Atrás</span>
+        </button>
+        <h2 id="sheet-title">Catálogo</h2>
+      </div>
+      <button class="ibtn" id="close" type="button" aria-label="Cerrar catálogo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </header>
+
+    <div class="body" id="body">
+      <div class="view" id="v-home" data-title="Catálogo" data-ctx="sus servicios">
+        <div class="cards">
+          <button class="card" type="button" data-go="servicios">
+            <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5 5L4 17l3 3 5.7-5.7a4 4 0 0 0 5-5l-2.5 2.5-2.2-.5-.5-2.2z"/></svg></span>
+            <span class="tx"><b>Servicios</b><small>Frenos, suspensión, motor, dirección y más</small></span>
+            <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+          <button class="card" type="button" data-go="repuestos">
+            <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5"/><path d="M12 4v3M12 17v3M4 12h3M17 12h3"/></svg></span>
+            <span class="tx"><b>Repuestos</b><small>Pastillas, discos, llantas, baterías</small></span>
+            <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+          <button class="card" type="button" data-go="vehiculos">
+            <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 16V12l2-5h10l2 5v4M3 16h18M7 16v2M17 16v2"/><circle cx="8" cy="13" r=".6"/><circle cx="16" cy="13" r=".6"/></svg></span>
+            <span class="tx"><b>Vehículos que atendemos</b><small>Multimarca</small></span>
+            <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+          <button class="card alert" type="button" data-go="ayuda">
+            <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17v.5"/></svg></span>
+            <span class="tx"><b>Pedir ayuda en carretera</b><small>¿Te has varado? Llámanos</small></span>
+            <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+        <div class="addr">
+          <span>Dónde estamos</span>
+          Carrera 94A #145A-83, Suba, Bogotá
+          <br><a class="map" id="map1" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Carrera+94A+%23145A-83+Suba+Bogot%C3%A1">Cómo llegar · Google Maps</a>
+        </div>
+      </div>
+
+      <div class="view" id="v-servicios" data-title="Servicios" data-ctx="sus servicios" hidden>
+        <p class="lead">Toca un servicio y te escribimos sobre ese tema.</p>
+        <ul class="list" data-pick>
+          <li><button class="item" type="button" aria-pressed="false" data-v="Rectificado de discos y cambio de pastillas">Rectificado de discos y cambio de pastillas</button></li>
+          <li><button class="item" type="button" aria-pressed="false" data-v="Suspensión">Suspensión</button></li>
+          <li><button class="item" type="button" aria-pressed="false" data-v="Mecánica general">Mecánica general</button></li>
+          <li><button class="item" type="button" aria-pressed="false" data-v="Reparación de motor">Reparación de motor</button></li>
+          <li><button class="item" type="button" aria-pressed="false" data-v="Reparación de dirección">Reparación de dirección</button></li>
+          <li><button class="item" type="button" aria-pressed="false" data-v="Cambio de llantas">Cambio de llantas</button></li>
+          <li><button class="item" type="button" aria-pressed="false" data-v="Ajuste de batería">Ajuste de batería</button></li>
+          <li><button class="item" type="button" aria-pressed="false" data-v="Asistencia en carretera">Asistencia en carretera</button></li>
+        </ul>
+      </div>
+
+      <div class="view" id="v-repuestos" data-title="Repuestos" data-ctx="repuestos" hidden>
+        <p class="lead">Consulta disponibilidad por WhatsApp.</p>
+        <ul class="list" data-pick>
+          <li><button class="item" type="button" aria-pressed="false" data-v="pastillas de freno">Pastillas</button></li>
+          <li><button class="item" type="button" aria-pressed="false" data-v="discos de freno">Discos</button></li>
+          <li><button class="item" type="button" aria-pressed="false" data-v="llantas">Llantas</button></li>
+          <li><button class="item" type="button" aria-pressed="false" data-v="baterías">Baterías</button></li>
+          <li><button class="item" type="button" aria-pressed="false" data-v="amortiguadores">Amortiguadores</button></li>
+        </ul>
+      </div>
+
+      <div class="view" id="v-vehiculos" data-title="Vehículos" data-ctx="la atención de mi vehículo" hidden>
+        <h3 class="big">Multimarca</h3>
+        <i class="bar-accent"></i>
+        <p class="lead" style="font-size:16px;color:var(--text)">Atendemos todo tipo de carros.</p>
+        <div class="addr">
+          <span>Dónde estamos</span>
+          Carrera 94A #145A-83, Suba, Bogotá
+          <br><a class="map" id="map2" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Carrera+94A+%23145A-83+Suba+Bogot%C3%A1">Cómo llegar · Google Maps</a>
+        </div>
+      </div>
+
+      <div class="view" id="v-ayuda" data-title="Ayuda en carretera" data-ctx="asistencia en carretera" data-nobar hidden>
+        <h3 class="big">¿Te has varado?</h3>
+        <i class="bar-accent"></i>
+        <p class="lead" style="font-size:18px;color:var(--text)">Llámanos de inmediato.</p>
+        <div class="stack">
+          <a class="btn primary" data-call data-ev="llamar" data-src="ayuda_carretera" href="tel:[TELEFONO]">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+            Llamar ahora
+          </a>
+          <a class="btn wa" data-wa data-ev="whatsapp" data-src="ayuda_carretera" target="_blank" rel="noopener" href="https://wa.me/[WHATSAPP_NUMERO]">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14c-.2.6-1.300 1.200-1.800 1.200-.5.100-1 .2-3.300-.7-2.800-1.100-4.600-4-4.700-4.200-.1-.2-1.100-1.500-1.100-2.800s.7-2 1-2.300c.2-.3.500-.3.700-.3h.5c.2 0 .4 0 .6.500l.8 2c.1.200.1.300 0 .5l-.4.600-.4.400c-.1.200-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.200 1 2.100 1.300 2.400 1.500.3.100.5.100.6-.1l.9-1c.2-.3.400-.2.600-.1l2 1c.3.100.5.200.5.300.1.200.1.800-.1 1.300z"/></svg>
+            Escribir por WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <footer class="bar" id="bar">
+      <a class="btn wa" id="bar-wa" data-wa data-ev="whatsapp" target="_blank" rel="noopener" href="https://wa.me/[WHATSAPP_NUMERO]">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14c-.2.6-1.300 1.200-1.800 1.200-.5.100-1 .2-3.300-.7-2.800-1.100-4.600-4-4.700-4.200-.1-.2-1.100-1.500-1.100-2.800s.7-2 1-2.300c.2-.3.500-.3.700-.3h.5c.2 0 .4 0 .6.500l.8 2c.1.200.1.300 0 .5l-.4.600-.4.400c-.1.200-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.200 1 2.100 1.300 2.400 1.500.3.100.5.100.6-.1l.9-1c.2-.3.400-.2.600-.1l2 1c.3.100.5.200.5.300.1.200.1.800-.1 1.300z"/></svg>
+        Escribir por WhatsApp
+      </a>
+      <a class="btn call" id="bar-call" data-call data-ev="llamar" href="tel:[TELEFONO]">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+        Llamar
+      </a>
+    </footer>
+  </section>
+</main>
+
+<script>
+(function(){
+'use strict';
+
+/* ====== VARIABLES PENDIENTES (el cliente las entrega) ====== */
+var WHATSAPP_NUMERO = '[WHATSAPP_NUMERO]'; // solo dígitos con indicativo, ej: 573001234567
+var TELEFONO        = '[TELEFONO]';        // ej: +573001234567
+/* ========================================================== */
+
+var $ = function(s,r){return (r||document).querySelector(s)};
+var $$ = function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var app=$('#app'), vA=$('#vA'), vB=$('#vB'), poster=$('#poster'), sheet=$('#sheet');
+var invite=$('#invite'), hint=$('#hint'), pulse=$('#pulse'), enter=$('#enter'), loader=$('#loader'), bar=$('#bar');
+var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+var conn = navigator.connection || {};
+var lowData = conn.saveData === true || /^(slow-2g|2g|3g)$/.test(conn.effectiveType || '');
+var phase='loading', current='home', picks={}, lastFocus=null;
+
+function setPhase(p){phase=p; app.dataset.phase=p}
+
+/* ---------- analítica ---------- */
+function track(name,params){
+  params=params||{};
+  try{ if(window.gtag) window.gtag('event',name,params); }catch(e){}
+  try{ if(window.fbq) window.fbq('trackCustom',name,params); }catch(e){}
+  try{ (window.dataLayer=window.dataLayer||[]); if(!window.gtag) window.dataLayer.push({event:name,params:params}); }catch(e){}
+}
+
+/* ---------- enlaces ---------- */
+var ctxLabel={home:'sus servicios',servicios:'sus servicios',repuestos:'repuestos',vehiculos:'la atención de mi vehículo',ayuda:'asistencia en carretera'};
+function waHref(servicio){
+  var msg='Hola Los Boyacos, vi su página y quiero información sobre '+servicio;
+  return 'https://wa.me/'+encodeURIComponent(WHATSAPP_NUMERO)+'?text='+encodeURIComponent(msg);
+}
+function topic(view){ return picks[view] || ctxLabel[view]; }
+function refreshLinks(){
+  $$('[data-wa]').forEach(function(a){
+    var v=a.closest('.view'); var key=v?v.id.slice(2):current;
+    a.href=waHref(topic(key));
+  });
+  $$('[data-call]').forEach(function(a){ a.href='tel:'+TELEFONO; });
+}
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[data-ev]'); if(!a) return;
+  track(a.dataset.ev,{origen:a.dataset.src||current,tema:topic(current)});
+});
+
+/* ---------- vistas ---------- */
+var evFor={servicios:'ver_servicios',repuestos:'ver_repuestos',ayuda:'ayuda_carretera'};
+function show(view,opts){
+  current=view;
+  $$('.view').forEach(function(v){v.hidden = v.id!=='v-'+view});
+  var el=$('#v-'+view);
+  $('#sheet-title').textContent=el.dataset.title;
+  $('#back').hidden = view==='home';
+  bar.hidden = el.hasAttribute('data-nobar');
+  $('#body').scrollTop=0;
+  refreshLinks();
+  if(!(opts&&opts.silent)){
+    if(evFor[view]) track(evFor[view]);
+    var f = view==='home' ? $('#close') : $('#back'); f.focus({preventScroll:true});
+  }
+}
+$$('[data-go]').forEach(function(b){b.addEventListener('click',function(){show(b.dataset.go)})});
+$('#back').addEventListener('click',function(){show('home')});
+$$('[data-pick]').forEach(function(ul){
+  ul.addEventListener('click',function(e){
+    var b=e.target.closest('.item'); if(!b) return;
+    var key=ul.closest('.view').id.slice(2);
+    var on=b.getAttribute('aria-pressed')==='true';
+    $$('.item',ul).forEach(function(x){x.setAttribute('aria-pressed','false')});
+    if(on){delete picks[key]} else {b.setAttribute('aria-pressed','true'); picks[key]=b.dataset.v}
+    refreshLinks();
+  });
+});
+
+/* ---------- catálogo ---------- */
+function openCatalog(){
+  if(phase==='open') return;
+  track('abrir_catalogo');
+  try{ navigator.vibrate && navigator.vibrate(10); }catch(e){}
+  lastFocus=document.activeElement;
+  show('home',{silent:true});
+  sheet.removeAttribute('inert');
+  sheet.getBoundingClientRect();
+  sheet.classList.add('guard','open');   // evita que el mismo toque active lo que queda debajo
+  setTimeout(function(){ sheet.classList.remove('guard') },450);
+  setPhase('open');
+  invite.classList.remove('on'); hint.classList.remove('on'); pulse.classList.remove('on');
+  setTimeout(function(){ $('#close').focus({preventScroll:true}) },60);
+}
+function closeCatalog(){
+  if(phase!=='open') return;
+  sheet.classList.remove('open');
+  sheet.setAttribute('inert','');
+  setPhase(loopStarted||staticMode?'loop':'intro');
+  if(phase==='loop') showInvite(true);
+  if(lastFocus&&lastFocus.focus) try{lastFocus.focus({preventScroll:true})}catch(e){}
+}
+$('#close').addEventListener('click',closeCatalog);
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeCatalog(); });
+
+/* ---------- vídeo ---------- */
+var staticMode = reduced || lowData;
+var loopStarted=false, introStarted=false;
+
+function showInvite(immediate){
+  var go=function(){ if(phase==='open') return; invite.classList.add('on'); hint.classList.add('on'); pulse.classList.add('on'); };
+  immediate ? go() : setTimeout(go,1200);
+}
+
+function startLoop(){
+  if(loopStarted) return; loopStarted=true;
+  var p; try{ p=vB.play(); }catch(e){}
+  var reveal=function(){
+    vB.classList.add('show');
+    setTimeout(function(){ try{vA.pause()}catch(e){} },250);
+  };
+  var done=false, once=function(){ if(done) return; done=true; reveal(); };
+  if('requestVideoFrameCallback' in vB){ vB.requestVideoFrameCallback(once); setTimeout(once,400); }
+  else { vB.addEventListener('playing',once,{once:true}); setTimeout(once,400); }
+  if(p&&p.catch) p.catch(function(){ once(); });
+  if(phase!=='open') setPhase('loop');
+  showInvite(false);
+}
+
+function startIntro(){
+  if(introStarted) return; introStarted=true;
+  enter.hidden=true;
+  var p;
+  try{ p=vA.play(); }catch(e){}
+  var ok=function(){ poster.hidden=true; if(phase==='loading'||phase==='blocked') setPhase('intro'); };
+  vA.addEventListener('playing',ok);
+  if(p&&p.catch) p.catch(function(){ introStarted=false; setPhase('blocked'); enter.hidden=false; });
+}
+
+vA.addEventListener('ended',startLoop);
+vA.addEventListener('error',function(){ fallbackStatic(); });
+
+function fallbackStatic(){
+  staticMode=true; loader.classList.add('done'); enter.hidden=true;
+  poster.hidden=false; vA.hidden=true; vB.hidden=true;
+  if(phase==='loading'||phase==='blocked'||phase==='intro') setPhase('loop');
+  showInvite(false);
+}
+
+enter.addEventListener('click',function(e){ e.stopPropagation(); startIntro(); });
+
+/* carga con barra fina */
+function progress(){
+  var f=function(v){ var d=v.duration; if(!d||!isFinite(d)) return 0; var b=v.buffered; return b.length? Math.min(1,b.end(b.length-1)/d):0 };
+  var pct=Math.round((f(vA)+f(vB))/2*100);
+  loader.firstElementChild.style.width=pct+'%'; loader.setAttribute('aria-valuenow',pct);
+  return pct;
+}
+function boot(){
+  if(staticMode){
+    sheet.classList.add('fade');
+    vA.hidden=true; vB.hidden=true; vA.preload='none'; vB.preload='none';
+    loader.classList.add('done'); setPhase('loop'); showInvite(false);
+    return;
+  }
+  var started=false;
+  var go=function(){ if(started) return; started=true; loader.firstElementChild.style.width='100%'; setTimeout(function(){loader.classList.add('done')},300); startIntro(); };
+  var check=function(){ progress(); if(vA.readyState>=3 && vB.readyState>=2) go(); };
+  ['progress','canplay','canplaythrough','loadeddata'].forEach(function(ev){ vA.addEventListener(ev,check); vB.addEventListener(ev,check); });
+  vA.src=vA.dataset.src; vB.src=vB.dataset.src; vA.load(); vB.load(); check();
+  setTimeout(go,7000); // red lenta: no bloquear
+}
+
+/* primer toque en cualquier parte */
+app.addEventListener('pointerup',function(e){
+  if(e.target.closest('#sheet')||e.target.closest('#enter')) return;
+  if(phase==='open') return;
+  if(phase==='loop'){ openCatalog(); return; }
+  if(phase==='intro'){ try{vA.pause()}catch(e2){} startLoop(); }   // salta la intro
+});
+app.addEventListener('keydown',function(e){
+  if((e.key==='Enter'||e.key===' ')&&phase==='loop'&&e.target===app){ e.preventDefault(); openCatalog(); }
+});
+app.tabIndex=0; app.setAttribute('aria-label','Los Boyacos. Toca para abrir el catálogo');
+app.style.outline='none';
+app.addEventListener('focus',function(){ app.style.outline=''; });
+
+refreshLinks();
+boot();
+window.__boyacos={get phase(){return phase},open:openCatalog,close:closeCatalog};
+})();
+</script>
+</body>
+</html>
