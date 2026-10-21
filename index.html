@@ -76,8 +76,45 @@ a{color:inherit;text-decoration:none}
 #vA{z-index:1}
 #vB{z-index:2;opacity:0;transition:opacity .15s linear}
 #vB.show{opacity:1}
-#vC{z-index:2;opacity:0;transition:opacity .15s linear}
-#vC.show{opacity:1}
+#vC,#vD,#vE{z-index:2;opacity:0;transition:opacity .15s linear}
+#vC.show,#vD.show,#vE.show{opacity:1}
+
+/* catálogo interactivo: el video es el libro y el HTML se proyecta sobre las hojas */
+#book{position:absolute;inset:0;z-index:7;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s linear .3s}
+#book.on{opacity:1;visibility:visible;transition-delay:0s}
+#book.on .bk-top,#book.on.ready .bk-bottom{pointer-events:auto}
+#book.guard,#book.guard *{pointer-events:none!important}
+.bk-top{z-index:2;position:absolute;left:0;right:0;top:0;display:flex;align-items:center;justify-content:space-between;padding:calc(var(--sat) + 8px) calc(8px + var(--sar)) 0 calc(20px + var(--sal))}
+.bk-top b{font-family:var(--font-title);font-weight:700;font-size:22px;letter-spacing:.1em;text-transform:uppercase;text-shadow:0 1px 10px #000}
+.bk-top .ibtn{background:rgba(14,12,11,.55);border:1px solid var(--border)}
+.bk-hint{position:absolute;left:0;right:0;top:calc(var(--sat) + 64px);text-align:center;font-size:13px;letter-spacing:.05em;color:var(--text);text-shadow:0 1px 8px #000;opacity:0;transition:opacity .4s}
+#book.ready .bk-hint{opacity:.9}
+#app[data-phase="open"] .bk-hint{opacity:0}
+#stage{position:absolute;left:0;top:0;width:720px;height:1280px;transform-origin:0 0;opacity:0;transition:opacity .35s;pointer-events:none}
+#book.ready #stage{opacity:1}
+#book.ready #stage.turning{opacity:0;transition-duration:.12s}
+.pg{position:absolute;left:0;top:0;transform-origin:0 0;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:9px;padding:16px 16px 16px 18px;text-align:left;color:var(--text);
+  background:linear-gradient(to bottom,#40393a 0%,#322c29 40%,#272220 100%);border-radius:5px;opacity:0;pointer-events:none;transition:opacity .3s;
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 10%,#000 90%,transparent),linear-gradient(to bottom,transparent,#000 9%,#000 91%,transparent);
+  -webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 10%,#000 90%,transparent),linear-gradient(to bottom,transparent,#000 9%,#000 91%,transparent);mask-composite:intersect}
+.pg.on{opacity:1;pointer-events:auto}
+.pg h3{font-family:var(--font-title);font-weight:700;font-size:40px;line-height:1;letter-spacing:.05em;text-transform:uppercase}
+.pg i.rule{display:block;width:34px;height:3px;background:var(--accent)}
+.pg ul{list-style:none;display:grid;gap:3px}
+.pg li{font-size:22px;line-height:1.3;color:#d9d1c9}
+.pg li::before{content:"– ";color:var(--accent)}
+.pg p{font-size:23px;line-height:1.35;color:#d9d1c9}
+.pg .more{margin-top:4px;font-size:20px;letter-spacing:.06em;text-transform:uppercase;color:var(--text);border-bottom:2px solid var(--accent);padding-bottom:1px}
+.pg:focus-visible{outline:4px solid var(--text);outline-offset:-4px}
+.bk-bottom{z-index:2;position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column;gap:6px;opacity:0;transition:opacity .35s;pointer-events:none}
+#book.ready .bk-bottom{opacity:1}
+.bk-nav{display:flex;align-items:center;justify-content:space-between;padding:0 calc(10px + var(--sar)) 0 calc(10px + var(--sal))}
+.bk-nav button{min-height:44px;min-width:44px;padding:0 14px;border-radius:999px;background:rgba(14,12,11,.6);border:1px solid var(--border);font-size:13px;letter-spacing:.04em;display:inline-flex;align-items:center;gap:6px}
+.bk-nav button[aria-disabled="true"]{opacity:.3;pointer-events:none}
+.bk-nav button[aria-busy="true"]{opacity:.6}
+.bk-nav span{font-size:12px;letter-spacing:.14em;color:var(--text-2)}
+.bk-nav svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.dock{display:grid;grid-template-columns:1.8fr 1fr;gap:10px;padding:10px calc(16px + var(--sar)) calc(12px + var(--sab)) calc(16px + var(--sal));background:linear-gradient(to top,rgba(14,12,11,.92) 70%,rgba(14,12,11,0))}
 .layer[hidden]{display:none}
 #shade{position:absolute;inset:0;z-index:3;pointer-events:none;
   background:linear-gradient(to bottom,rgba(14,12,11,.78) 0,rgba(14,12,11,.35) 30%,rgba(14,12,11,0) 48%,rgba(14,12,11,0) 78%,rgba(14,12,11,.45) 100%)}
@@ -182,7 +219,10 @@ a{color:inherit;text-decoration:none}
   <!-- El src se asigna por JS (data-src) para no descargar nada con Save-Data / conexión lenta -->
   <video id="vA" class="layer" muted playsinline webkit-playsinline preload="auto" poster="assets/poster.webp" data-src="assets/clip1-entrada.mp4" aria-hidden="true" tabindex="-1"></video>
   <video id="vB" class="layer" muted loop playsinline webkit-playsinline preload="auto" poster="assets/poster.webp" data-src="assets/clip2-loop.mp4" aria-hidden="true" tabindex="-1"></video>
-  <video id="vC" class="layer" muted playsinline webkit-playsinline preload="auto" poster="assets/poster.webp" data-src="assets/clip3-catalogo.mp4" aria-hidden="true" tabindex="-1"></video>
+  <!-- Catálogo: C = agarra el libro (termina en la 1.ª doble), D = pasa la página, E = D al revés (volver) -->
+  <video id="vC" class="layer" muted playsinline webkit-playsinline preload="auto" data-src="assets/clip3a-agarra.mp4" aria-hidden="true" tabindex="-1"></video>
+  <video id="vD" class="layer" muted playsinline webkit-playsinline preload="auto" data-src="assets/clip3b-pagina.mp4" aria-hidden="true" tabindex="-1"></video>
+  <video id="vE" class="layer" muted playsinline webkit-playsinline preload="auto" data-src="assets/clip3c-atras.mp4" aria-hidden="true" tabindex="-1"></video>
   <div id="shade"></div>
 
   <div id="invite">
@@ -194,6 +234,55 @@ a{color:inherit;text-decoration:none}
   <p id="hint">Toca el catálogo para abrirlo</p>
   <button id="enter" type="button" hidden>Toca para entrar</button>
   <div id="loader" role="progressbar" aria-label="Cargando" aria-valuemin="0" aria-valuemax="100"><i></i></div>
+
+  <section id="book" aria-label="Catálogo de Los Boyacos">
+    <div class="bk-top">
+      <b>Los Boyacos</b>
+      <button class="ibtn" id="bk-close" type="button" aria-label="Cerrar catálogo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <p class="bk-hint" id="bk-hint">Toca una hoja para abrirla</p>
+    <div id="stage">
+      <button class="pg" type="button" data-spread="1" data-view="servicios" aria-label="Servicios: ver todos">
+        <h3>Servicios</h3><i class="rule"></i>
+        <ul><li>Discos y pastillas</li><li>Suspensión</li><li>Mecánica general</li><li>Motor y dirección</li><li>Llantas y batería</li></ul>
+        <span class="more">Ver todo ›</span>
+      </button>
+      <button class="pg" type="button" data-spread="1" data-view="repuestos" aria-label="Repuestos: ver todos">
+        <h3>Repuestos</h3><i class="rule"></i>
+        <ul><li>Pastillas</li><li>Discos</li><li>Llantas</li><li>Baterías</li><li>Amortiguadores</li></ul>
+        <span class="more">Ver todo ›</span>
+      </button>
+      <button class="pg" type="button" data-spread="2" data-view="vehiculos" aria-label="Vehículos que atendemos">
+        <h3>Vehículos que atendemos</h3><i class="rule"></i>
+        <p>Multimarca: atendemos todo tipo de carros.</p>
+        <span class="more">Ver más ›</span>
+      </button>
+      <button class="pg" type="button" data-spread="2" data-view="ayuda" aria-label="Pedir ayuda en carretera">
+        <h3>Ayuda en carretera</h3><i class="rule"></i>
+        <p>¿Te has varado? Llámanos de inmediato.</p>
+        <span class="more">Pedir ayuda ›</span>
+      </button>
+    </div>
+    <div class="bk-bottom">
+      <div class="bk-nav">
+        <button type="button" id="prev" aria-label="Página anterior" aria-disabled="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Anterior</button>
+        <span id="dots" aria-live="polite">1 / 2</span>
+        <button type="button" id="next" aria-label="Página siguiente">Siguiente<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+      <div class="dock">
+        <a class="btn wa" data-wa data-ev="whatsapp" data-src="catalogo" target="_blank" rel="noopener" href="https://wa.me/[WHATSAPP_NUMERO]">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14c-.2.6-1.300 1.200-1.800 1.200-.5.100-1 .2-3.300-.7-2.800-1.100-4.600-4-4.700-4.200-.1-.2-1.100-1.500-1.100-2.800s.7-2 1-2.300c.2-.3.500-.3.700-.3h.5c.2 0 .4 0 .6.500l.8 2c.1.200.1.300 0 .5l-.4.600-.4.400c-.1.200-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.200 1 2.100 1.300 2.400 1.500.3.100.5.100.6-.1l.9-1c.2-.3.400-.2.600-.1l2 1c.3.100.5.200.5.300.1.200.1.800-.1 1.300z"/></svg>
+          Escribir por WhatsApp
+        </a>
+        <a class="btn call" data-call data-ev="llamar" data-src="catalogo" href="tel:[TELEFONO]">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+          Llamar
+        </a>
+      </div>
+    </div>
+  </section>
 
   <section id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" inert>
     <header class="head">
@@ -334,7 +423,7 @@ function track(name,params){
 }
 
 /* ---------- enlaces ---------- */
-var ctxLabel={home:'sus servicios',servicios:'sus servicios',repuestos:'repuestos',vehiculos:'la atención de mi vehículo',ayuda:'asistencia en carretera'};
+var ctxLabel={book:'sus servicios',home:'sus servicios',servicios:'sus servicios',repuestos:'repuestos',vehiculos:'la atención de mi vehículo',ayuda:'asistencia en carretera'};
 function waHref(servicio){
   var msg='Hola Los Boyacos, vi su página y quiero información sobre '+servicio;
   return 'https://wa.me/'+encodeURIComponent(WHATSAPP_NUMERO)+'?text='+encodeURIComponent(msg);
@@ -342,7 +431,7 @@ function waHref(servicio){
 function topic(view){ return picks[view] || ctxLabel[view]; }
 function refreshLinks(){
   $$('[data-wa]').forEach(function(a){
-    var v=a.closest('.view'); var key=v?v.id.slice(2):current;
+    var v=a.closest('.view'); var key=v?v.id.slice(2):(a.closest('#book')?'book':current);
     a.href=waHref(topic(key));
   });
   $$('[data-call]').forEach(function(a){ a.href='tel:'+TELEFONO; });
@@ -369,7 +458,7 @@ function show(view,opts){
   }
 }
 $$('[data-go]').forEach(function(b){b.addEventListener('click',function(){show(b.dataset.go)})});
-$('#back').addEventListener('click',function(){show('home')});
+$('#back').addEventListener('click',function(){ if(sheetFromBook) closeSheet(); else show('home'); });
 $$('[data-pick]').forEach(function(ul){
   ul.addEventListener('click',function(e){
     var b=e.target.closest('.item'); if(!b) return;
@@ -381,61 +470,164 @@ $$('[data-pick]').forEach(function(ul){
   });
 });
 
-/* ---------- catálogo ---------- */
-/* Toque en el catálogo: se reproduce el clip 3 (agarra el catálogo y pasa las páginas)
-   y al final sube la hoja con las opciones. Sin clip listo / ahorro de datos: abre directo. */
-function openCatalog(){
-  if(phase==='open'||phase==='opening') return;
+/* ---------- catálogo interactivo ----------
+   El video ES el libro. Tramos: C (agarra y abre en la 1.ª doble), D (pasa la página), E (D al revés).
+   Cada tramo termina en un fotograma fijo; el catálogo HTML se proyecta con perspectiva sobre esas hojas.
+   Fases: loop → opening → book (pág. 1 o 2) ↔ turning ; open = hoja de detalle ; sin video: hoja con tarjetas. */
+var vD=$('#vD'), vE=$('#vE'), book=$('#book'), stage=$('#stage'), prevB=$('#prev'), nextB=$('#next'), dots=$('#dots');
+var pg=1, bookActive=false, sheetFromBook=false, guardT=0;
+
+/* Esquinas de cada hoja en el cuadro del video (720×1280): TL, TR, BR, BL; i = recorte útil [u0,v0,u1,v1] */
+var SPREADS={
+  1:{L:{q:[[80,490],[354,488],[357,880],[68,878]],i:[.16,.13,.97,.88]},R:{q:[[360,488],[615,486],[655,872],[360,880]],i:[.05,.13,.84,.88]}},
+  2:{L:{q:[[88,516],[354,512],[358,920],[50,920]],i:[.14,.07,.97,.82]},R:{q:[[360,512],[618,508],[668,912],[358,920]],i:[.05,.07,.84,.84]}}
+};
+function lerp(a,b,t){return a+(b-a)*t}
+function bil(q,u,v){
+  var tx=lerp(q[0][0],q[1][0],u), ty=lerp(q[0][1],q[1][1],u), bx=lerp(q[3][0],q[2][0],u), by=lerp(q[3][1],q[2][1],u);
+  return [lerp(tx,bx,v), lerp(ty,by,v)];
+}
+function subQuad(q,i){ return [bil(q,i[0],i[1]),bil(q,i[2],i[1]),bil(q,i[2],i[3]),bil(q,i[0],i[3])]; }
+function dist(a,b){ return Math.hypot(a[0]-b[0],a[1]-b[1]); }
+function quadMatrix(p,w,h){       // rectángulo w×h → cuadrilátero p (homografía → matrix3d)
+  var x0=p[0][0],y0=p[0][1],x1=p[1][0],y1=p[1][1],x2=p[2][0],y2=p[2][1],x3=p[3][0],y3=p[3][1];
+  var dx1=x1-x2,dx2=x3-x2,dy1=y1-y2,dy2=y3-y2,sx=x0-x1+x2-x3,sy=y0-y1+y2-y3;
+  var den=dx1*dy2-dx2*dy1, g=(sx*dy2-dx2*sy)/den, hh=(dx1*sy-sx*dy1)/den;
+  var a=x1-x0+g*x1, b=x3-x0+hh*x3, d=y1-y0+g*y1, e=y3-y0+hh*y3;
+  return 'matrix3d('+[a/w,d/w,0,g/w, b/h,e/h,0,hh/h, 0,0,1,0, x0,y0,0,1].join(',')+')';
+}
+function placePages(){
+  $$('.pg').forEach(function(el,idx){
+    var s=SPREADS[el.dataset.spread][idx%2===0?'L':'R'];
+    var p=subQuad(s.q,s.i), w=300;
+    var qw=(dist(p[0],p[1])+dist(p[3],p[2]))/2, qh=(dist(p[0],p[3])+dist(p[1],p[2]))/2;
+    var h=Math.round(w*qh/qw);
+    el.style.width=w+'px'; el.style.height=h+'px'; el.style.transform=quadMatrix(p,w,h);
+  });
+}
+function layoutStage(){      // mismo recorte "cover" que los videos
+  var W=app.clientWidth,H=app.clientHeight,s=Math.max(W/720,H/1280);
+  stage.style.transform='translate('+((W-720*s)/2)+'px,'+((H-1280*s)/2)+'px) scale('+s+')';
+}
+window.addEventListener('resize',layoutStage);
+
+function vready(v){ return !!v.src && v.readyState>=3; }
+function stack(v){ [vC,vD,vE].forEach(function(x){ x.classList.toggle('show',x===v); }); }
+function playFrom(v,then){            // reproduce un tramo y lo muestra en cuanto hay fotograma
+  try{ v.currentTime=0; }catch(e){}
+  var p; try{ p=v.play(); }catch(e){}
+  var done=false, reveal=function(){ if(done) return; done=true; stack(v); };
+  if('requestVideoFrameCallback' in v){ v.requestVideoFrameCallback(reveal); } else { v.addEventListener('playing',reveal,{once:true}); }
+  setTimeout(reveal,400);
+  v.onended=then;
+  if(p&&p.catch) p.catch(then);
+}
+function guardBook(){ book.classList.add('guard'); clearTimeout(guardT); guardT=setTimeout(function(){ book.classList.remove('guard'); },380); }
+
+function openCatalog(){                // toque desde el loop
+  if(phase!=='loop') return;
   track('abrir_catalogo');
   try{ navigator.vibrate && navigator.vibrate(10); }catch(e){}
   lastFocus=document.activeElement;
   invite.classList.remove('on'); hint.classList.remove('on'); pulse.classList.remove('on');
-  if(staticMode||!vC.src||vC.readyState<3){ showSheet(); return; }
+  if(staticMode||!vready(vC)||!vready(vD)||!vready(vE)){ sheetFromBook=false; openSheet('home'); return; }
+  bookActive=true; pg=1; current='book'; refreshLinks();
   setPhase('opening');
-  try{ vC.currentTime=0; }catch(e){}
-  var p; try{ p=vC.play(); }catch(e){}
-  var done=false, reveal=function(){ if(done||phase!=='opening') return; done=true; vC.classList.add('show'); };
-  if('requestVideoFrameCallback' in vC){ vC.requestVideoFrameCallback(reveal); }
-  else { vC.addEventListener('playing',reveal,{once:true}); }
-  setTimeout(reveal,400);
-  if(p&&p.catch) p.catch(function(){ showSheet(); });
+  book.classList.add('on'); book.classList.remove('ready'); setActivePage(1,true);
+  [vD,vE].forEach(function(v){ try{ v.pause(); v.currentTime=0; }catch(e){} });
+  playFrom(vC,function(){ enterPage(1); });
 }
-vC.addEventListener('timeupdate',function(){ if(phase==='opening'&&vC.duration&&vC.currentTime>=vC.duration-0.9) showSheet(); });
-vC.addEventListener('ended',function(){ if(phase==='opening') showSheet(); });
-function cancelOpening(){
+function skipOpening(){
   if(phase!=='opening') return;
-  try{ vC.pause(); }catch(e){}
-  vC.classList.remove('show'); setPhase('loop'); showInvite(true);
+  vC.onended=null; try{ vC.pause(); }catch(e){}
+  var go=function(){ stack(vC); enterPage(1); guardBook(); };
+  vC.addEventListener('seeked',go,{once:true});
+  try{ vC.currentTime=Math.max(0,(vC.duration||1)-0.04); }catch(e){ go(); }
 }
-function showSheet(){
+function setActivePage(n,silent){
+  pg=n;
+  $$('.pg').forEach(function(el){ var on=+el.dataset.spread===n; el.classList.toggle('on',on); el.tabIndex=on?0:-1; el.setAttribute('aria-hidden',on?'false':'true'); });
+  prevB.setAttribute('aria-disabled',n===1?'true':'false'); nextB.setAttribute('aria-disabled',n===2?'true':'false');
+  prevB.tabIndex=n===1?-1:0; nextB.tabIndex=n===2?-1:0;
+  dots.textContent=n+' / 2';
+}
+function enterPage(n){
+  stack(n===1?vC:vD);
+  setActivePage(n); stage.classList.remove('turning'); nextB.removeAttribute('aria-busy'); prevB.removeAttribute('aria-busy');
+  setPhase('book'); current='book'; refreshLinks();
+  book.classList.add('ready');
+}
+function turn(dir){                    // dir +1: siguiente (clip D) ; -1: anterior (clip E)
+  if(phase!=='book') return;
+  var to=pg+dir; if(to<1||to>2) return;
+  var v=dir>0?vD:vE, btn=dir>0?nextB:prevB;
+  if(!vready(v)){ btn.setAttribute('aria-busy','true'); v.addEventListener('canplay',function(){ turn(dir); },{once:true}); return; }
+  track('pasar_pagina',{pagina:to});
+  setPhase('turning'); stage.classList.add('turning');
+  playFrom(v,function(){ enterPage(to); });
+}
+nextB.addEventListener('click',function(){ turn(1); });
+prevB.addEventListener('click',function(){ turn(-1); });
+
+/* abrir una hoja = detalle en la hoja deslizable */
+$$('.pg').forEach(function(el){ el.addEventListener('click',function(){ if(swiped) return; sheetFromBook=true; openSheet(el.dataset.view); }); });
+/* deslizar para pasar de página */
+var sx=0, sy=0, swiped=false;
+book.addEventListener('pointerdown',function(e){ sx=e.clientX; sy=e.clientY; swiped=false; });
+book.addEventListener('pointerup',function(e){
+  var dx=e.clientX-sx, dy=e.clientY-sy;
+  if(Math.abs(dx)>50&&Math.abs(dy)<70&&phase==='book'){ swiped=true; setTimeout(function(){swiped=false},350); turn(dx<0?1:-1); }
+});
+
+function openSheet(view){
   if(phase==='open') return;
-  show('home',{silent:true});
+  var from=phase;
+  sheetFromBook=bookActive;
+  show(view,{silent:true});
   sheet.removeAttribute('inert');
   sheet.getBoundingClientRect();
   sheet.classList.add('guard','open');   // evita que el mismo toque active lo que queda debajo
   setTimeout(function(){ sheet.classList.remove('guard') },450);
   setPhase('open');
-  invite.classList.remove('on'); hint.classList.remove('on'); pulse.classList.remove('on');
-  setTimeout(function(){ $('#close').focus({preventScroll:true}) },60);
+  if(evFor[view]) track(evFor[view]);
+  setTimeout(function(){ (view==='home'?$('#close'):$('#back')).focus({preventScroll:true}) },60);
 }
-function closeCatalog(){
+function closeSheet(){
   if(phase!=='open') return;
   sheet.classList.remove('open');
   sheet.setAttribute('inert','');
-  vC.classList.remove('show'); setTimeout(function(){ if(phase!=='open'&&phase!=='opening') try{vC.pause()}catch(e){} },250);
-  setPhase(loopStarted||staticMode?'loop':'intro');
-  if(phase==='loop') showInvite(true);
+  if(bookActive){
+    setPhase('book'); current='book'; refreshLinks();
+    var el=$('.pg.on'); if(el) try{ el.focus({preventScroll:true}); }catch(e){}
+  } else {
+    setPhase(loopStarted||staticMode?'loop':'intro');
+    if(phase==='loop') showInvite(true);
+    if(lastFocus&&lastFocus.focus) try{lastFocus.focus({preventScroll:true})}catch(e){}
+  }
+}
+function closeBook(){                  // vuelve al loop
+  if(!bookActive) return;
+  if(phase==='open') closeSheet();
+  bookActive=false; vC.onended=vD.onended=vE.onended=null;
+  stack(null); book.classList.remove('on','ready'); stage.classList.remove('turning');
+  setTimeout(function(){ if(!bookActive) [vC,vD,vE].forEach(function(v){ try{v.pause()}catch(e){} }); },250);
+  setPhase('loop'); showInvite(true);
   if(lastFocus&&lastFocus.focus) try{lastFocus.focus({preventScroll:true})}catch(e){}
 }
-$('#close').addEventListener('click',closeCatalog);
-document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ closeCatalog(); cancelOpening(); } });
+$('#bk-close').addEventListener('click',closeBook);
+$('#close').addEventListener('click',closeSheet);
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){ if(phase==='open') closeSheet(); else closeBook(); }
+  else if(e.key==='ArrowRight'&&phase==='book') turn(1);
+  else if(e.key==='ArrowLeft'&&phase==='book') turn(-1);
+});
 
 /* ---------- vídeo ---------- */
 var staticMode = reduced || lowData;
 var loopStarted=false, introStarted=false;
 
 function showInvite(immediate){
-  var go=function(){ if(phase==='open') return; invite.classList.add('on'); hint.classList.add('on'); pulse.classList.add('on'); };
+  var go=function(){ if(phase!=='loop') return; invite.classList.add('on'); hint.classList.add('on'); pulse.classList.add('on'); };
   immediate ? go() : setTimeout(go,1200);
 }
 
@@ -452,7 +644,9 @@ function startLoop(){
   if(p&&p.catch) p.catch(function(){ once(); });
   if(phase!=='open') setPhase('loop');
   showInvite(false);
-  if(!vC.src){ vC.src=vC.dataset.src; vC.load(); }   // clip del catálogo: se precarga cuando ya corre el loop
+  // tramos del catálogo: se precargan en cadena cuando ya corre el loop
+  var chain=[vC,vD,vE];
+  (function next(i){ if(i>=chain.length) return; var v=chain[i]; if(v.src) return next(i+1); v.src=v.dataset.src; v.load(); var done=false,fn=function(){ if(done) return; done=true; next(i+1); }; v.addEventListener('canplaythrough',fn,{once:true}); setTimeout(fn,6000); })(0);
 }
 
 function startIntro(){
@@ -516,9 +710,8 @@ function loadVideos(){
 
 /* primer toque en cualquier parte */
 app.addEventListener('pointerup',function(e){
-  if(e.target.closest('#sheet')||e.target.closest('#enter')) return;
-  if(phase==='open') return;
-  if(phase==='opening'){ showSheet(); return; }   // toque durante el clip: saltar a las opciones
+  if(e.target.closest('#sheet')||e.target.closest('#enter')||e.target.closest('button,a')) return;
+  if(phase==='opening'){ skipOpening(); return; }   // toque durante el clip: saltar a la primera doble
   if(phase==='loop'){ openCatalog(); return; }
   if(phase==='intro'){ try{vA.pause()}catch(e2){} startLoop(); }   // salta la intro
 });
@@ -529,9 +722,10 @@ app.tabIndex=0; app.setAttribute('aria-label','Los Boyacos. Toca para abrir el c
 app.style.outline='none';
 app.addEventListener('focus',function(){ app.style.outline=''; });
 
+placePages(); layoutStage();
 refreshLinks();
 boot();
-window.__boyacos={get phase(){return phase},open:openCatalog,close:closeCatalog};
+window.__boyacos={get phase(){return phase},open:openCatalog,close:closeBook,get page(){return pg}};
 })();
 </script>
 </body>
