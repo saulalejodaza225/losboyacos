@@ -28,9 +28,14 @@ for(const [w,h] of [[390,844],[360,740]]){
   const sw=log.filter(x=>x.o>0&&x.o<1);
   ok(tag+' sin parpadeo Clip1->Clip2',bad.length===0&&gaps.length===0,'bad='+bad.length+' gaps='+gaps.length+' fadeSamples='+sw.length+' total='+log.length);
   const fin=log[log.length-1]; ok(tag+' loop avanza',fin.bt>0.5&&!fin.bp,'bt='+fin.bt.toFixed(2));
-  await p.tap('#app',{position:{x:w/2,y:h*0.6}}); await p.waitForTimeout(150); await p.screenshot({path:out+'/'+tag+'-4-abriendo.png'});
-  await p.waitForTimeout(700); await p.screenshot({path:out+'/'+tag+'-5-catalogo.png'});
-  ok(tag+' catálogo abierto',await p.evaluate(()=>__boyacos.phase==='open'));
+  await p.waitForFunction(()=>vC.readyState>=3,null,{timeout:20000});
+  await p.tap('#app',{position:{x:w/2,y:h*0.6}}); await p.waitForTimeout(300);
+  ok(tag+' toque inicia clip del catálogo',await p.evaluate(()=>__boyacos.phase==='opening'&&!vC.paused));
+  await p.waitForTimeout(2200); await p.screenshot({path:out+'/'+tag+'-4a-clip-agarra.png'});
+  await p.waitForTimeout(2500); await p.screenshot({path:out+'/'+tag+'-4b-clip-paginas.png'});
+  await p.waitForFunction(()=>__boyacos.phase==='open',null,{timeout:15000});
+  await p.waitForTimeout(800); await p.screenshot({path:out+'/'+tag+'-5-catalogo.png'});
+  ok(tag+' al terminar el clip se abre la hoja',await p.evaluate(()=>__boyacos.phase==='open'&&vC.currentTime>7));
   for(const [k,n] of [['servicios',6],['repuestos',7],['vehiculos',8],['ayuda',9]]){
     await p.tap('[data-go='+k+']'); await p.waitForTimeout(300);
     if(k==='servicios'){await p.tap('#v-servicios li:nth-child(2) .item');await p.waitForTimeout(100);
@@ -47,8 +52,14 @@ for(const [w,h] of [[390,844],[360,740]]){
   const small=await p.$$eval('#sheet button, #sheet a.btn',els=>els.filter(e=>{const r=e.getBoundingClientRect();return r.width&&(r.height<44||r.width<44)}).map(e=>e.id||e.className));
   ok(tag+' áreas táctiles ≥44',small.length===0,small.join());
   await p.tap('#close'); await p.waitForTimeout(700);
-  ok(tag+' cerrar vuelve al loop',await p.evaluate(()=>__boyacos.phase==='loop'));
+  ok(tag+' cerrar vuelve al loop',await p.evaluate(()=>__boyacos.phase==='loop'&&!getComputedStyle(vC).opacity!=='x'));
+  await p.waitForTimeout(400);ok(tag+' clip oculto tras cerrar',await p.evaluate(()=>+getComputedStyle(vC).opacity===0&&vC.paused));
   await p.screenshot({path:out+'/'+tag+'-10-cerrado.png'});
+  // reabrir y saltar con un toque
+  await p.tap('#app',{position:{x:w/2,y:h*0.6}}); await p.waitForTimeout(1500);
+  await p.tap('#app',{position:{x:w/2,y:h*0.3}}); await p.waitForTimeout(900);
+  ok(tag+' toque durante el clip salta a la hoja',await p.evaluate(()=>__boyacos.phase==='open'&&vC.currentTime<6),'');
+  await p.tap('#close'); await p.waitForTimeout(500);
   ok(tag+' sin errores JS',errs.length===0,errs.join(';'));
   await ctx.close();
 }

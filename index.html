@@ -76,6 +76,8 @@ a{color:inherit;text-decoration:none}
 #vA{z-index:1}
 #vB{z-index:2;opacity:0;transition:opacity .15s linear}
 #vB.show{opacity:1}
+#vC{z-index:2;opacity:0;transition:opacity .15s linear}
+#vC.show{opacity:1}
 .layer[hidden]{display:none}
 #shade{position:absolute;inset:0;z-index:3;pointer-events:none;
   background:linear-gradient(to bottom,rgba(14,12,11,.78) 0,rgba(14,12,11,.35) 30%,rgba(14,12,11,0) 48%,rgba(14,12,11,0) 78%,rgba(14,12,11,.45) 100%)}
@@ -180,6 +182,7 @@ a{color:inherit;text-decoration:none}
   <!-- El src se asigna por JS (data-src) para no descargar nada con Save-Data / conexión lenta -->
   <video id="vA" class="layer" muted playsinline webkit-playsinline preload="auto" poster="assets/poster.webp" data-src="assets/clip1-entrada.mp4" aria-hidden="true" tabindex="-1"></video>
   <video id="vB" class="layer" muted loop playsinline webkit-playsinline preload="auto" poster="assets/poster.webp" data-src="assets/clip2-loop.mp4" aria-hidden="true" tabindex="-1"></video>
+  <video id="vC" class="layer" muted playsinline webkit-playsinline preload="auto" poster="assets/poster.webp" data-src="assets/clip3-catalogo.mp4" aria-hidden="true" tabindex="-1"></video>
   <div id="shade"></div>
 
   <div id="invite">
@@ -313,7 +316,7 @@ var TELEFONO        = '[TELEFONO]';        // ej: +573001234567
 
 var $ = function(s,r){return (r||document).querySelector(s)};
 var $$ = function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
-var app=$('#app'), vA=$('#vA'), vB=$('#vB'), poster=$('#poster'), sheet=$('#sheet');
+var app=$('#app'), vA=$('#vA'), vB=$('#vB'), vC=$('#vC'), poster=$('#poster'), sheet=$('#sheet');
 var invite=$('#invite'), hint=$('#hint'), pulse=$('#pulse'), enter=$('#enter'), loader=$('#loader'), bar=$('#bar');
 var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 var conn = navigator.connection || {};
@@ -379,11 +382,33 @@ $$('[data-pick]').forEach(function(ul){
 });
 
 /* ---------- catálogo ---------- */
+/* Toque en el catálogo: se reproduce el clip 3 (agarra el catálogo y pasa las páginas)
+   y al final sube la hoja con las opciones. Sin clip listo / ahorro de datos: abre directo. */
 function openCatalog(){
-  if(phase==='open') return;
+  if(phase==='open'||phase==='opening') return;
   track('abrir_catalogo');
   try{ navigator.vibrate && navigator.vibrate(10); }catch(e){}
   lastFocus=document.activeElement;
+  invite.classList.remove('on'); hint.classList.remove('on'); pulse.classList.remove('on');
+  if(staticMode||!vC.src||vC.readyState<3){ showSheet(); return; }
+  setPhase('opening');
+  try{ vC.currentTime=0; }catch(e){}
+  var p; try{ p=vC.play(); }catch(e){}
+  var done=false, reveal=function(){ if(done||phase!=='opening') return; done=true; vC.classList.add('show'); };
+  if('requestVideoFrameCallback' in vC){ vC.requestVideoFrameCallback(reveal); }
+  else { vC.addEventListener('playing',reveal,{once:true}); }
+  setTimeout(reveal,400);
+  if(p&&p.catch) p.catch(function(){ showSheet(); });
+}
+vC.addEventListener('timeupdate',function(){ if(phase==='opening'&&vC.duration&&vC.currentTime>=vC.duration-0.9) showSheet(); });
+vC.addEventListener('ended',function(){ if(phase==='opening') showSheet(); });
+function cancelOpening(){
+  if(phase!=='opening') return;
+  try{ vC.pause(); }catch(e){}
+  vC.classList.remove('show'); setPhase('loop'); showInvite(true);
+}
+function showSheet(){
+  if(phase==='open') return;
   show('home',{silent:true});
   sheet.removeAttribute('inert');
   sheet.getBoundingClientRect();
@@ -397,12 +422,13 @@ function closeCatalog(){
   if(phase!=='open') return;
   sheet.classList.remove('open');
   sheet.setAttribute('inert','');
+  vC.classList.remove('show'); setTimeout(function(){ if(phase!=='open'&&phase!=='opening') try{vC.pause()}catch(e){} },250);
   setPhase(loopStarted||staticMode?'loop':'intro');
   if(phase==='loop') showInvite(true);
   if(lastFocus&&lastFocus.focus) try{lastFocus.focus({preventScroll:true})}catch(e){}
 }
 $('#close').addEventListener('click',closeCatalog);
-document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeCatalog(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ closeCatalog(); cancelOpening(); } });
 
 /* ---------- vídeo ---------- */
 var staticMode = reduced || lowData;
@@ -426,6 +452,7 @@ function startLoop(){
   if(p&&p.catch) p.catch(function(){ once(); });
   if(phase!=='open') setPhase('loop');
   showInvite(false);
+  if(!vC.src){ vC.src=vC.dataset.src; vC.load(); }   // clip del catálogo: se precarga cuando ya corre el loop
 }
 
 function startIntro(){
@@ -491,6 +518,7 @@ function loadVideos(){
 app.addEventListener('pointerup',function(e){
   if(e.target.closest('#sheet')||e.target.closest('#enter')) return;
   if(phase==='open') return;
+  if(phase==='opening'){ showSheet(); return; }   // toque durante el clip: saltar a las opciones
   if(phase==='loop'){ openCatalog(); return; }
   if(phase==='intro'){ try{vA.pause()}catch(e2){} startLoop(); }   // salta la intro
 });
