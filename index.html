@@ -82,6 +82,8 @@ a{color:inherit;text-decoration:none}
 #vB.show{opacity:1}
 #vC,#vD,#vE{z-index:2;opacity:0;transition:opacity .15s linear}
 #vC.show,#vD.show,#vE.show{opacity:1}
+#hold{z-index:2;opacity:0;transition:opacity .3s ease}
+#hold.show{opacity:1}
 
 /* catálogo interactivo: el video es el libro y el HTML se proyecta sobre las hojas */
 #book{position:absolute;inset:0;z-index:7;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s linear .3s}
@@ -249,6 +251,7 @@ a{color:inherit;text-decoration:none}
   <video id="vC" class="layer" muted playsinline webkit-playsinline preload="auto" data-src="assets/clip3a-agarra.mp4" aria-hidden="true" tabindex="-1"></video>
   <video id="vD" class="layer" muted playsinline webkit-playsinline preload="auto" data-src="assets/clip3b-pagina.mp4" aria-hidden="true" tabindex="-1"></video>
   <video id="vE" class="layer" muted playsinline webkit-playsinline preload="auto" data-src="assets/clip3c-atras.mp4" aria-hidden="true" tabindex="-1"></video>
+  <img id="hold" class="layer" alt="" aria-hidden="true" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
   <div id="shade"></div>
 
   <div id="invite">
@@ -535,8 +538,11 @@ $$('[data-pick]').forEach(function(ul){
    El video ES el libro. Tramos: C (agarra y abre en la 1.ª doble), D (pasa la página), E (D al revés).
    Cada tramo termina en un fotograma fijo; el catálogo HTML se proyecta con perspectiva sobre esas hojas.
    Fases: loop → opening → book (pág. 1 o 2) ↔ turning ; open = hoja de detalle ; sin video: hoja con tarjetas. */
+var hold=$('#hold'), HOLDS={1:'assets/hold1.webp',2:'assets/hold2.webp'};
+function holdShow(n){ if(hold.dataset.n!==String(n)){ hold.src=HOLDS[n]; hold.dataset.n=n; } hold.classList.add('show'); }
+function holdHide(){ hold.style.transition='none'; hold.classList.remove('show'); void hold.offsetWidth; hold.style.transition=''; }
 var vD=$('#vD'), vE=$('#vE'), book=$('#book'), stage=$('#stage'), prevB=$('#prev'), nextB=$('#next'), dots=$('#dots');
-var pg=1, bookActive=false, sheetFromBook=false, guardT=0, waitT=0;
+var pg=1, bookActive=false, sheetFromBook=false, guardT=0, waitT=0, seqBusy=false;
 
 /* Esquinas de cada hoja en el cuadro del video (720×1280): TL, TR, BR, BL; i = recorte útil [u0,v0,u1,v1] */
 var SPREADS={
@@ -574,8 +580,16 @@ window.addEventListener('resize',layoutStage);
 
 function vready(v){ return !!v.src && v.readyState>=3; }
 function stack(v){ [vC,vD,vE].forEach(function(x){ x.classList.toggle('show',x===v); }); }
-function playFrom(v,then){            // reproduce un tramo y lo muestra en cuanto hay fotograma
+function playFrom(v,then,early){      // reproduce un tramo y lo muestra en cuanto hay fotograma
+  holdHide();
   try{ v.currentTime=0; }catch(e){}
+  var earlyDone=false;
+  var chk=function(now,meta){
+    if(early&&!earlyDone&&v.duration&&v.currentTime>=v.duration-0.3){ earlyDone=true; early(); }
+    if(!earlyDone&&early&&!v.ended) v.requestVideoFrameCallback?v.requestVideoFrameCallback(chk):0;
+  };
+  if(early&&'requestVideoFrameCallback' in v) v.requestVideoFrameCallback(chk);
+  else if(early) v.ontimeupdate=function(){ if(!earlyDone&&v.duration&&v.currentTime>=v.duration-0.3){ earlyDone=true; early(); } };
   var p; try{ p=v.play(); }catch(e){}
   var done=false, reveal=function(){ if(done) return; done=true; stack(v); };
   if('requestVideoFrameCallback' in v){ v.requestVideoFrameCallback(reveal); } else { v.addEventListener('playing',reveal,{once:true}); }
@@ -599,6 +613,7 @@ function openCatalog(){                // toque desde el loop
   var start=function(){
     clearTimeout(waitT); loader.classList.add('done');
     if(phase!=='opening') return;
+    seqBusy=true;
     playFrom(vC,function(){ enterPage(1); });
   };
   if(vready(vC)){ start(); return; }
@@ -614,7 +629,7 @@ function openCatalog(){                // toque desde el loop
 function skipOpening(){
   if(phase!=='opening'||!vready(vC)||vC.paused) return;
   vC.onended=null; try{ vC.pause(); }catch(e){}
-  var go=function(){ stack(vC); enterPage(1); guardBook(); };
+  var go=function(){ seqBusy=false; stack(vC); enterPage(1); guardBook(); };
   vC.addEventListener('seeked',go,{once:true});
   try{ vC.currentTime=Math.max(0,(vC.duration||1)-0.04); }catch(e){ go(); }
 }
@@ -627,17 +642,21 @@ function setActivePage(n,silent){
 }
 function enterPage(n){
   stack(n===1?vC:vD);
+  seqBusy=false; if(bookActive){ showPageUI(n); holdShow(n); }   // la página limpia se funde con el texto en vivo
+}
+function showPageUI(n){
+  if(!bookActive) return;
   setActivePage(n); stage.classList.remove('turning'); nextB.removeAttribute('aria-busy'); prevB.removeAttribute('aria-busy');
   setPhase('book'); current='book'; refreshLinks();
   book.classList.add('ready');
 }
 function turn(dir){                    // dir +1: siguiente (clip D) ; -1: anterior (clip E)
-  if(phase!=='book') return;
+  if(phase!=='book'||seqBusy) return;
   var to=pg+dir; if(to<1||to>2) return;
   var v=dir>0?vD:vE, btn=dir>0?nextB:prevB;
   if(!vready(v)){ btn.setAttribute('aria-busy','true'); v.addEventListener('canplay',function(){ turn(dir); },{once:true}); return; }
   track('pasar_pagina',{pagina:to});
-  setPhase('turning'); stage.classList.add('turning');
+  setPhase('turning'); stage.classList.add('turning'); seqBusy=true;
   playFrom(v,function(){ enterPage(to); });
 }
 nextB.addEventListener('click',function(){ turn(1); });
@@ -683,7 +702,7 @@ function closeBook(){                  // vuelve al loop
   if(!bookActive) return;
   if(phase==='open') closeSheet();
   bookActive=false; clearTimeout(waitT); vC.onended=vD.onended=vE.onended=null;
-  stack(null); book.classList.remove('on','ready'); stage.classList.remove('turning');
+  holdHide(); stack(null); book.classList.remove('on','ready'); stage.classList.remove('turning');
   setTimeout(function(){ if(!bookActive) [vC,vD,vE].forEach(function(v){ try{v.pause()}catch(e){} }); },250);
   setPhase('loop'); showInvite(true);
   if(lastFocus&&lastFocus.focus) try{lastFocus.focus({preventScroll:true})}catch(e){}
@@ -719,6 +738,7 @@ function startLoop(){
   if(phase!=='open') setPhase('loop');
   showInvite(false);
   // tramos del catálogo: se precargan en cadena cuando ya corre el loop
+  [1,2].forEach(function(n){ var im=new Image(); im.src=HOLDS[n]; });
   var chain=[vC,vD,vE];
   (function next(i){ if(i>=chain.length) return; var v=chain[i]; if(v.src) return next(i+1); v.src=v.dataset.src; v.load(); var done=false,fn=function(){ if(done) return; done=true; next(i+1); }; v.addEventListener('canplaythrough',fn,{once:true}); setTimeout(fn,6000); })(0);
 }
