@@ -107,17 +107,15 @@ for(const [w,h] of [[390,844],[360,740]]){
   ok(tag+' sin errores JS',errs.length===0,errs.join(';'));
   await ctx.close();
 }
-// reducir animaciones: sin video, hoja con tarjetas
-{const ctx=await br.newContext({viewport:{width:390,height:844},hasTouch:true,reducedMotion:'reduce'});const p=await ctx.newPage();await p.goto('http://localhost:8123/',{waitUntil:'domcontentloaded'});await p.waitForTimeout(1800);
- ok('reduced-motion: sin Clip 1, póster + botón Ver video',await p.evaluate(()=>document.getElementById('vA').hidden&&__boyacos.phase==='loop'&&document.getElementById('enter').textContent==='Ver video'));
- await p.tap('#app',{position:{x:195,y:500}});await p.waitForTimeout(500);await shot(p,{path:out+'/390x844-11-reduced-motion.png'});
- ok('reduced-motion abre la hoja con tarjetas',await phase(p)==='open'&&await p.isVisible('[data-go=servicios]'));
- await p.tap('[data-go=repuestos]');await p.waitForTimeout(300);ok('reduced-motion: tarjeta abre vista',await p.isVisible('#v-repuestos'));
- await p.tap('#back');await p.tap('#close');await p.waitForTimeout(500);ok('reduced-motion: cerrar vuelve al loop',await phase(p)==='loop');await ctx.close();}
+// con "reducir animaciones" y con ahorro de datos el video igualmente corre al cargar, sin botón "Ver video"
+{const ctx=await br.newContext({viewport:{width:390,height:844},hasTouch:true,reducedMotion:'reduce'});const p=await ctx.newPage();await p.goto('http://localhost:8123/',{waitUntil:'domcontentloaded'});
+ await wf(p,()=>document.getElementById('app').dataset.phase==='intro',20000);
+ ok('reduced-motion: el video corre solo y no hay botón Ver video',await p.evaluate(()=>!vA.paused&&document.getElementById('enter').hidden&&document.getElementById('enter').textContent!=='Ver video'));await ctx.close();}
 {const ctx=await br.newContext({viewport:{width:390,height:844},hasTouch:true});const p=await ctx.newPage();
- await p.addInitScript(()=>{Object.defineProperty(navigator,'connection',{value:{saveData:true,effectiveType:'4g'}})});
- const reqs=[];p.on('request',r=>reqs.push(r.url()));await p.goto('http://localhost:8123/',{waitUntil:'domcontentloaded'});await p.waitForTimeout(1800);
- ok('save-data: no descarga mp4',!reqs.some(u=>u.endsWith('.mp4')),reqs.filter(u=>u.includes('mp4')).join());await ctx.close();}
+ await p.addInitScript(()=>{Object.defineProperty(navigator,'connection',{value:{saveData:true,effectiveType:'2g'}})});
+ await p.goto('http://localhost:8123/',{waitUntil:'domcontentloaded'});
+ await wf(p,()=>document.getElementById('app').dataset.phase==='intro',20000);
+ ok('save-data/2g: el video corre solo y no hay botón Ver video',await p.evaluate(()=>!vA.paused&&document.getElementById('enter').hidden));await ctx.close();}
 {const b2=await chromium.launch({channel:'msedge'});
  const ctx=await b2.newContext({viewport:{width:390,height:844},hasTouch:true});const p=await ctx.newPage();
  await p.addInitScript(()=>{const o=HTMLMediaElement.prototype.play;let allow=false;window.__allow=()=>{allow=true};HTMLMediaElement.prototype.play=function(){return allow?o.call(this):Promise.reject(new DOMException('blocked','NotAllowedError'))}});

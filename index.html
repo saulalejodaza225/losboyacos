@@ -56,7 +56,9 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&display=swap">
+<!-- Fuentes sin bloquear el arranque: si Google tarda, la página y el video cargan igual con la tipografía de respaldo -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&display=swap"></noscript>
 
 <style>
 :root{
@@ -716,7 +718,9 @@ document.addEventListener('keydown',function(e){
 });
 
 /* ---------- vídeo ---------- */
-var staticMode = reduced || lowData;
+// El video corre siempre al cargar (decisión del cliente): no se desactiva por 'reducir animaciones' ni ahorro de datos.
+// Solo cae a póster + hoja de tarjetas si el video falla (ver fallbackStatic).
+var staticMode = false;
 var loopStarted=false, introStarted=false;
 
 function showInvite(immediate){
