@@ -102,7 +102,9 @@ a{color:inherit;text-decoration:none}
 #book.ready #stage{opacity:1}
 #book.ready #stage.turning{opacity:0;transition-duration:.12s}
 .pg{position:absolute;left:0;top:0;transform-origin:0 0;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:9px;padding:16px 16px 16px 18px;text-align:left;color:var(--text);
-  background:transparent;opacity:0;pointer-events:none;transition:opacity .3s;text-shadow:0 1px 2px rgba(0,0,0,.35)}
+  background:linear-gradient(to bottom,#40393a 0%,#322c29 40%,#272220 100%);border-radius:5px;opacity:0;pointer-events:none;transition:opacity .3s;
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 10%,#000 90%,transparent),linear-gradient(to bottom,transparent,#000 9%,#000 91%,transparent);
+  -webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 10%,#000 90%,transparent),linear-gradient(to bottom,transparent,#000 9%,#000 91%,transparent);mask-composite:intersect}
 .pg.on{opacity:1;pointer-events:auto}
 .pg h3{font-family:var(--font-title);font-weight:700;font-size:40px;line-height:1;letter-spacing:.05em;text-transform:uppercase}
 .pg i.rule{display:block;width:34px;height:3px;background:var(--accent)}
@@ -612,24 +614,19 @@ function openCatalog(){                // toque desde el loop
   setPhase('opening');
   book.classList.add('on'); book.classList.remove('ready'); setActivePage(1,true);
   [vD,vE].forEach(function(v){ try{ v.pause(); v.currentTime=0; }catch(e){} });
-  var start=function(){
-    clearTimeout(waitT); loader.classList.add('done');
-    if(phase!=='opening') return;
-    seqBusy=true;
-    playFrom(vC,function(){ enterPage(1); });
-  };
-  if(vready(vC)){ start(); return; }
-  // el clip aún está bajando: se espera (barra fina) en vez de tapar la cinemática con la hoja
+  // Arranca el clip YA, dentro del gesto del usuario. No se espera a que esté "listo": iOS/Safari no precargan
+  // los videos que aún no se reproducen y la espera terminaba abriendo la hoja de tarjetas.
+  seqBusy=true;
   loader.classList.remove('done'); loader.firstElementChild.style.width='55%';
-  vC.addEventListener('canplay',start,{once:true});
-  waitT=setTimeout(function(){
-    if(phase!=='opening'||vready(vC)) return;
-    vC.removeEventListener('canplay',start); loader.classList.add('done');
-    bookActive=false; book.classList.remove('on'); setPhase('loop'); sheetFromBook=false; openSheet('home');
-  },10000);
+  vC.addEventListener('playing',function(){ loader.classList.add('done'); },{once:true});
+  playFrom(vC,function(){ enterPage(1); });
+  clearTimeout(waitT);
+  waitT=setTimeout(function(){      // red muy lenta o clip que no arranca: se muestra el libro directamente
+    if(phase==='opening'&&(vC.paused||vC.currentTime<0.2)){ loader.classList.add('done'); try{ vC.pause(); }catch(e){} enterPage(1); }
+  },12000);
 }
 function skipOpening(){
-  if(phase!=='opening'||!vready(vC)||vC.paused) return;
+  if(phase!=='opening'||!vC.duration||vC.paused) return;
   vC.onended=null; try{ vC.pause(); }catch(e){}
   var go=function(){ seqBusy=false; stack(vC); enterPage(1); guardBook(); };
   vC.addEventListener('seeked',go,{once:true});
@@ -644,7 +641,7 @@ function setActivePage(n,silent){
 }
 function enterPage(n){
   stack(n===1?vC:vD);
-  seqBusy=false; if(bookActive){ showPageUI(n); holdShow(n); }   // la página limpia se funde con el texto en vivo
+  seqBusy=false; if(bookActive) showPageUI(n);
 }
 function showPageUI(n){
   if(!bookActive) return;
@@ -656,10 +653,11 @@ function turn(dir){                    // dir +1: siguiente (clip D) ; -1: anter
   if(phase!=='book'||seqBusy) return;
   var to=pg+dir; if(to<1||to>2) return;
   var v=dir>0?vD:vE, btn=dir>0?nextB:prevB;
-  if(!vready(v)){ btn.setAttribute('aria-busy','true'); v.addEventListener('canplay',function(){ turn(dir); },{once:true}); return; }
   track('pasar_pagina',{pagina:to});
   setPhase('turning'); stage.classList.add('turning'); seqBusy=true;
   playFrom(v,function(){ enterPage(to); });
+  clearTimeout(waitT);
+  waitT=setTimeout(function(){ if(phase==='turning'&&(v.paused||v.currentTime<0.2)){ try{ v.pause(); }catch(e){} enterPage(to); } },10000);
 }
 nextB.addEventListener('click',function(){ turn(1); });
 prevB.addEventListener('click',function(){ turn(-1); });
@@ -742,7 +740,6 @@ function startLoop(){
   if(phase!=='open') setPhase('loop');
   showInvite(false);
   // tramos del catálogo: se precargan en cadena cuando ya corre el loop
-  [1,2].forEach(function(n){ var im=new Image(); im.src=HOLDS[n]; });
   var chain=[vC,vD,vE];
   (function next(i){ if(i>=chain.length) return; var v=chain[i]; if(v.src) return next(i+1); v.src=v.dataset.src; v.load(); var done=false,fn=function(){ if(done) return; done=true; next(i+1); }; v.addEventListener('canplaythrough',fn,{once:true}); setTimeout(fn,6000); })(0);
 }
