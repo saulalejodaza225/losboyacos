@@ -118,6 +118,11 @@ a{color:inherit;text-decoration:none}
 .chip[aria-pressed="true"]{border-color:var(--accent);background:#211a17}
 #otro-wrap{margin:6px 0 16px}
 #otro-wrap input{width:100%;min-height:48px;padding:0 14px;border-radius:12px;border:1px solid var(--text-2);background:var(--surface);color:var(--text);font:inherit;font-size:16px}
+#otro-sugg{list-style:none;margin-top:6px;max-height:232px;overflow-y:auto;overscroll-behavior:contain;border:1px solid var(--border);border-radius:12px;background:var(--surface)}
+#otro-sugg li{min-height:44px;display:flex;align-items:center;padding:0 14px;font-size:15px;border-bottom:1px solid var(--border);cursor:pointer}
+#otro-sugg li:last-child{border-bottom:0}
+#otro-sugg li[aria-selected="true"],#otro-sugg li:active{background:#211a17;box-shadow:inset 3px 0 0 var(--accent)}
+#otro-sugg mark{background:none;color:var(--text);font-weight:600;text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:3px}
 #otro-wrap input:focus-visible{outline:2px solid var(--text);outline-offset:2px}
 .pg .brands{display:grid;grid-template-columns:1fr 1fr;gap:1px 10px;margin:2px 0 0}
 .pg .brands li{padding:0;border:0;background:none;border-radius:0;font-size:19px;line-height:1.25;color:#d9d1c9}
@@ -400,7 +405,9 @@ a{color:inherit;text-decoration:none}
         <i class="bar-accent"></i>
         <p class="lead" style="font-size:16px;color:var(--text)">Atendemos todo tipo de carros, entre ellos las marcas más comunes en Colombia:</p>
         <ul class="brands" id="brand-chips"><li><button class="chip" type="button" aria-pressed="false" data-b="Kia">Kia</button></li><li><button class="chip" type="button" aria-pressed="false" data-b="Renault">Renault</button></li><li><button class="chip" type="button" aria-pressed="false" data-b="Toyota">Toyota</button></li><li><button class="chip" type="button" aria-pressed="false" data-b="Mazda">Mazda</button></li><li><button class="chip" type="button" aria-pressed="false" data-b="Chevrolet">Chevrolet</button></li><li><button class="chip" type="button" aria-pressed="false" data-b="Suzuki">Suzuki</button></li><li><button class="chip" type="button" aria-pressed="false" data-b="Nissan">Nissan</button></li><li><button class="chip" type="button" aria-pressed="false" data-b="Hyundai">Hyundai</button></li><li><button class="chip" type="button" aria-pressed="false" data-b="Volkswagen">Volkswagen</button></li><li><button class="chip" type="button" aria-pressed="false" data-b="BYD">BYD</button></li><li><button class="chip" type="button" aria-pressed="false" data-other>Otro</button></li></ul>
-        <div id="otro-wrap" hidden><label class="lead" for="otro-marca">Escribe la marca de tu carro</label><input id="otro-marca" type="text" maxlength="30" autocomplete="off" autocapitalize="words" placeholder="Ej: Peugeot"></div>
+        <div id="otro-wrap" hidden><label class="lead" for="otro-marca">Escribe la marca de tu carro</label><input id="otro-marca" type="text" maxlength="30" autocomplete="off" autocapitalize="words" placeholder="Ej: Peugeot" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="otro-sugg">
+          <ul id="otro-sugg" role="listbox" aria-label="Marcas sugeridas" hidden></ul>
+          <p class="note" id="otro-note">Elige una sugerencia o escribe la marca tal cual.</p></div>
         <div class="addr">
           <span>Dónde estamos</span>
           Carrera 94A #145A-83, Suba, Bogotá
@@ -519,7 +526,44 @@ $$('[data-pick]').forEach(function(ul){
 
 /* ---------- Multimarca: elegir marca u "Otro" y escribirla ---------- */
 (function(){
-  var chips=$('#brand-chips'), wrap=$('#otro-wrap'), inp=$('#otro-marca');
+  var chips=$('#brand-chips'), wrap=$('#otro-wrap'), inp=$('#otro-marca'), sugg=$('#otro-sugg');
+  var BRANDS=["Abarth","AC","Acura","Aiways","Aixam","Alfa Romeo","Alpine","Aston Martin","Audi","Austin","Avatr","BAIC","Bajaj","Baojun","Bentley","BMW","Brilliance","Bugatti","Buick","BYD","Cadillac","Caterham","Changan","Chery","Chevrolet","Chrysler","Citroën","Cupra","Dacia","Daewoo","Daihatsu","Daimler","Datsun","DFSK","Dodge","Dongfeng","DS","Ferrari","Fiat","Fisker","Foton","Ford","Freightliner","GAC","Geely","Genesis","Ginetta","GMC","Great Wall","Haval","Hino","Holden","Honda","Hongqi","Hummer","Hyundai","Infiniti","International","Isuzu","Iveco","JAC","Jaguar","Jeep","Jetour","JMC","Kenworth","Kia","King Long","Koenigsegg","Lada","Lamborghini","Lancia","Land Rover","Landwind","Leapmotor","Lexus","Li Auto","Lifan","Lincoln","Lotus","Lucid","Lynk & Co","Mack","Mahindra","Maserati","Maybach","Maxus","Mazda","McLaren","Mercedes-Benz","Mercury","MG","Mini","Mitsubishi","Morgan","Nissan","NIO","Oldsmobile","Opel","Pagani","Peugeot","Perodua","Plymouth","Polestar","Pontiac","Porsche","Proton","RAM","Renault","Rimac","Rivian","Rolls-Royce","Rover","Saab","Samsung","Saturn","Scania","Scion","SEAT","Seres","Škoda","Smart","Soueast","SsangYong","Subaru","Suzuki","SWM","Tank","Tata","Tesla","Tofaş","Toyota","TVR","Volkswagen","Volvo","Wuling","Xpeng","Yutong","Zeekr","Zhongtong","Zotye"];
+  var norm=function(t){ return t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(); };
+  var NB=BRANDS.map(norm), cur=-1;
+  function closeSugg(){ sugg.hidden=true; sugg.innerHTML=''; inp.setAttribute('aria-expanded','false'); inp.removeAttribute('aria-activedescendant'); cur=-1; }
+  function renderSugg(q){
+    var n=norm(q.trim()); if(!n){ closeSugg(); return; }
+    var hits=[];
+    BRANDS.forEach(function(b,i){ var nb=NB[i], k=nb.indexOf(n); if(k<0) return;
+      var rank = k===0 ? 0 : (nb.charAt(k-1)===' '||nb.charAt(k-1)==='-' ? 1 : 2); hits.push([rank,b,k]); });
+    hits.sort(function(a,b){ return a[0]-b[0] || a[1].localeCompare(b[1]); });
+    hits=hits.slice(0,8);
+    if(!hits.length){ closeSugg(); return; }
+    sugg.innerHTML='';
+    hits.forEach(function(h,i){
+      var li=document.createElement('li'); li.setAttribute('role','option'); li.id='sg'+i; li.dataset.b=h[1]; li.setAttribute('aria-selected','false');
+      var b=h[1], k=h[2], len=n.length;
+      li.appendChild(document.createTextNode(b.slice(0,k))); var m=document.createElement('mark'); m.textContent=b.slice(k,k+len); li.appendChild(m); li.appendChild(document.createTextNode(b.slice(k+len)));
+      sugg.appendChild(li);
+    });
+    sugg.hidden=false; inp.setAttribute('aria-expanded','true'); cur=-1;
+  }
+  function markItem(i){
+    var items=$$('li',sugg); items.forEach(function(x,j){ x.setAttribute('aria-selected', j===i?'true':'false'); });
+    cur=i; if(items[i]){ inp.setAttribute('aria-activedescendant',items[i].id); items[i].scrollIntoView({block:'nearest'}); }
+  }
+  function pick(name){ inp.value=name; closeSugg(); setBrand(name); try{ inp.focus({preventScroll:true}); }catch(e){} }
+  sugg.addEventListener('pointerdown',function(e){ e.preventDefault(); });
+  sugg.addEventListener('click',function(e){ var li=e.target.closest('li'); if(li) pick(li.dataset.b); });
+  inp.addEventListener('keydown',function(e){
+    var items=$$('li',sugg);
+    if(e.key==='ArrowDown'&&items.length){ e.preventDefault(); markItem((cur+1)%items.length); }
+    else if(e.key==='ArrowUp'&&items.length){ e.preventDefault(); markItem((cur-1+items.length)%items.length); }
+    else if(e.key==='Enter'&&cur>=0&&items[cur]){ e.preventDefault(); pick(items[cur].dataset.b); }
+    else if(e.key==='Escape'&&!sugg.hidden){ e.stopPropagation(); closeSugg(); }
+  });
+  inp.addEventListener('blur',function(){ setTimeout(closeSugg,120); });
+  window.__brands=BRANDS;
   function setBrand(name){
     if(name){ picks.vehiculos='la atención de mi vehículo '+name; labels.vehiculos=name; lastPick=picks.vehiculos; lastLabel=name; }
     else { delete picks.vehiculos; delete labels.vehiculos; lastPick=lastLabel=null; }
@@ -529,13 +573,13 @@ $$('[data-pick]').forEach(function(ul){
     var b=e.target.closest('.chip'); if(!b) return;
     var on=b.getAttribute('aria-pressed')==='true';
     $$('.chip',chips).forEach(function(x){ x.setAttribute('aria-pressed','false'); });
-    wrap.hidden=true;
+    wrap.hidden=true; closeSugg();
     if(on){ setBrand(null); return; }
     b.setAttribute('aria-pressed','true');
     if(b.hasAttribute('data-other')){ wrap.hidden=false; inp.focus({preventScroll:false}); setBrand(inp.value.trim()||null); }
     else setBrand(b.dataset.b);
   });
-  inp.addEventListener('input',function(){ setBrand(inp.value.trim().slice(0,30)||null); });
+  inp.addEventListener('input',function(){ setBrand(inp.value.trim().slice(0,30)||null); renderSugg(inp.value); });
 })();
 
 /* ---------- catálogo interactivo ----------
