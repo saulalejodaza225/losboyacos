@@ -27,6 +27,9 @@
   "@type": "AutoRepair",
   "name": "Los Boyacos",
   "description": "Servicio automotriz multimarca en Suba, Bogotá.",
+  "url": "https://losboyacos.com",
+  "telephone": "+573144852891",
+  "openingHoursSpecification": {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"00:00","closes":"23:59"},
   "image": "assets/og.jpg",
   "address": {
     "@type": "PostalAddress",
@@ -37,7 +40,8 @@
   "contactPoint": {
     "@type": "ContactPoint",
     "contactType": "customer service",
-    "url": "https://wa.me/[WHATSAPP_NUMERO]"
+    "telephone": "+573144852891",
+    "url": "https://wa.me/573144852891"
   }
 }
 </script>
@@ -89,7 +93,7 @@ a{color:inherit;text-decoration:none}
 .bk-top .ibtn{background:rgba(14,12,11,.55);border:1px solid var(--border)}
 .bk-hint{position:absolute;left:0;right:0;top:calc(var(--sat) + 64px);text-align:center;font-size:13px;letter-spacing:.05em;color:var(--text);text-shadow:0 1px 8px #000;opacity:0;transition:opacity .4s}
 #book.ready .bk-hint{opacity:.9}
-#app[data-phase="open"] .bk-hint{opacity:0}
+#app[data-phase="open"] .bk-hint,#app[data-phase="open"] #book.ready #stage,#app[data-phase="open"] #book.ready .bk-bottom{opacity:0}
 #stage{position:absolute;left:0;top:0;width:720px;height:1280px;transform-origin:0 0;opacity:0;transition:opacity .35s;pointer-events:none}
 #book.ready #stage{opacity:1}
 #book.ready #stage.turning{opacity:0;transition-duration:.12s}
@@ -105,6 +109,15 @@ a{color:inherit;text-decoration:none}
 .pg li::before{content:"– ";color:var(--accent)}
 .pg p{font-size:23px;line-height:1.35;color:#d9d1c9}
 .pg .more{margin-top:4px;font-size:20px;letter-spacing:.06em;text-transform:uppercase;color:var(--text);border-bottom:2px solid var(--accent);padding-bottom:1px}
+.brands{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:0 0 6px}
+.chip{min-height:44px;padding:0 16px;border:1px solid var(--border);border-radius:999px;background:var(--surface);font-size:14px}
+.chip[aria-pressed="true"]{border-color:var(--accent);background:#211a17}
+#otro-wrap{margin:6px 0 16px}
+#otro-wrap input{width:100%;min-height:48px;padding:0 14px;border-radius:12px;border:1px solid var(--text-2);background:var(--surface);color:var(--text);font:inherit;font-size:16px}
+#otro-wrap input:focus-visible{outline:2px solid var(--text);outline-offset:2px}
+.pg .brands{display:grid;grid-template-columns:1fr 1fr;gap:1px 10px;margin:2px 0 0}
+.pg .brands li{padding:0;border:0;background:none;border-radius:0;font-size:19px;line-height:1.25;color:#d9d1c9}
+.pg .brands li::before{content:"– ";color:var(--accent)}
 .pg:focus-visible{outline:4px solid var(--text);outline-offset:-4px}
 .bk-bottom{z-index:2;position:absolute;left:0;right:0;bottom:0;display:flex;flex-direction:column;gap:6px;opacity:0;transition:opacity .35s;pointer-events:none}
 #book.ready .bk-bottom{opacity:1}
@@ -114,7 +127,7 @@ a{color:inherit;text-decoration:none}
 .bk-nav button[aria-busy="true"]{opacity:.6}
 .bk-nav span{font-size:12px;letter-spacing:.14em;color:var(--text-2)}
 .bk-nav svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.dock{display:grid;grid-template-columns:1.8fr 1fr;gap:10px;padding:10px calc(16px + var(--sar)) calc(12px + var(--sab)) calc(16px + var(--sal));background:linear-gradient(to top,rgba(14,12,11,.92) 70%,rgba(14,12,11,0))}
+.dock{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px calc(16px + var(--sar)) calc(12px + var(--sab)) calc(16px + var(--sal));background:linear-gradient(to top,rgba(14,12,11,.92) 70%,rgba(14,12,11,0))}
 .layer[hidden]{display:none}
 #shade{position:absolute;inset:0;z-index:3;pointer-events:none;
   background:linear-gradient(to bottom,rgba(14,12,11,.78) 0,rgba(14,12,11,.35) 30%,rgba(14,12,11,0) 48%,rgba(14,12,11,0) 78%,rgba(14,12,11,.45) 100%)}
@@ -123,6 +136,16 @@ a{color:inherit;text-decoration:none}
 #loader{position:absolute;left:0;right:0;bottom:0;height:2px;z-index:9;background:transparent;transition:opacity .3s}
 #loader i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s ease-out}
 #loader.done{opacity:0}
+
+/* botones flotantes: WhatsApp y ubicación (solo en el menú, antes del catálogo) */
+.fabs{position:absolute;z-index:6;right:calc(14px + var(--sar));bottom:calc(86px + var(--sab));display:flex;flex-direction:column;gap:12px;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .5s ease,transform .5s ease}
+#app[data-phase="loop"] .fabs{opacity:1;pointer-events:auto;transform:none;transition-delay:.9s}
+.fab{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;box-shadow:0 6px 20px rgba(0,0,0,.55)}
+.fab svg{width:28px;height:28px}
+.fab.wa{background:var(--wa);color:#06260f}
+.fab.wa svg{fill:currentColor}
+.fab.map{background:#1A1614;color:var(--text);border:1px solid var(--text-2)}
+.fab.map svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
 /* botón de entrada (fallback autoplay) */
 #enter{position:absolute;z-index:6;left:50%;bottom:calc(18% + var(--sab));transform:translateX(-50%);
@@ -196,6 +219,11 @@ a{color:inherit;text-decoration:none}
 /* botones */
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 10px;border-radius:14px;font-weight:600;font-size:14px;line-height:1.15;width:100%}
 .btn svg{width:20px;height:20px;fill:currentColor;flex:none}
+.bar .btn.wa,.dock .btn.wa{grid-column:1/-1}
+.bar .btn.call,.bar .btn.map,.dock .btn.call,.dock .btn.map{min-height:48px}
+.btn.map{background:transparent;color:var(--text);border:1px solid var(--text-2)}
+.btn.map svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.btn .wl{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .btn.wa{background:var(--wa);color:#06260f}
 .btn.call{background:transparent;color:var(--text);border:1px solid var(--text-2)}
 .btn.call svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
@@ -203,7 +231,7 @@ a{color:inherit;text-decoration:none}
 .btn.primary svg{stroke:#fff}
 .stack{display:grid;gap:12px;margin-top:20px}
 
-.bar{flex:none;display:grid;grid-template-columns:1.8fr 1fr;gap:10px;padding:12px calc(16px + var(--sar)) calc(12px + var(--sab)) calc(16px + var(--sal));border-top:1px solid var(--border);background:rgba(14,12,11,.85)}
+.bar{flex:none;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px calc(16px + var(--sar)) calc(12px + var(--sab)) calc(16px + var(--sal));border-top:1px solid var(--border);background:rgba(14,12,11,.85)}
 .bar[hidden]{display:none}
 
 @media (prefers-reduced-motion:reduce){
@@ -232,6 +260,14 @@ a{color:inherit;text-decoration:none}
   </div>
   <div id="pulse" aria-hidden="true"></div>
   <p id="hint">Toca el catálogo para abrirlo</p>
+  <div class="fabs">
+    <a class="fab map" id="fab-map" target="_blank" rel="noopener" data-ev="ubicacion" data-src="flotante" aria-label="Cómo llegar: abrir ubicación en Google Maps" href="https://www.google.com/maps/search/?api=1&amp;query=Carrera+94A+%23145A-83%2C+Suba%2C+Bogot%C3%A1%2C+Colombia">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.500C19 14.800 12 21 12 21z"/><circle cx="12" cy="9.500" r="2.500"/></svg>
+    </a>
+    <a class="fab wa" id="fab-wa" data-wa data-ev="whatsapp" data-src="flotante" aria-label="Escribir por WhatsApp" href="https://wa.me/573144852891">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14c-.2.6-1.300 1.200-1.800 1.200-.5.100-1 .2-3.300-.7-2.800-1.100-4.600-4-4.700-4.200-.1-.2-1.100-1.500-1.100-2.800s.7-2 1-2.300c.2-.3.500-.3.700-.3h.5c.2 0 .4 0 .6.500l.8 2c.1.200.1.300 0 .5l-.4.600-.4.400c-.1.200-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.200 1 2.100 1.300 2.400 1.500.3.100.5.100.6-.1l.9-1c.2-.3.400-.2.600-.1l2 1c.3.100.5.200.5.300.1.200.1.800-.1 1.300z"/></svg>
+    </a>
+  </div>
   <button id="enter" type="button" hidden>Toca para entrar</button>
   <div id="loader" role="progressbar" aria-label="Cargando" aria-valuemin="0" aria-valuemax="100"><i></i></div>
 
@@ -257,6 +293,7 @@ a{color:inherit;text-decoration:none}
       <button class="pg" type="button" data-spread="2" data-view="vehiculos" aria-label="Vehículos que atendemos">
         <h3>Vehículos que atendemos</h3><i class="rule"></i>
         <p>Multimarca: atendemos todo tipo de carros.</p>
+        <ul class="brands"><li>Kia</li><li>Renault</li><li>Toyota</li><li>Mazda</li><li>Chevrolet</li><li>Suzuki</li><li>Nissan</li><li>Hyundai</li><li>Volkswagen</li><li>BYD</li><li>Otro</li></ul>
         <span class="more">Ver más ›</span>
       </button>
       <button class="pg" type="button" data-spread="2" data-view="ayuda" aria-label="Pedir ayuda en carretera">
@@ -272,14 +309,13 @@ a{color:inherit;text-decoration:none}
         <button type="button" id="next" aria-label="Página siguiente">Siguiente<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
       </div>
       <div class="dock">
-        <a class="btn wa" data-wa data-ev="whatsapp" data-src="catalogo" target="_blank" rel="noopener" href="https://wa.me/[WHATSAPP_NUMERO]">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14c-.2.6-1.300 1.200-1.800 1.200-.5.100-1 .2-3.300-.7-2.800-1.100-4.600-4-4.700-4.200-.1-.2-1.100-1.500-1.100-2.800s.7-2 1-2.300c.2-.3.500-.3.700-.3h.5c.2 0 .4 0 .6.500l.8 2c.1.200.1.300 0 .5l-.4.600-.4.400c-.1.200-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.200 1 2.100 1.300 2.400 1.500.3.100.5.100.6-.1l.9-1c.2-.3.400-.2.600-.1l2 1c.3.100.5.200.5.300.1.200.1.800-.1 1.300z"/></svg>
-          Escribir por WhatsApp
-        </a>
-        <a class="btn call" data-call data-ev="llamar" data-src="catalogo" href="tel:[TELEFONO]">
+        <a class="btn wa" data-wa data-ev="whatsapp" data-src="catalogo" href="https://wa.me/573144852891">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14c-.2.6-1.300 1.200-1.800 1.200-.5.100-1 .2-3.300-.7-2.800-1.100-4.600-4-4.700-4.200-.1-.2-1.100-1.500-1.100-2.800s.7-2 1-2.300c.2-.3.500-.3.700-.3h.5c.2 0 .4 0 .6.500l.8 2c.1.200.1.300 0 .5l-.4.600-.4.400c-.1.200-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.200 1 2.100 1.300 2.400 1.500.3.100.5.100.6-.1l.9-1c.2-.3.400-.2.600-.1l2 1c.3.100.5.200.5.300.1.200.1.800-.1 1.300z"/></svg><span class="wl">Escribir por WhatsApp</span></a>
+        <a class="btn call" data-call data-ev="llamar" data-src="catalogo" href="tel:+573144852891">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
           Llamar
         </a>
+        <a class="btn map" data-ev="como_llegar" data-src="catalogo" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Carrera+94A+%23145A-83%2C+Suba%2C+Bogot%C3%A1%2C+Colombia"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.500C19 14.800 12 21 12 21z"/><circle cx="12" cy="9.500" r="2.500"/></svg>Cómo llegar</a>
       </div>
     </div>
   </section>
@@ -324,7 +360,8 @@ a{color:inherit;text-decoration:none}
         <div class="addr">
           <span>Dónde estamos</span>
           Carrera 94A #145A-83, Suba, Bogotá
-          <br><a class="map" id="map1" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Carrera+94A+%23145A-83+Suba+Bogot%C3%A1">Cómo llegar · Google Maps</a>
+          <br>Abierto 24 horas, de lunes a domingo
+          <br><a class="map" id="map1" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Carrera+94A+%23145A-83%2C+Suba%2C+Bogot%C3%A1%2C+Colombia">Cómo llegar · Google Maps</a>
         </div>
       </div>
 
@@ -356,11 +393,14 @@ a{color:inherit;text-decoration:none}
       <div class="view" id="v-vehiculos" data-title="Vehículos" data-ctx="la atención de mi vehículo" hidden>
         <h3 class="big">Multimarca</h3>
         <i class="bar-accent"></i>
-        <p class="lead" style="font-size:16px;color:var(--text)">Atendemos todo tipo de carros.</p>
+        <p class="lead" style="font-size:16px;color:var(--text)">Atendemos todo tipo de carros, entre ellos las marcas más comunes en Colombia:</p>
+        <ul class="brands" id="brand-chips"><li><button class="chip" type="button" aria-pressed="false" data-b="Kia">Kia</button></li><li><button class="chip" type="button" aria-pressed="false" data-b="Renault">Renault</button></li><li><button class="chip" type="button" aria-pressed="false" data-b="Toyota">Toyota</button></li><li><button class="chip" type="button" aria-pressed="false" data-b="Mazda">Mazda</button></li><li><button class="chip" type="button" aria-pressed="false" data-b="Chevrolet">Chevrolet</button></li><li><button class="chip" type="button" aria-pressed="false" data-b="Suzuki">Suzuki</button></li><li><button class="chip" type="button" aria-pressed="false" data-b="Nissan">Nissan</button></li><li><button class="chip" type="button" aria-pressed="false" data-b="Hyundai">Hyundai</button></li><li><button class="chip" type="button" aria-pressed="false" data-b="Volkswagen">Volkswagen</button></li><li><button class="chip" type="button" aria-pressed="false" data-b="BYD">BYD</button></li><li><button class="chip" type="button" aria-pressed="false" data-other>Otro</button></li></ul>
+        <div id="otro-wrap" hidden><label class="lead" for="otro-marca">Escribe la marca de tu carro</label><input id="otro-marca" type="text" maxlength="30" autocomplete="off" autocapitalize="words" placeholder="Ej: Peugeot"></div>
         <div class="addr">
           <span>Dónde estamos</span>
           Carrera 94A #145A-83, Suba, Bogotá
-          <br><a class="map" id="map2" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Carrera+94A+%23145A-83+Suba+Bogot%C3%A1">Cómo llegar · Google Maps</a>
+          <br>Abierto 24 horas, de lunes a domingo
+          <br><a class="map" id="map2" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Carrera+94A+%23145A-83%2C+Suba%2C+Bogot%C3%A1%2C+Colombia">Cómo llegar · Google Maps</a>
         </div>
       </div>
 
@@ -369,27 +409,25 @@ a{color:inherit;text-decoration:none}
         <i class="bar-accent"></i>
         <p class="lead" style="font-size:18px;color:var(--text)">Llámanos de inmediato.</p>
         <div class="stack">
-          <a class="btn primary" data-call data-ev="llamar" data-src="ayuda_carretera" href="tel:[TELEFONO]">
+          <a class="btn primary" data-call data-ev="llamar" data-src="ayuda_carretera" href="tel:+573144852891">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
             Llamar ahora
           </a>
-          <a class="btn wa" data-wa data-ev="whatsapp" data-src="ayuda_carretera" target="_blank" rel="noopener" href="https://wa.me/[WHATSAPP_NUMERO]">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14c-.2.6-1.300 1.200-1.800 1.200-.5.100-1 .2-3.300-.7-2.800-1.100-4.600-4-4.700-4.200-.1-.2-1.100-1.500-1.100-2.800s.7-2 1-2.300c.2-.3.500-.3.700-.3h.5c.2 0 .4 0 .6.500l.8 2c.1.200.1.300 0 .5l-.4.600-.4.400c-.1.200-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.200 1 2.100 1.300 2.400 1.500.3.100.5.100.6-.1l.9-1c.2-.3.400-.2.600-.1l2 1c.3.100.5.200.5.300.1.200.1.800-.1 1.300z"/></svg>
-            Escribir por WhatsApp
-          </a>
+          <a class="btn wa" data-wa data-ev="whatsapp" data-src="ayuda_carretera" href="https://wa.me/573144852891">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14c-.2.6-1.300 1.200-1.800 1.200-.5.100-1 .2-3.300-.7-2.800-1.100-4.600-4-4.700-4.200-.1-.2-1.100-1.500-1.100-2.800s.7-2 1-2.300c.2-.3.500-.3.700-.3h.5c.2 0 .4 0 .6.500l.8 2c.1.200.1.300 0 .5l-.4.600-.4.400c-.1.200-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.200 1 2.100 1.300 2.400 1.500.3.100.5.100.6-.1l.9-1c.2-.3.400-.2.600-.1l2 1c.3.100.5.200.5.300.1.200.1.800-.1 1.300z"/></svg><span class="wl">Escribir por WhatsApp</span></a>
+          <a class="btn map" data-ev="como_llegar" data-src="ayuda_carretera" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Carrera+94A+%23145A-83%2C+Suba%2C+Bogot%C3%A1%2C+Colombia"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.500C19 14.800 12 21 12 21z"/><circle cx="12" cy="9.500" r="2.500"/></svg>Cómo llegar</a>
         </div>
       </div>
     </div>
 
     <footer class="bar" id="bar">
-      <a class="btn wa" id="bar-wa" data-wa data-ev="whatsapp" target="_blank" rel="noopener" href="https://wa.me/[WHATSAPP_NUMERO]">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14c-.2.6-1.300 1.200-1.800 1.200-.5.100-1 .2-3.300-.7-2.800-1.100-4.600-4-4.700-4.200-.1-.2-1.100-1.500-1.100-2.800s.7-2 1-2.300c.2-.3.500-.3.700-.3h.5c.2 0 .4 0 .6.500l.8 2c.1.200.1.300 0 .5l-.4.600-.4.400c-.1.200-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.200 1 2.100 1.300 2.400 1.500.3.100.5.100.6-.1l.9-1c.2-.3.400-.2.600-.1l2 1c.3.100.5.200.5.300.1.200.1.800-.1 1.300z"/></svg>
-        Escribir por WhatsApp
-      </a>
-      <a class="btn call" id="bar-call" data-call data-ev="llamar" href="tel:[TELEFONO]">
+      <a class="btn wa" id="bar-wa" data-wa data-ev="whatsapp" href="https://wa.me/573144852891">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14c-.2.6-1.300 1.200-1.800 1.200-.5.100-1 .2-3.300-.7-2.800-1.100-4.600-4-4.700-4.200-.1-.2-1.100-1.500-1.100-2.800s.7-2 1-2.300c.2-.3.500-.3.700-.3h.5c.2 0 .4 0 .6.500l.8 2c.1.200.1.300 0 .5l-.4.600-.4.400c-.1.200-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.200 1 2.100 1.300 2.400 1.500.3.100.5.100.6-.1l.9-1c.2-.3.400-.2.600-.1l2 1c.3.100.5.200.5.300.1.200.1.800-.1 1.300z"/></svg><span class="wl">Escribir por WhatsApp</span></a>
+      <a class="btn call" id="bar-call" data-call data-ev="llamar" href="tel:+573144852891">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
         Llamar
       </a>
+        <a class="btn map" data-ev="como_llegar" data-src="hoja" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Carrera+94A+%23145A-83%2C+Suba%2C+Bogot%C3%A1%2C+Colombia"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.500C19 14.800 12 21 12 21z"/><circle cx="12" cy="9.500" r="2.500"/></svg>Cómo llegar</a>
     </footer>
   </section>
 </main>
@@ -399,8 +437,8 @@ a{color:inherit;text-decoration:none}
 'use strict';
 
 /* ====== VARIABLES PENDIENTES (el cliente las entrega) ====== */
-var WHATSAPP_NUMERO = '[WHATSAPP_NUMERO]'; // solo dígitos con indicativo, ej: 573001234567
-var TELEFONO        = '[TELEFONO]';        // ej: +573001234567
+var WHATSAPP_NUMERO = '573144852891'; // solo dígitos con indicativo (Colombia +57)
+var TELEFONO        = '+573144852891';
 /* ========================================================== */
 
 var $ = function(s,r){return (r||document).querySelector(s)};
@@ -425,14 +463,18 @@ function track(name,params){
 /* ---------- enlaces ---------- */
 var ctxLabel={book:'sus servicios',home:'sus servicios',servicios:'sus servicios',repuestos:'repuestos',vehiculos:'la atención de mi vehículo',ayuda:'asistencia en carretera'};
 function waHref(servicio){
-  var msg='Hola Los Boyacos, vi su página y quiero información sobre '+servicio;
+  var msg='Hola Los Boyacos, vi su página y quiero información sobre '+servicio+'. ¿Me pueden ayudar?';
   return 'https://wa.me/'+encodeURIComponent(WHATSAPP_NUMERO)+'?text='+encodeURIComponent(msg);
 }
-function topic(view){ return picks[view] || ctxLabel[view]; }
+var lastPick=null, labels={}, lastLabel=null;
+function topic(view){ return (view==='book'?lastPick:picks[view]) || ctxLabel[view]; }
+function shortTopic(t){ return t.length>26? t.slice(0,25)+'…' : t; }
 function refreshLinks(){
   $$('[data-wa]').forEach(function(a){
     var v=a.closest('.view'); var key=v?v.id.slice(2):(a.closest('#book')?'book':current);
     a.href=waHref(topic(key));
+    var pk=key==='book'?lastLabel:(labels[key]||picks[key]), wl=a.querySelector('.wl');
+    if(wl) wl.textContent = pk ? 'Consultar: '+shortTopic(pk) : 'Escribir por WhatsApp';
   });
   $$('[data-call]').forEach(function(a){ a.href='tel:'+TELEFONO; });
 }
@@ -465,17 +507,38 @@ $$('[data-pick]').forEach(function(ul){
     var key=ul.closest('.view').id.slice(2);
     var on=b.getAttribute('aria-pressed')==='true';
     $$('.item',ul).forEach(function(x){x.setAttribute('aria-pressed','false')});
-    if(on){delete picks[key]} else {b.setAttribute('aria-pressed','true'); picks[key]=b.dataset.v}
+    if(on){delete picks[key]; delete labels[key]; lastPick=lastLabel=null;} else {b.setAttribute('aria-pressed','true'); picks[key]=b.dataset.v; labels[key]=b.dataset.v; lastPick=lastLabel=b.dataset.v;}
     refreshLinks();
   });
 });
+
+/* ---------- Multimarca: elegir marca u "Otro" y escribirla ---------- */
+(function(){
+  var chips=$('#brand-chips'), wrap=$('#otro-wrap'), inp=$('#otro-marca');
+  function setBrand(name){
+    if(name){ picks.vehiculos='la atención de mi vehículo '+name; labels.vehiculos=name; lastPick=picks.vehiculos; lastLabel=name; }
+    else { delete picks.vehiculos; delete labels.vehiculos; lastPick=lastLabel=null; }
+    refreshLinks();
+  }
+  chips.addEventListener('click',function(e){
+    var b=e.target.closest('.chip'); if(!b) return;
+    var on=b.getAttribute('aria-pressed')==='true';
+    $$('.chip',chips).forEach(function(x){ x.setAttribute('aria-pressed','false'); });
+    wrap.hidden=true;
+    if(on){ setBrand(null); return; }
+    b.setAttribute('aria-pressed','true');
+    if(b.hasAttribute('data-other')){ wrap.hidden=false; inp.focus({preventScroll:false}); setBrand(inp.value.trim()||null); }
+    else setBrand(b.dataset.b);
+  });
+  inp.addEventListener('input',function(){ setBrand(inp.value.trim().slice(0,30)||null); });
+})();
 
 /* ---------- catálogo interactivo ----------
    El video ES el libro. Tramos: C (agarra y abre en la 1.ª doble), D (pasa la página), E (D al revés).
    Cada tramo termina en un fotograma fijo; el catálogo HTML se proyecta con perspectiva sobre esas hojas.
    Fases: loop → opening → book (pág. 1 o 2) ↔ turning ; open = hoja de detalle ; sin video: hoja con tarjetas. */
 var vD=$('#vD'), vE=$('#vE'), book=$('#book'), stage=$('#stage'), prevB=$('#prev'), nextB=$('#next'), dots=$('#dots');
-var pg=1, bookActive=false, sheetFromBook=false, guardT=0;
+var pg=1, bookActive=false, sheetFromBook=false, guardT=0, waitT=0;
 
 /* Esquinas de cada hoja en el cuadro del video (720×1280): TL, TR, BR, BL; i = recorte útil [u0,v0,u1,v1] */
 var SPREADS={
@@ -530,15 +593,28 @@ function openCatalog(){                // toque desde el loop
   try{ navigator.vibrate && navigator.vibrate(10); }catch(e){}
   lastFocus=document.activeElement;
   invite.classList.remove('on'); hint.classList.remove('on'); pulse.classList.remove('on');
-  if(staticMode||!vready(vC)||!vready(vD)||!vready(vE)){ sheetFromBook=false; openSheet('home'); return; }
+  if(staticMode||!vC.src){ sheetFromBook=false; openSheet('home'); return; }   // sin video: hoja con tarjetas
   bookActive=true; pg=1; current='book'; refreshLinks();
   setPhase('opening');
   book.classList.add('on'); book.classList.remove('ready'); setActivePage(1,true);
   [vD,vE].forEach(function(v){ try{ v.pause(); v.currentTime=0; }catch(e){} });
-  playFrom(vC,function(){ enterPage(1); });
+  var start=function(){
+    clearTimeout(waitT); loader.classList.add('done');
+    if(phase!=='opening') return;
+    playFrom(vC,function(){ enterPage(1); });
+  };
+  if(vready(vC)){ start(); return; }
+  // el clip aún está bajando: se espera (barra fina) en vez de tapar la cinemática con la hoja
+  loader.classList.remove('done'); loader.firstElementChild.style.width='55%';
+  vC.addEventListener('canplay',start,{once:true});
+  waitT=setTimeout(function(){
+    if(phase!=='opening'||vready(vC)) return;
+    vC.removeEventListener('canplay',start); loader.classList.add('done');
+    bookActive=false; book.classList.remove('on'); setPhase('loop'); sheetFromBook=false; openSheet('home');
+  },10000);
 }
 function skipOpening(){
-  if(phase!=='opening') return;
+  if(phase!=='opening'||!vready(vC)||vC.paused) return;
   vC.onended=null; try{ vC.pause(); }catch(e){}
   var go=function(){ stack(vC); enterPage(1); guardBook(); };
   vC.addEventListener('seeked',go,{once:true});
@@ -608,7 +684,7 @@ function closeSheet(){
 function closeBook(){                  // vuelve al loop
   if(!bookActive) return;
   if(phase==='open') closeSheet();
-  bookActive=false; vC.onended=vD.onended=vE.onended=null;
+  bookActive=false; clearTimeout(waitT); vC.onended=vD.onended=vE.onended=null;
   stack(null); book.classList.remove('on','ready'); stage.classList.remove('turning');
   setTimeout(function(){ if(!bookActive) [vC,vD,vE].forEach(function(v){ try{v.pause()}catch(e){} }); },250);
   setPhase('loop'); showInvite(true);
