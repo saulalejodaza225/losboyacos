@@ -95,6 +95,9 @@ a{color:inherit;text-decoration:none}
 .bk-top{z-index:2;position:absolute;left:0;right:0;top:0;display:flex;align-items:center;justify-content:space-between;padding:calc(var(--sat) + 8px) calc(8px + var(--sar)) 0 calc(20px + var(--sal))}
 .bk-top b{font-family:var(--font-title);font-weight:700;font-size:22px;letter-spacing:.1em;text-transform:uppercase;text-shadow:0 1px 10px #000}
 .bk-top .ibtn{background:rgba(14,12,11,.55);border:1px solid var(--border)}
+.bk-right{display:flex;align-items:center;gap:8px}
+.bk-more{padding:0 14px 0 10px;font-size:14px;border-radius:999px}
+#book:not(.ready) .bk-more{visibility:hidden}
 .bk-hint{position:absolute;left:0;right:0;top:calc(var(--sat) + 64px);text-align:center;font-size:13px;letter-spacing:.05em;color:var(--text);text-shadow:0 1px 8px #000;opacity:0;transition:opacity .4s}
 #book.ready .bk-hint{opacity:.9}
 #app[data-phase="open"] .bk-hint,#app[data-phase="open"] #book.ready #stage,#app[data-phase="open"] #book.ready .bk-bottom{opacity:0}
@@ -201,6 +204,12 @@ a{color:inherit;text-decoration:none}
 .view[hidden]{display:none}
 .lead{font-size:14px;color:var(--text-2);margin-bottom:16px;line-height:1.5}
 
+/* banners de oferta (se cargan desde contenido/banners.json) */
+.banners{list-style:none;margin:0 0 14px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#1A1614}
+.banners[hidden]{display:none}
+.banner{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;padding:12px 14px;border-left:3px solid #C8281E;border-top:1px solid #2E2724;background:#1A1614;color:#fff;font-size:14px;line-height:1.35}
+.banner:first-child{border-top:0}
+.banner .b-tag{flex:none;padding:4px 10px;border-radius:999px;background:#C8281E;color:#fff;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
 .cards{display:grid;gap:12px}
 .card{display:flex;align-items:center;gap:16px;width:100%;min-height:92px;padding:16px;text-align:left;
   background:var(--surface);border:1px solid var(--border);border-radius:16px;transition:border-color .2s,transform .15s}
@@ -285,9 +294,14 @@ a{color:inherit;text-decoration:none}
   <section id="book" aria-label="Catálogo de Los Boyacos">
     <div class="bk-top">
       <b>Los Boyacos</b>
-      <button class="ibtn" id="bk-close" type="button" aria-label="Cerrar catálogo">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
-      </button>
+      <div class="bk-right">
+        <button class="ibtn bk-more" id="bk-menu" type="button" aria-label="Más opciones: ofertas, galería, blog, redes y contacto">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>Más</span>
+        </button>
+        <button class="ibtn" id="bk-close" type="button" aria-label="Cerrar catálogo">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
     </div>
     <p class="bk-hint" id="bk-hint">Toca una hoja para abrirla</p>
     <div id="stage">
@@ -346,6 +360,7 @@ a{color:inherit;text-decoration:none}
 
     <div class="body" id="body">
       <div class="view" id="v-home" data-title="Catálogo" data-ctx="sus servicios">
+        <ul class="banners" id="banners" aria-label="Ofertas del taller" hidden></ul>
         <div class="cards">
           <button class="card" type="button" data-go="servicios">
             <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5 5L4 17l3 3 5.7-5.7a4 4 0 0 0 5-5l-2.5 2.5-2.2-.5-.5-2.2z"/></svg></span>
@@ -498,6 +513,26 @@ document.addEventListener('click',function(e){
 
 /* ---------- vistas ---------- */
 var evFor={servicios:'ver_servicios',repuestos:'ver_repuestos',ayuda:'ayuda_carretera'};
+
+/* ---------- banners de oferta: contenido/banners.json ---------- */
+var bannersState=0;      // 0 sin cargar, 1 cargando, 2 listos
+function loadBanners(){
+  if(bannersState) return; bannersState=1;
+  var ul=$('#banners');
+  fetch('contenido/banners.json',{cache:'no-cache'}).then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(d){
+      var list=(d&&d.banners)||[]; ul.innerHTML='';
+      list.forEach(function(b){
+        if(!b||!b.texto) return;
+        var li=document.createElement('li'); li.className='banner';
+        var t=document.createElement('span'); t.className='b-txt'; t.textContent=b.texto; li.appendChild(t);
+        if(b.etiqueta){ var g=document.createElement('span'); g.className='b-tag'; g.textContent=b.etiqueta; li.appendChild(g); }
+        ul.appendChild(li);
+      });
+      ul.hidden=!ul.children.length; bannersState=2;
+    })
+    .catch(function(){ ul.hidden=true; bannersState=0; });   // sin banners: la vista queda como antes
+}
 function show(view,opts){
   current=view;
   $$('.view').forEach(function(v){v.hidden = v.id!=='v-'+view});
@@ -507,13 +542,18 @@ function show(view,opts){
   bar.hidden = el.hasAttribute('data-nobar');
   $('#body').scrollTop=0;
   refreshLinks();
+  if(view==='home') loadBanners();
   if(!(opts&&opts.silent)){
     if(evFor[view]) track(evFor[view]);
     var f = view==='home' ? $('#close') : $('#back'); f.focus({preventScroll:true});
   }
 }
-$$('[data-go]').forEach(function(b){b.addEventListener('click',function(){show(b.dataset.go)})});
-$('#back').addEventListener('click',function(){ if(sheetFromBook) closeSheet(); else show('home'); });
+var viaHome=false;       // true si la sección se abrió desde las tarjetas de la vista de inicio
+$$('[data-go]').forEach(function(b){b.addEventListener('click',function(){ viaHome=true; show(b.dataset.go); })});
+$('#back').addEventListener('click',function(){
+  if(viaHome){ show('home'); return; }
+  if(sheetFromBook) closeSheet(); else show('home');
+});
 $$('[data-pick]').forEach(function(ul){
   ul.addEventListener('click',function(e){
     var b=e.target.closest('.item'); if(!b) return;
@@ -727,6 +767,7 @@ book.addEventListener('pointerup',function(e){
 
 function openSheet(view){
   if(phase==='open') return;
+  viaHome=false;
   var from=phase;
   sheetFromBook=bookActive;
   show(view,{silent:true});
@@ -761,6 +802,10 @@ function closeBook(){                  // vuelve al loop
   if(lastFocus&&lastFocus.focus) try{lastFocus.focus({preventScroll:true})}catch(e){}
 }
 $('#bk-close').addEventListener('click',closeBook);
+$('#bk-menu').addEventListener('click',function(e){
+  if(phase!=='book'||seqBusy||!book.classList.contains('ready')||performance.now()-gestureT<600){ e.preventDefault(); return; }
+  sheetFromBook=true; openSheet('home');
+});
 $('#close').addEventListener('click',closeSheet);
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape'){ if(phase==='open') closeSheet(); else closeBook(); }

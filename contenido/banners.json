@@ -1,0 +1,17 @@
+{
+  "_nota": "Contenido de ejemplo: reemplázalo desde el CMS (/admin) o editando este archivo.",
+  "banners": [
+    {
+      "texto": "Frenos completos desde $120.000 · incluye revisión",
+      "etiqueta": "Oferta"
+    },
+    {
+      "texto": "Mantenimiento preventivo + aceite · desde $85.000",
+      "etiqueta": "20% off"
+    },
+    {
+      "texto": "Asistencia en carretera 24 h · gratis con cualquier servicio",
+      "etiqueta": "Gratis"
+    }
+  ]
+}
