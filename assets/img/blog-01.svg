@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400" role="img" aria-label="Artículo 1">
+<rect width="600" height="400" fill="#1A1614"/>
+<g fill="none" stroke="#2E2724" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" transform="translate(300 182) scale(1.4)"><path d="M-46 -24h20l8-14h36l8 14h20a8 8 0 0 1 8 8v46a8 8 0 0 1-8 8h-92a8 8 0 0 1-8-8v-46a8 8 0 0 1 8-8z" transform="translate(0 6)"/><circle cx="0" cy="12" r="22"/></g>
+<text x="300" y="292.4" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="30.799999999999997" fill="#A89E96">Artículo 1</text>
+</svg>

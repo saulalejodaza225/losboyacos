@@ -1,0 +1,65 @@
+{
+  "_nota": "Contenido de ejemplo: reemplaza las fotos desde el CMS (/admin). cat = taller | trabajos.",
+  "fotos": [
+    {
+      "src": "assets/img/galeria-01.svg",
+      "alt": "Foto 1 de la galería (marcador de posición)",
+      "cat": "taller"
+    },
+    {
+      "src": "assets/img/galeria-02.svg",
+      "alt": "Foto 2 de la galería (marcador de posición)",
+      "cat": "trabajos"
+    },
+    {
+      "src": "assets/img/galeria-03.svg",
+      "alt": "Foto 3 de la galería (marcador de posición)",
+      "cat": "taller"
+    },
+    {
+      "src": "assets/img/galeria-04.svg",
+      "alt": "Foto 4 de la galería (marcador de posición)",
+      "cat": "trabajos"
+    },
+    {
+      "src": "assets/img/galeria-05.svg",
+      "alt": "Foto 5 de la galería (marcador de posición)",
+      "cat": "taller"
+    },
+    {
+      "src": "assets/img/galeria-06.svg",
+      "alt": "Foto 6 de la galería (marcador de posición)",
+      "cat": "trabajos"
+    },
+    {
+      "src": "assets/img/galeria-07.svg",
+      "alt": "Foto 7 de la galería (marcador de posición)",
+      "cat": "taller"
+    },
+    {
+      "src": "assets/img/galeria-08.svg",
+      "alt": "Foto 8 de la galería (marcador de posición)",
+      "cat": "trabajos"
+    },
+    {
+      "src": "assets/img/galeria-09.svg",
+      "alt": "Foto 9 de la galería (marcador de posición)",
+      "cat": "taller"
+    },
+    {
+      "src": "assets/img/galeria-10.svg",
+      "alt": "Foto 10 de la galería (marcador de posición)",
+      "cat": "trabajos"
+    },
+    {
+      "src": "assets/img/galeria-11.svg",
+      "alt": "Foto 11 de la galería (marcador de posición)",
+      "cat": "taller"
+    },
+    {
+      "src": "assets/img/galeria-12.svg",
+      "alt": "Foto 12 de la galería (marcador de posición)",
+      "cat": "trabajos"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "_nota": "Artículos de ejemplo: reemplázalos desde el CMS (/admin). El cuerpo separa párrafos con una línea en blanco.",
+  "articulos": [
+    {
+      "titulo": "Cada cuánto revisar los frenos de tu carro en Bogotá",
+      "fecha": "2026-02-10",
+      "extracto": "Las subidas, bajadas y el tráfico lento de la ciudad exigen más a pastillas y discos. Estas son las señales de que toca revisarlos.",
+      "cuerpo": "En Bogotá los frenos trabajan casi todo el tiempo: trancones, pendientes y arranques y paradas constantes desgastan pastillas y discos más rápido de lo que se cree.\n\nSeñales de que debes revisarlos: chillido o ruido metálico al frenar, vibración en el pedal o el volante, el carro tarda más en detenerse o el pedal se siente blando.\n\nComo referencia, pide una revisión del sistema de frenos al menos una vez al año y cada vez que notes alguna de estas señales. El manual de tu vehículo indica los intervalos que recomienda el fabricante.\n\nUna revisión a tiempo suele salir más económica que esperar a dañar los discos.",
+      "imagen": "assets/img/blog-01.svg"
+    },
+    {
+      "titulo": "Cómo cuidar la batería de tu carro con los trancones",
+      "fecha": "2026-03-05",
+      "extracto": "Los recorridos cortos y el tráfico detenido cargan poco la batería. Aprende a detectar cuándo está fallando.",
+      "cuerpo": "Los trayectos cortos y los trancones largos hacen que el alternador cargue poco la batería, sobre todo si usas luces, aire y equipo de sonido al mismo tiempo.\n\nSeñales de alerta: el motor arranca lento o con esfuerzo, las luces se ven tenues al encender, aparecen testigos en el tablero o los bornes tienen una costra blanca o verdosa.\n\nQué puedes hacer: mantén los bornes limpios y bien apretados, evita dejar luces o accesorios encendidos con el motor apagado y haz medir la carga de la batería y del alternador antes de que te deje varado.",
+      "imagen": "assets/img/blog-02.svg"
+    },
+    {
+      "titulo": "Suspensión y huecos: señales de que toca revisarla",
+      "fecha": "2026-04-02",
+      "extracto": "Los huecos y las vías irregulares castigan amortiguadores, rótulas y llantas. Cómo darte cuenta a tiempo.",
+      "cuerpo": "La suspensión es la que absorbe huecos, resaltos y vías en mal estado. Con el tiempo, amortiguadores, rótulas y bujes se desgastan.\n\nSeñales de que debes revisarla: el carro rebota de más después de un hueco, se escuchan golpes o ruidos al pasar resaltos, la dirección vibra o se va hacia un lado y las llantas se desgastan de forma despareja.\n\nSi notas alguno de estos síntomas, pide una revisión de suspensión, alineación y balanceo. Así proteges las llantas y mantienes el carro estable y seguro.",
+      "imagen": "assets/img/blog-03.svg"
+    }
+  ]
+}
