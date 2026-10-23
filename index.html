@@ -204,6 +204,14 @@ a{color:inherit;text-decoration:none}
 .view[hidden]{display:none}
 .lead{font-size:14px;color:var(--text-2);margin-bottom:16px;line-height:1.5}
 
+/* mapa embebido en el inicio del catálogo */
+.mapa{margin:0 0 14px}
+.mapa-dir{margin:0 0 8px;font-size:13px;line-height:1.4;color:#A89E96}
+.mapa-frame{height:180px;border-radius:10px;overflow:hidden;background:#1A1614}
+.mapa-frame iframe{display:block;width:100%;height:100%;border:0}
+.btn.call.mapa-btn{margin-top:10px;border:1px solid #fff;color:#fff;background:transparent}
+.btn.call.mapa-btn:focus-visible{outline:2px solid #C8281E;outline-offset:2px}
+
 /* banners de oferta (se cargan desde contenido/banners.json) */
 .banners{list-style:none;margin:0 0 14px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#1A1614}
 .banners[hidden]{display:none}
@@ -412,6 +420,14 @@ a{color:inherit;text-decoration:none}
 
     <div class="body" id="body">
       <div class="view" id="v-home" data-title="Catálogo" data-ctx="sus servicios">
+        <div class="mapa" id="mapa">
+          <p class="mapa-dir">Carrera 94A #145A-83 · Suba, Bogotá</p>
+          <div class="mapa-frame" id="mapa-frame">
+            <!-- El src se asigna por JS cuando el mapa entra en pantalla (carga diferida). Ver MAPA_EMBED al inicio del script. -->
+            <iframe id="mapa-iframe" title="Mapa con la ubicación de Los Boyacos: Carrera 94A #145A-83, Suba, Bogotá" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          <a class="btn call mapa-btn" data-ev="como_llegar" data-src="inicio_mapa" target="_blank" rel="noopener" href="https://maps.google.com/?q=Carrera+94A+%23145A-83+Suba+Bogota+Colombia">Cómo llegar</a>
+        </div>
         <ul class="banners" id="banners" aria-label="Ofertas del taller" hidden></ul>
         <div class="cards">
           <button class="card" type="button" data-go="servicios">
@@ -613,6 +629,9 @@ a{color:inherit;text-decoration:none}
 /* ====== VARIABLES PENDIENTES (el cliente las entrega) ====== */
 var WHATSAPP_NUMERO = '573144852891'; // solo dígitos con indicativo (Colombia +57)
 var TELEFONO        = '+573144852891';
+// TODO cliente: reemplaza MAPA_EMBED por el enlace oficial del mapa. En Google Maps: busca el taller → Compartir → "Insertar un mapa" → copia el valor del atributo src del iframe.
+// Mientras tanto se usa el mapa por dirección (sin llave) para que ya se vea la ubicación.
+var MAPA_EMBED = 'https://www.google.com/maps?q=Carrera+94A+%23145A-83,+Suba,+Bogot%C3%A1,+Colombia&output=embed';
 var INSTAGRAM = ''; // handle sin @
 var FACEBOOK  = ''; // nombre de página
 var TIKTOK    = ''; // handle sin @
@@ -664,6 +683,23 @@ document.addEventListener('click',function(e){
 /* ---------- vistas ---------- */
 var evFor={servicios:'ver_servicios',repuestos:'ver_repuestos',ayuda:'ayuda_carretera',galeria:'ver_galeria',blog:'ver_blog',redes:'ver_redes',contacto:'ver_contacto'};
 
+/* ---------- mapa embebido: el src no se asigna hasta que el contenedor entra en pantalla ---------- */
+var mapaObs=null, mapaCargado=false;
+function cargarMapa(){ if(mapaCargado) return; mapaCargado=true; $('#mapa-iframe').src=MAPA_EMBED; }
+function observeMapa(){
+  if(mapaObs||mapaCargado) return;
+  var fr=$('#mapa-frame');
+  if(!('IntersectionObserver' in window)){ setTimeout(cargarMapa,400); return; }
+  mapaObs=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      if(!sheet.classList.contains('open')){ setTimeout(function(){ mapaObs.unobserve(fr); mapaObs.observe(fr); },250); return; }   // la hoja aún está cerrada
+      cargarMapa(); mapaObs.disconnect();
+    });
+  },{rootMargin:'80px'});
+  mapaObs.observe(fr);
+}
+
 /* ---------- banners de oferta: contenido/banners.json ---------- */
 var bannersState=0;      // 0 sin cargar, 1 cargando, 2 listos
 function loadBanners(){
@@ -692,7 +728,7 @@ function show(view,opts){
   bar.hidden = el.hasAttribute('data-nobar');
   $('#body').scrollTop=0;
   refreshLinks();
-  if(view==='home') loadBanners();
+  if(view==='home'){ loadBanners(); observeMapa(); }
   if(view==='galeria') loadGaleria();
   if(view==='blog') loadBlog();
   if(view==='redes') renderRedes();
