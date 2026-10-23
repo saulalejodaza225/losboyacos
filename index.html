@@ -310,7 +310,10 @@ a{color:inherit;text-decoration:none}
 .btn.primary svg{stroke:#fff}
 .stack{display:grid;gap:12px;margin-top:20px}
 
-.bar{flex:none;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px calc(16px + var(--sar)) calc(12px + var(--sab)) calc(16px + var(--sal));border-top:1px solid var(--border);background:rgba(14,12,11,.85)}
+.bar{flex:none;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px calc(16px + var(--sar)) 4px calc(16px + var(--sal));border-top:1px solid var(--border);background:rgba(14,12,11,.85)}
+.legal{flex:none;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;column-gap:6px;margin:0;padding:0 calc(16px + var(--sar)) var(--sab) calc(16px + var(--sal));font-size:12px;line-height:1.3;color:var(--text-2);text-align:center;background:rgba(14,12,11,.85)}
+.legal .linkbtn{font-size:12px;min-height:44px;color:var(--text)}
+.legal .linkbtn:focus-visible{outline:2px solid #C8281E;outline-offset:2px}
 .bar[hidden]{display:none}
 
 @media (prefers-reduced-motion:reduce){
@@ -605,7 +608,9 @@ a{color:inherit;text-decoration:none}
       </a>
         <a class="btn map" data-ev="como_llegar" data-src="hoja" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Carrera+94A+%23145A-83%2C+Suba%2C+Bogot%C3%A1%2C+Colombia"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.500C19 14.800 12 21 12 21z"/><circle cx="12" cy="9.500" r="2.500"/></svg>Cómo llegar</a>
     </footer>
+    <p class="legal">© 2026 Los Boyacos · Suba, Bogotá · <button class="linkbtn" type="button" id="open-privacy-footer">Política de privacidad</button></p>
   </section>
+
   <div id="lightbox" role="dialog" aria-modal="true" aria-label="Imagen ampliada" hidden>
     <button class="ibtn" id="lb-close" type="button" aria-label="Cerrar imagen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     <img id="lb-img" alt="">
@@ -848,6 +853,7 @@ var pv=$('#privacy'), pvFrom=null;
 function openPrivacy(from){ pvFrom=from||document.activeElement; pv.hidden=false; $('#pv-close').focus({preventScroll:true}); }
 function closePrivacy(){ if(pv.hidden) return; pv.hidden=true; if(pvFrom&&pvFrom.focus) try{ pvFrom.focus({preventScroll:true}); }catch(e){} }
 $('#open-privacy').addEventListener('click',function(e){ openPrivacy(e.currentTarget); });
+$('#open-privacy-footer').addEventListener('click',function(e){ openPrivacy(e.currentTarget); });
 $('#pv-close').addEventListener('click',closePrivacy);
 pv.addEventListener('click',function(e){ if(e.target===pv) closePrivacy(); });
 /* Escape y Tab de los diálogos nuevos (en captura: tienen prioridad sobre el resto) */
