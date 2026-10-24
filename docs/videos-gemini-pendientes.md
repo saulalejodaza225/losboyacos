@@ -5,6 +5,29 @@ Estado a 22 oct 2026: **1 de 3 clips de habitaciones generado; ninguno descargad
 > **Límite de Gemini alcanzado** (plan Plus: uso 76 % de la ventana, 22 % del límite semanal). Gemini dijo: "Los vídeos volverán a estar disponibles el **23 oct a las 2:26**". Los clips M2 y M3 se generan después de esa hora.
 Cuenta: la de Gemini del cliente (saulalejodaza@gmail.com). Modelo usado: Pro. Formato: vertical 9:16 (móvil).
 
+## Resumen del inventario (24 oct 2026) · NADA descargado de Gemini ni de Meta AI
+| Generador | Qué | Cantidad | Estado |
+|---|---|---|---|
+| Gemini (videos) | Entrada, loop, catálogo v1, catálogo con texto (sesiones anteriores) | 4 | descargados antes; el catálogo v1 está en producción |
+| Gemini (videos) | Catálogo "generado sin descargar" | 1 | sin descargar |
+| Gemini (videos) | M1 FOTOS | 1 | generado, sin descargar |
+| Gemini (videos) | M2 OFICINA, M3 MOSTRADOR | 2 | pendientes (Pro; la cuota de videos se restableció el 23 oct 2:26) |
+| Gemini (imágenes) | D0 sala 16:9, D0b entrada 16:9 | 2 | sin descargar; sustituidas por las de Meta AI |
+| **Meta AI (imágenes)** | D0 sala 16:9, D0b entrada 16:9 | 2 | generadas, sin descargar |
+
+**Regla vigente:** no se descarga nada hasta la luz verde del cliente (posiblemente en un par de días). Modelo: siempre el de razonamiento más avanzado (Gemini Pro, nunca Flash; Meta AI "Razonamiento", nunca "Instantáneo").
+
+## Meta AI · generador de imágenes (desde el 24 oct 2026)
+Cuenta: la del cliente, con la sesión iniciada en Chrome. Sitio: https://www.meta.ai. Modelo: **Razonamiento**. Se adjunta el fotograma de partida (se genera con ffmpeg desde `gemini_generated_video_70302e36.mp4`, no se descarga de ningún generador) y se envía el prompt. Convención de nombres igual que en Gemini, con el sufijo `(NO descargado)`.
+
+| Etiqueta | Conversación (Meta AI) | Imagen de partida | Estado |
+|---|---|---|---|
+| `BOYACOS - D0 - IMAGEN 16x9 - SALA sentado (NO descargado)` | https://www.meta.ai/prompt/87767fc0-c06f-4bec-8937-daa5bb34d96c | último cuadro del video de entrada | generada, sin descargar |
+| `BOYACOS - D0b - IMAGEN 16x9 - ENTRADA inicio (NO descargado)` | https://www.meta.ai/prompt/5baa0a5b-d9b4-4d9d-8682-b64e2ba7486c | primer cuadro del video de entrada | generada, sin descargar |
+
+Prompt D0: "Create a 16:9 widescreen landscape version of exactly this scene and camera position. Keep the center of the picture identical and extend the scene naturally to the left and right at the same eye level so the whole premium automotive workshop lounge is visible: dark walnut slat walls, warm amber lighting, steel details, a leather sofa and low table in front, a dark doorway on the left and another dark doorway on the right leading to adjacent rooms. Keep the first-person point of view with the viewer's hands at the bottom. Photorealistic, same lighting, colors and mood, no text, no logos."
+Prompt D0b: igual, sustituyendo la parte del sofá por "Keep the first-person point of view from standing behind the leather sofa."
+
 ## Principio de diseño
 El video es el **escenario**, no el contenedor del contenido. Las superficies (marcos, pizarra, mapa, placas) salen **vacías** en el video; el contenido real (fotos, ofertas, textos) lo dibuja la página encima y lo edita el cliente desde el CMS.
 
@@ -82,3 +105,5 @@ Imágenes de partida (se regeneran con ffmpeg, no se descargan de Gemini): últi
 | BOYACOS · D0 · IMAGEN 16x9 SALA | 3632948bc30d222d | _—_ |
 | BOYACOS · D0b · IMAGEN 16x9 ENTRADA | df1c58a35b8da95a | _—_ |
 | BOYACOS · M3 · MOSTRADOR | _—_ | _—_ |
+| BOYACOS · D0 · IMAGEN 16x9 SALA (Meta AI) | 87767fc0-c06f-4bec-8937-daa5bb34d96c | _—_ |
+| BOYACOS · D0b · IMAGEN 16x9 ENTRADA (Meta AI) | 5baa0a5b-d9b4-4d9d-8682-b64e2ba7486c | _—_ |
