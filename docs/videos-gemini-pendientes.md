@@ -124,7 +124,7 @@ Se pidió a Meta AI (modo Razonamiento) animar la imagen D0 como video 16:9 de 1
 |---|---|---|
 | `BOYACOS - D1 - FOTOS 16x9 - entrada+reposo (NO descargado)` | **GENERADO** (10 s, 1280×720). Revisado: sala → puerta izquierda → pared con 6 marcos vacíos en 2 filas × 3 con luces de cuadro; final frontal y quieto | https://gemini.google.com/app/7fc8fe12e4be36a3 |
 | `BOYACOS - D2 - OFICINA 16x9 - entrada+reposo (NO descargado)` | **GENERADO** (10 s, 1280×720; 4.º intento, tras 2 errores y un "hard time fulfilling"). Revisado: sala → puerta derecha → oficina; reposo frontal con mapa grande sin letras, tablón con las 3 hojas completas y escritorio con teléfono y libreta | https://gemini.google.com/app/b978bcf2dd491d9a |
-| D3 MOSTRADOR 16x9 | pendiente | — |
+| `BOYACOS - D3 - MOSTRADOR 16x9 - entrada+reposo (NO descargado)` | **GENERADO** (10 s, 1280×720; a la primera). Revisado: pizarra grande **completamente en blanco (sin la palabra MENU)**, TV apagada entera a la derecha, 3 placas blancas en el frente del mostrador; final frontal y quieto | https://gemini.google.com/app/2bdf525c530b0751 |
 | D-entrada 16x9 (desde D0b) | pendiente | — |
 | D-loop sala 16x9 | pendiente | — |
 | D-catálogo 16x9 | pendiente | — |
