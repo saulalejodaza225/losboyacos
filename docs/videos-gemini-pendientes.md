@@ -116,3 +116,18 @@ Se pidió a Meta AI (modo Razonamiento) animar la imagen D0 como video 16:9 de 1
 - **Causa:** Meta no la ha explicado oficialmente. El aviso es del propio asistente y no da fecha. Hipótesis (no confirmada): se retiró el motor anterior mientras llega el modelo nuevo de imagen y video "Mango" (en prensa, previsto para 2026; sin demo pública, y Meta no ha confirmado el nombre).
 - **Cuándo:** sin fecha oficial. Reprobar cada pocos días desde Vibes o el chat.
 - Nota: el chat "Límite de fotos y videos" del propio usuario con Meta AI trae cifras de cuota (fotos/videos por día) y precios de Meta One; son estimaciones generadas por el asistente, no datos oficiales.
+
+## Videos de escritorio 16:9 (fase 2) — Gemini Pro, NO descargados
+**Método que funciona (24 oct 2026):** abrir la conversación de la imagen D0 → botón "Copiar imagen" (portapapeles, no es descarga) → recargar `gemini.google.com/app` → "+" → Crear vídeo → comprobar Relación de aspecto = Horizontal (16:9) → pegar la imagen con ctrl+v → escribir el prompt → enviar. Errores frecuentes: la primera respuesta sale "Solo soy una IA basada en texto" o "capacidad llena"; se resuelve con Rehacer → Reintentar (recargar la página antes si se queda colgado). Pedir el video dentro de la conversación de la imagen ("the image above") falla siempre.
+
+| Etiqueta | Estado | Conversación |
+|---|---|---|
+| `BOYACOS - D1 - FOTOS 16x9 - entrada+reposo (NO descargado)` | **GENERADO** (10 s, 1280×720). Revisado: sala → puerta izquierda → pared con 6 marcos vacíos en 2 filas × 3 con luces de cuadro; final frontal y quieto | https://gemini.google.com/app/7fc8fe12e4be36a3 |
+| D2 OFICINA 16x9 | pendiente | — |
+| D3 MOSTRADOR 16x9 | pendiente | — |
+| D-entrada 16x9 (desde D0b) | pendiente | — |
+| D-loop sala 16x9 | pendiente | — |
+| D-catálogo 16x9 | pendiente | — |
+
+Prompt D1 (con la imagen D0 pegada): "Use the attached image as the exact first frame (same first-person POV seated on the sofa, same hands, same room and warm amber lighting). Horizontal 16:9, 10 seconds, one continuous shot, no cuts, smooth natural walking camera at eye height. The viewer stands up from the leather sofa and walks forward through the open dark doorway on the left into the adjacent gallery room of the same premium automotive workshop: dark walnut slat walls, warm amber lighting, steel details, polished concrete floor. A feature wall faces him with exactly six empty picture frames arranged in two rows of three, slim black frames, each with a completely empty dark matte interior (no pictures, no text), softly lit by small amber picture lights. During the first 6 seconds he walks and arrives; during the last 4 seconds the camera is perfectly still, frontal and parallel to the wall, the six frames centered, large and sharp, hands out of view. Photorealistic, no other people, no text anywhere, no logos, no music, no speech."
+Para D2 y D3: mismo método, cambiando la puerta (derecha para la oficina) y la descripción de la sala con el texto de los prompts M2/M3 en formato horizontal.
