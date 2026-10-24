@@ -107,3 +107,6 @@ Imágenes de partida (se regeneran con ffmpeg, no se descargan de Gemini): últi
 | BOYACOS · M3 · MOSTRADOR | b0e1bf86de3f6067 | _—_ |
 | BOYACOS · D0 · IMAGEN 16x9 SALA (Meta AI) | 87767fc0-c06f-4bec-8937-daa5bb34d96c | _—_ |
 | BOYACOS · D0b · IMAGEN 16x9 ENTRADA (Meta AI) | 5baa0a5b-d9b4-4d9d-8682-b64e2ba7486c | _—_ |
+
+## Prueba de video en Meta AI (24 oct 2026)
+Se pidió a Meta AI (modo Razonamiento) animar la imagen D0 como video 16:9 de 10 s. Respuesta: "Video generation isn't available right now in Meta AI". **Meta AI solo sirve para imágenes por ahora**; los videos de escritorio (D1–D3, entrada, loop, catálogo) siguen siendo de Gemini. Volver a probar más adelante.
