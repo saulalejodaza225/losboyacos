@@ -110,3 +110,9 @@ Imágenes de partida (se regeneran con ffmpeg, no se descargan de Gemini): últi
 
 ## Prueba de video en Meta AI (24 oct 2026)
 Se pidió a Meta AI (modo Razonamiento) animar la imagen D0 como video 16:9 de 10 s. Respuesta: "Video generation isn't available right now in Meta AI". **Meta AI solo sirve para imágenes por ahora**; los videos de escritorio (D1–D3, entrada, loop, catálogo) siguen siendo de Gemini. Volver a probar más adelante.
+
+### Seguimiento (24 oct 2026): ¿por qué Meta AI no genera video y cuándo vuelve?
+- Se repitió la prueba desde **Vibes** (https://www.meta.ai/vibes) con el modelo Razonamiento y el fotograma de sala: misma respuesta, "video generation isn't available right now… a new version is expected". Conversación de la prueba: https://www.meta.ai/prompt/d888d2b6-6093-4586-aa6c-6580acafeefa
+- **Causa:** Meta no la ha explicado oficialmente. El aviso es del propio asistente y no da fecha. Hipótesis (no confirmada): se retiró el motor anterior mientras llega el modelo nuevo de imagen y video "Mango" (en prensa, previsto para 2026; sin demo pública, y Meta no ha confirmado el nombre).
+- **Cuándo:** sin fecha oficial. Reprobar cada pocos días desde Vibes o el chat.
+- Nota: el chat "Límite de fotos y videos" del propio usuario con Meta AI trae cifras de cuota (fotos/videos por día) y precios de Meta One; son estimaciones generadas por el asistente, no datos oficiales.
