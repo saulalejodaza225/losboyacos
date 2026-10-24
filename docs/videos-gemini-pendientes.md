@@ -11,7 +11,7 @@ Cuenta: la de Gemini del cliente (saulalejodaza@gmail.com). Modelo usado: Pro. F
 | Gemini (videos) | Entrada, loop, catálogo v1, catálogo con texto (sesiones anteriores) | 4 | descargados antes; el catálogo v1 está en producción |
 | Gemini (videos) | Catálogo "generado sin descargar" | 1 | sin descargar |
 | Gemini (videos) | M1 FOTOS | 1 | generado, sin descargar |
-| Gemini (videos) | M2 OFICINA, M3 MOSTRADOR | 2 | pendientes (Pro; la cuota de videos se restableció el 23 oct 2:26) |
+| Gemini (videos) | M2 OFICINA, M3 MOSTRADOR | 2 | generados el 24 oct, sin descargar (M3 trae la palabra "MENU" en la pizarra) |
 | Gemini (imágenes) | D0 sala 16:9, D0b entrada 16:9 | 2 | sin descargar; sustituidas por las de Meta AI |
 | **Meta AI (imágenes)** | D0 sala 16:9, D0b entrada 16:9 | 2 | generadas, sin descargar |
 
@@ -60,16 +60,16 @@ Use the attached image as the exact first frame (same first-person POV, hands, r
 ```
 
 ### M2 · OFICINA · entrada+reposo
-- Estado: **SIN VIDEO** — el prompt se envió pero Gemini lo bloqueó por límite. Reintentar con el botón "Reintentar" de esta conversación (o pegar el prompt en una nueva) después del 23 oct 2:26.
-- Conversación Gemini: https://gemini.google.com/app/f52296467b2edfb4  (título: `BOYACOS - M2 - OFICINA - SIN VIDEO, reintentar tras el 23 oct 2:26 (limite)`)
+- Estado: **GENERADO, no descargado** (24 oct, 10 s, 720×1280; revisado: mapa estilizado grande y nítido SIN letras, tablón de corcho a la izquierda con hojas en blanco —queda algo recortado por el borde—, final frontal y quieto; el teléfono de escritorio no se ve en el reposo)
+- Conversación Gemini: https://gemini.google.com/app/f52296467b2edfb4  (título: `BOYACOS - M2 - OFICINA - entrada+reposo (NO descargado)`)
 - Prompt:
 ```
 Use the attached image as the exact first frame (same first-person POV, hands, room and warm amber lighting). Vertical 9:16, 10 seconds, one continuous shot, no cuts, smooth natural walking camera at eye height. The viewer stands up from the leather sofa and walks to the right through another dark doorway into a small office of the same premium automotive workshop: dark walnut slat walls, warm amber lighting, steel details. A walnut desk holds a landline desk phone and a closed notepad. On the wall facing him, in the center, hangs a large framed stylized street map of a city drawn only with thin cream and red lines on dark paper, with no letters or labels at all; to its left a wooden notice board with exactly three blank white paper sheets pinned in a row, no writing. During the first 6 seconds he walks and arrives; during the last 4 seconds the camera is perfectly still, frontal and parallel to the wall, the map centered, large and sharp, the notice board visible on the left and the desk with the phone at the bottom, hands out of view. Photorealistic, same lighting as the first frame, no other people, no text anywhere, no logos, no music, no speech.
 ```
 
 ### M3 · MOSTRADOR · entrada+reposo
-- Estado: **pendiente** (no se intentó por el límite). Generar tras el 23 oct 2:26 con el prompt de abajo; al terminar, renombrar la conversación a `BOYACOS - M3 - MOSTRADOR - entrada+reposo (NO descargado)`.
-- Conversación Gemini: _—_
+- Estado: **GENERADO, no descargado** (24 oct, 10 s, 720×1280; el primer intento falló con "tráfico alto" y se reintentó con "Rehacer"). Revisado: pizarra negra al centro, TV apagada a la derecha (recortada por el borde), 3 placas blancas en blanco abajo, final frontal y quieto. **Defecto:** la pizarra trae escrita la palabra "MENU" en el borde superior; se cubre con el contenido de la página o se borra con ffmpeg (parche oscuro) al integrar.
+- Conversación Gemini: https://gemini.google.com/app/b0e1bf86de3f6067  (título: `BOYACOS - M3 - MOSTRADOR - entrada+reposo (NO descargado)`)
 - Prompt:
 ```
 Use the attached image as the exact first frame (same first-person POV, hands, room and warm amber lighting). Vertical 9:16, 10 seconds, one continuous shot, no cuts, smooth natural walking camera at eye height. The viewer stands up from the leather sofa and walks towards the reception counter of the same premium automotive workshop: dark walnut slat walls, warm amber lighting, steel details. A long walnut counter; behind it on the wall a clean black chalkboard menu board that is completely empty (no writing) and beside it a large flat TV that is switched off with a plain black screen. On the front of the counter, in a row, stand three small square blank white plaques, upright, with no marks on them. During the first 6 seconds he walks and arrives; during the last 4 seconds the camera is perfectly still, frontal and parallel to the wall, the chalkboard centered, large and sharp, the three plaques visible at the bottom, hands out of view. Photorealistic, same lighting as the first frame, no other people, no text anywhere, no logos, no music, no speech.
@@ -101,9 +101,9 @@ Imágenes de partida (se regeneran con ffmpeg, no se descargan de Gemini): últi
 | Etiqueta | Conversación | Archivo descargado |
 |---|---|---|
 | BOYACOS · M1 · FOTOS | feb6fe0cb1a8902a | _—_ |
-| BOYACOS · M2 · OFICINA | f52296467b2edfb4 (sin video aún) | _—_ |
+| BOYACOS · M2 · OFICINA | f52296467b2edfb4 | _—_ |
 | BOYACOS · D0 · IMAGEN 16x9 SALA | 3632948bc30d222d | _—_ |
 | BOYACOS · D0b · IMAGEN 16x9 ENTRADA | df1c58a35b8da95a | _—_ |
-| BOYACOS · M3 · MOSTRADOR | _—_ | _—_ |
+| BOYACOS · M3 · MOSTRADOR | b0e1bf86de3f6067 | _—_ |
 | BOYACOS · D0 · IMAGEN 16x9 SALA (Meta AI) | 87767fc0-c06f-4bec-8937-daa5bb34d96c | _—_ |
 | BOYACOS · D0b · IMAGEN 16x9 ENTRADA (Meta AI) | 5baa0a5b-d9b4-4d9d-8682-b64e2ba7486c | _—_ |
