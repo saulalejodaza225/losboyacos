@@ -26,6 +26,8 @@ Necesitan Playwright con Microsoft Edge. Cada archivo recibe la carpeta del proy
 | `privacidad.mjs` | Línea legal, modal y `privacidad.html` |
 | `analitica.mjs` | Eventos de analítica y bloques desactivados |
 | `cms.mjs` | Configuración del CMS y funciones de acceso |
+| `seo.mjs` | Canonical, og:url, JSON-LD, robots.txt y sitemap.xml (no necesita navegador) |
+| `accesibilidad.mjs` | Auditoría axe-core (WCAG 2.1 A/AA) en 9 pantallas y alternativa sin JavaScript. Requiere `npm i axe-core` junto a Playwright |
 | `clic-fantasma.mjs`, `clips-lentos.mjs` | Casos límite de toque y de conexión lenta |
 
 ## Pendiente (lo entrega el cliente)
