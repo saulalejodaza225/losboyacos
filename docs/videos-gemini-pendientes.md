@@ -159,6 +159,6 @@ Hechos y sin descargar: **D1 FOTOS, D2 OFICINA, D3 MOSTRADOR** (1280×720, 10 s)
 - Nota técnica: si el envío se cuelga y el URL no cambia a /app/<id>, recargar: el mensaje no se envió y queda como borrador; hay que reactivar "Crear vídeo" y volver a pegar la imagen.
 
 ### D-catálogo 16x9 — PENDIENTE (25 oct 2026)
-- Prompt listo en : es el prompt aprobado del catálogo móvil, **con todo el texto y los dibujos minimalistas**, adaptado a horizontal 16:9 y con la frase de calidad añadida; no se simplificó nada. Imagen de partida: la D0 de Meta AI (2048×1152), copiada al portapapeles con el método de este documento.
+- Prompt listo en `docs/prompt-catalogo-escritorio.txt`: es el prompt aprobado del catálogo móvil, **con todo el texto y los dibujos minimalistas**, adaptado a horizontal 16:9 y con la frase de calidad añadida; no se simplificó nada. Imagen de partida: la D0 de Meta AI (2048×1152), copiada al portapapeles con el método de este documento.
 - **Bloqueo al intentarlo:** en Gemini la opción "Crear vídeo" del menú "+" quedó **atenuada** (sin mensaje) tras más de 30 s de espera, igual que el 24 oct cuando se alcanzó el tope diario de videos (la cuota general marcaba 0 %). Ese día se habían generado/reintentado unos 8 videos; hoy llevamos unos 6 intentos (entrada y loop). Hipótesis: tope diario de videos, no de uso general. Reintentar más tarde o mañana.
 - Orden previsto al reintentar: recargar → "+" → Crear vídeo (esperar a que deje de estar gris) → pegar D0 → pegar el prompt completo → enviar → "Rehacer" si da error.
