@@ -76,9 +76,9 @@ for(const [w,h] of [[1440,900],[1280,720],[1920,1080]]){
       await p.click('#close');await p.waitForTimeout(700);
     }
     if(id==='mostrador'){
-      const bd=surf.find(s=>/board/.test(s.c)),[bx,by]=f(586.5,245);const pl=surf.filter(s=>/plaque/.test(s.c));
+      const bd=surf.find(s=>/board/.test(s.c)),[bx,by]=f(639,207);const pl=surf.filter(s=>/plaque/.test(s.c));
       ok(tag+' mostrador: la pizarra cae sobre el pizarrón (±3 px)',near(bd,bx,by),JSON.stringify(bd));
-      const [p1x,p1y]=f(462,628);
+      const [p1x,p1y]=f(480.5,594.5);
       ok(tag+' mostrador: 3 placas; la 1.ª sobre su placa (±4 px)',pl.length===3&&Math.abs(pl[0].x+pl[0].w/2-p1x)<4&&Math.abs(pl[0].y+pl[0].h/2-p1y)<4,JSON.stringify(pl[0]));
       ok(tag+' mostrador: ofertas dentro de la pizarra sin desbordar',await p.evaluate(()=>{const b=document.querySelector('#rstage .board');return b.scrollHeight<=b.clientHeight+2}),'');
     }
