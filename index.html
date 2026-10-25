@@ -46,12 +46,24 @@
 }
 </script>
 
-<!-- GA4: pega aquí el snippet con tu ID real (G-XXXXXXXXXX). No hay ID todavía.
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-..."></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-...');</script>
+<!-- ===== ANALÍTICA (todo desactivado hasta tener los IDs reales del cliente) =====
+     CÓMO ACTIVARLA: 1) crea la cuenta o el ID de cada herramienta; 2) reemplaza el marcador (G-XXXXXXXXXX, 0000000 o 000000000000000)
+     por el ID real; 3) quita las marcas de comentario de abrir y cerrar del bloque; 4) publica. Los eventos de la página
+     (abrir_catalogo, whatsapp, llamar, como_llegar, abrir_galeria, ver_blog, ver_redes, abrir_contacto, envio_formulario,
+     envio_formulario_error...) ya se envían solos a GA4 y a Meta con la función track(). Guía completa en docs/analitica.md.
+     Recuerda: la política de privacidad ya menciona estas herramientas; no actives otras sin actualizarla. -->
+
+<!-- GOOGLE ANALYTICS 4: ID en analytics.google.com > Administrar > Flujos de datos (formato G-XXXXXXXXXX).
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
 -->
-<!-- Píxel de Meta: pega aquí el snippet con tu ID real. No hay ID todavía.
-<script>/* fbq init */</script>
+
+<!-- HOTJAR (mapas de calor y grabaciones): ID del sitio en hotjar.com > Sites (número de 7 dígitos aprox.). Opcional.
+<script>(function(h,o,t,j,a,r){h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};h._hjSettings={hjid:0000000,hjsv:6};a=o.getElementsByTagName('head')[0];r=o.createElement('script');r.async=1;r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;a.appendChild(r);})(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');</script>
+-->
+
+<!-- PÍXEL DE META (Facebook/Instagram Ads): ID en business.facebook.com > Administrador de eventos (15 o 16 dígitos). Opcional.
+<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','000000000000000');fbq('track','PageView');</script>
 -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -686,7 +698,7 @@ document.addEventListener('click',function(e){
 });
 
 /* ---------- vistas ---------- */
-var evFor={servicios:'ver_servicios',repuestos:'ver_repuestos',ayuda:'ayuda_carretera',galeria:'ver_galeria',blog:'ver_blog',redes:'ver_redes',contacto:'ver_contacto'};
+var evFor={servicios:'ver_servicios',repuestos:'ver_repuestos',ayuda:'ayuda_carretera',galeria:'abrir_galeria',blog:'ver_blog',redes:'ver_redes',contacto:'abrir_contacto'};
 
 /* ---------- mapa embebido: el src no se asigna hasta que el contenedor entra en pantalla ---------- */
 var mapaObs=null, mapaCargado=false;
@@ -900,8 +912,8 @@ document.addEventListener('keydown',function(e){
     if(d.whatsapp.length<7||d.whatsapp.length>15) return err('Escribe un número de WhatsApp válido (solo números).','c-wa');
     if(!$('#c-auth').checked) return err('Debes autorizar el tratamiento de tus datos para enviar el mensaje.','c-auth');
     sending=true; btn.disabled=true; btn.textContent='Enviando…';
-    send(d).then(function(){ panel('ok'); form.reset(); })
-      .catch(function(){ $('#c-wa-link').href=waDatos(d); panel('fail'); })
+    send(d).then(function(){ track('envio_formulario'); panel('ok'); form.reset(); })
+      .catch(function(){ track('envio_formulario_error'); $('#c-wa-link').href=waDatos(d); panel('fail'); })
       .then(function(){ sending=false; btn.disabled=false; btn.textContent='Enviar mensaje'; });
   });
   $('#c-ok-close').addEventListener('click',function(){ panel('form'); show('home'); });
