@@ -1,6 +1,6 @@
 # Videos generados en Gemini · pendientes de descargar
 
-Estado a 22 oct 2026: **1 de 3 clips de habitaciones generado; ninguno descargado.** No se descarga nada hasta recibir la luz verde del cliente.
+Estado actualizado el 25 oct 2026: **los 9 clips de habitaciones y la entrada/loop/catálogo de escritorio están generados Y DESCARGADOS** (ver la sección DESCARGADOS al final).
 
 > **Límite de Gemini alcanzado** (plan Plus: uso 76 % de la ventana, 22 % del límite semanal). Gemini dijo: "Los vídeos volverán a estar disponibles el **23 oct a las 2:26**". Los clips M2 y M3 se generan después de esa hora.
 Cuenta: la de Gemini del cliente (saulalejodaza@gmail.com). Modelo usado: Pro. Formato: vertical 9:16 (móvil).
@@ -170,3 +170,24 @@ Hechos y sin descargar: **D1 FOTOS, D2 OFICINA, D3 MOSTRADOR** (1280×720, 10 s)
   - **Defecto menor:** la columna derecha de marcas repite "Otro" dos veces (Nissan, Hyundai, Volkswagen, BYD, Otro, Otro); el prompt pedía uno. Se puede tapar o corregir al integrar (superposición de texto de la página) o regenerar.
 - **Video 2 (alternativo, peor):** a los 2 s el libro aún se levanta y el texto sale borroso; el final tiene "OYD" en vez de "BYD". No usar salvo que se descarte el 1.
 - **Estado de los 6 videos de escritorio: 6 de 6 generados** (D1, D2, D3, entrada, loop y catálogo), todos sin descargar. Pendiente para integrar: luz verde del cliente para descargar, y decidir si se regenera el catálogo para tener el texto sin el "Otro" repetido.
+
+## DESCARGADOS (25 oct 2026) — luz verde del cliente
+Carpeta: `C:\Users\COMPUMAX\Desktop\Modelos de páginas web\Videos\Mecanic walk in\` (10 archivos, h264, 24 fps, 10 s, sin audio relevante).
+
+| Archivo | Formato | Conversación de Gemini |
+|---|---|---|
+| `M1-FOTOS-9x16.mp4` | 720×1280 | feb6fe0cb1a8902a |
+| `M2-OFICINA-9x16.mp4` | 720×1280 | f52296467b2edfb4 |
+| `M3-MOSTRADOR-9x16.mp4` | 720×1280 (trae "MENU" en la pizarra) | b0e1bf86de3f6067 |
+| `D1-FOTOS-16x9.mp4` | 1280×720 | 7fc8fe12e4be36a3 |
+| `D2-OFICINA-16x9.mp4` | 1280×720 | b978bcf2dd491d9a |
+| `D3-MOSTRADOR-16x9.mp4` | 1280×720 | 2bdf525c530b0751 |
+| `D-ENTRADA-16x9.mp4` | 1280×720 | 5797d439db57d795 |
+| `D-LOOP-SALA-16x9.mp4` | 1280×720 (bucle) | 20b72e53f25b3db7 |
+| `D-CATALOGO-16x9-video1.mp4` | 1280×720 (el bueno; "Otro" repetido en la 2.ª doble) | 654bb33ab335de19 |
+| `D-CATALOGO-16x9-video2-alternativo.mp4` | 1280×720 (peor; "OYD" en vez de "BYD") | 654bb33ab335de19 |
+
+- Las conversaciones de Gemini conservan el sufijo "(NO descargado)" en su título; ya no es cierto, el archivo está en la carpeta de arriba.
+- **Método de descarga que funcionó:** abrir la conversación en una pestaña NUEVA (Chrome solo permite una descarga automática por pestaña), esperar a que cargue (~40 s), y desde la página hacer `fetch(video.currentSrc,{credentials:'include'})` → blob → enlace `<a download="NOMBRE.mp4">`. Llegan a `~/Downloads` y se mueven a la carpeta destino. Un receptor local en `127.0.0.1` NO sirve: Gemini bloquea esa conexión.
+- No están descargados: las imágenes D0 y D0b (siguen en Meta AI/Gemini) ni los videos de sesiones anteriores ya usados en producción (`clip1-entrada`, `clip2-loop`, `clip3a/b/c`, ya en `assets/`).
+- Siguiente fase: recodificar con ffmpeg (crf 18–20, sin audio, 24 fps), cortar entrada/reposo, medir esquinas de superficies, integrar habitaciones con contenido de la página encima, tapar "MENU" (M3) y el "Otro" repetido (catálogo).
