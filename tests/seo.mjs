@@ -1,0 +1,21 @@
+// SEO: canonical, og:url, rutas absolutas, JSON-LD válido, robots.txt y sitemap.xml
+import fs from 'fs';import path from 'path';
+const root=process.argv[2];const rd=f=>fs.readFileSync(path.join(root,f),'utf8');
+const results=[];const ok=(n,c,d='')=>results.push([c?'PASS':'FAIL',n,d]);
+const idx=rd('index.html'), pv=rd('privacidad.html');
+const activo=idx.replace(/<!--[\s\S]*?-->/g,'');
+const D='https://losboyacos.com';
+ok('index: canonical activo con el dominio final',activo.includes('<link rel="canonical" href="'+D+'/">'));
+ok('index: og:url activo con el dominio final',activo.includes('<meta property="og:url" content="'+D+'/">'));
+ok('index: og:image absoluta y el archivo existe',activo.includes('content="'+D+'/assets/og.jpg"')&&fs.existsSync(path.join(root,'assets/og.jpg')));
+ok('index: no queda ningún marcador DOMINIO-FINAL',!/DOMINIO-FINAL/.test(idx));
+const ld=JSON.parse(activo.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+ok('JSON-LD válido: AutoRepair con url, imagen absoluta, teléfono y dirección',ld['@type']==='AutoRepair'&&ld.url===D&&ld.image.startsWith(D+'/')&&/^\+57\d{10}$/.test(ld.telephone)&&ld.address.streetAddress==='Carrera 94A #145A-83');
+ok('index: un solo canonical y un solo og:url',(activo.match(/rel="canonical"/g)||[]).length===1&&(activo.match(/property="og:url"/g)||[]).length===1);
+ok('privacidad: canonical a su propia URL',pv.includes('<link rel="canonical" href="'+D+'/privacidad.html">'));
+const rb=rd('robots.txt');
+ok('robots.txt: permite el sitio, bloquea /admin/ y /api/, enlaza el sitemap',/Allow: \//.test(rb)&&/Disallow: \/admin\//.test(rb)&&/Disallow: \/api\//.test(rb)&&rb.includes('Sitemap: '+D+'/sitemap.xml'));
+const sm=rd('sitemap.xml');
+ok('sitemap.xml: XML bien formado con la portada y la política',/^<\?xml/.test(sm)&&sm.includes('<loc>'+D+'/</loc>')&&sm.includes('<loc>'+D+'/privacidad.html</loc>')&&(sm.match(/<url>/g)||[]).length===(sm.match(/<\/url>/g)||[]).length);
+ok('admin y api no están en el sitemap',!/admin|api/.test(sm));
+for(const r of results)console.log(r.join(' | '));
