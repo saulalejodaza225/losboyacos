@@ -7,6 +7,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230E0C0B'/%3E%3Cpath d='M9 7h4v14h8v4H9z' fill='%23C8281E'/%3E%3C/svg%3E">
 <title>Los Boyacos · Servicio automotriz en Suba</title>
 <meta name="description" content="Los Boyacos, servicio automotriz multimarca en Suba, Bogotá: frenos, suspensión, mecánica general, motor, dirección, llantas, baterías y asistencia en carretera.">
+<script>try{if(matchMedia('(min-width:900px) and (min-aspect-ratio:6/5)').matches)document.documentElement.classList.add('wide')}catch(e){}</script>
 <link rel="preload" as="image" href="assets/poster.webp" type="image/webp">
 
 <!-- Open Graph y canonical con el dominio final (https://losboyacos.com). Las rutas son absolutas para que las redes sociales las lean; si el dominio cambia, actualízalas aquí, en privacidad.html, sitemap.xml y robots.txt. -->
@@ -206,6 +207,28 @@ a{color:inherit;text-decoration:none}
 .rs.plaque .ps{font:600 17px/1.1 var(--font-body);color:#6b5f56}
 @media (prefers-reduced-motion:reduce){ .rs,#r-pill,#room{transition:none} }
 
+/* escritorio: pantalla ancha (16:9). El video llena la ventana y las hojas salen como panel lateral */
+.wide #app{width:100vw}
+.wide #sheet{left:auto;right:0;top:0;bottom:0;width:min(460px,94vw);height:100%;border:1px solid var(--border);border-right:0;border-radius:20px 0 0 20px;transform-origin:100% 50%;transform:translateX(28px) scale(.97)}
+.wide #sheet.open,.wide #sheet.fade{transform:none}
+.wide #pulse{left:44%;top:64%}
+.wide .fabs{right:28px;bottom:calc(32px + var(--sab))}
+.wide #invite{top:6%}
+.wide #invite h1{font-size:clamp(52px,5.2vw,88px)}
+.wide #rooms-nav{top:calc(6% + 8px + clamp(52px,5.2vw,88px) + 70px)}
+.wide .r-tt b{font-size:28px}.wide .r-tt span{font-size:14px}
+.wide .rs .pill{font-size:20px;padding:9px 20px}
+.wide .rs.board{padding:12px 18px}
+.wide .rs.board .bt{font-size:32px;margin-bottom:8px;padding-bottom:3px;border-bottom-width:2px}
+.wide .rs.board ul{gap:8px}
+.wide .rs.board li{font-size:21px}
+.wide .rs.board li small{font-size:13px;margin-bottom:1px}
+.wide .rs.board .bm{font-size:15px;margin-top:6px}
+.wide .rs.sheet{padding:6px}
+.wide .rs.sheet .st{font-size:13px;-webkit-line-clamp:8}
+.wide .rs.plaque{gap:5px}
+.wide .rs.plaque svg{width:40px;height:40px}
+.wide .rs.plaque .pn{font-size:16px}.wide .rs.plaque .ps{font-size:13px}
 /* cargador */
 #loader{position:absolute;left:0;right:0;bottom:0;height:2px;z-index:9;background:transparent;transition:opacity .3s}
 #loader i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s ease-out}
@@ -407,6 +430,7 @@ a{color:inherit;text-decoration:none}
   <video id="vC" class="layer" muted playsinline webkit-playsinline preload="auto" data-src="assets/clip3a-agarra.mp4" aria-hidden="true" tabindex="-1"></video>
   <video id="vD" class="layer" muted playsinline webkit-playsinline preload="auto" data-src="assets/clip3b-pagina.mp4" aria-hidden="true" tabindex="-1"></video>
   <video id="vE" class="layer" muted playsinline webkit-playsinline preload="auto" data-src="assets/clip3c-atras.mp4" aria-hidden="true" tabindex="-1"></video>
+  <script>if(document.documentElement.classList.contains('wide')){var _q=function(i){return document.getElementById(i)};_q('poster').src='assets/escritorio/poster.webp';_q('vA').poster=_q('vB').poster='assets/escritorio/poster.webp';_q('vA').dataset.src='assets/escritorio/entrada.mp4';_q('vB').dataset.src='assets/escritorio/loop.mp4';['vC','vD','vE'].forEach(function(i){_q(i).removeAttribute('data-src')})}</script>
   <img id="hold" class="layer" alt="" aria-hidden="true" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
   <video id="vR" class="layer" muted playsinline webkit-playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
   <video id="vRR" class="layer" muted loop playsinline webkit-playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
@@ -1288,7 +1312,7 @@ function startLoop(){
   if(phase!=='open') setPhase('loop');
   showInvite(false);
   // tramos del catálogo: se precargan en cadena cuando ya corre el loop
-  var chain=[vC,vD,vE];
+  var chain=WIDE?[]:[vC,vD,vE];
   (function next(i){ if(i>=chain.length) return; var v=chain[i]; if(v.src) return next(i+1); v.src=v.dataset.src; v.load(); var done=false,fn=function(){ if(done) return; done=true; next(i+1); }; v.addEventListener('canplaythrough',fn,{once:true}); setTimeout(fn,6000); })(0);
 }
 
@@ -1371,6 +1395,8 @@ app.addEventListener('focus',function(){ app.style.outline=''; });
 var vR=$('#vR'), vRR=$('#vRR'), roomEl=$('#room'), rstage=$('#rstage'), rTitle=$('#r-title'), rHint=$('#r-hint'), rBack=$('#r-back'), rPill=$('#r-pill');
 var roomId=null, roomReady=false, roomLeaving=false, roomBuilt=null, roomT=0;
 var HAB='assets/habitaciones/';
+var WIDE=document.documentElement.classList.contains('wide'), SUF=WIDE?'-16x9':'', RW=WIDE?1280:720, RH=WIDE?720:1280;
+try{ matchMedia('(min-width:900px) and (min-aspect-ratio:6/5)').addEventListener('change',function(){ location.reload(); }); }catch(e){}
 var ROOMS={
   fotos:    {titulo:'Fotos',    pista:'Toca una foto para verla grande',       pill:'Ver todas las fotos'},
   oficina:  {titulo:'Oficina',  pista:'Toca el mapa, el tablón o el teléfono'},
@@ -1383,7 +1409,7 @@ function surf(tag,q,cls,delay){
   if(delay!=null) el.style.setProperty('--d',delay+'s');
   rstage.appendChild(el); return el;
 }
-function layoutRoom(){ var W=app.clientWidth,H=app.clientHeight,s=Math.max(W/720,H/1280); rstage.style.transform='translate('+((W-720*s)/2)+'px,'+((H-1280*s)/2)+'px) scale('+s+')'; }
+function layoutRoom(){ var W=app.clientWidth,H=app.clientHeight,s=Math.max(W/RW,H/RH); rstage.style.width=RW+'px'; rstage.style.height=RH+'px'; rstage.style.transform='translate('+((W-RW*s)/2)+'px,'+((H-RH*s)/2)+'px) scale('+s+')'; }
 window.addEventListener('resize',layoutRoom);
 function tocar(zona){ track('toque_habitacion',{habitacion:roomId,zona:zona}); }
 function sheetAt(view,sel){ openSheet(view); if(sel) setTimeout(function(){ var e=$(sel); if(e&&e.scrollIntoView) e.scrollIntoView({block:'start'}); },460); }
@@ -1392,7 +1418,7 @@ function openPostFromRoom(i){ openSheet('blog'); var n=0; (function w(){ if(blog
 function buildFotos(){
   return getJSON('contenido/galeria.json').then(function(d){
     var fotos=((d&&d.fotos)||[]).filter(function(f){ return f&&f.src; }).slice(0,6);
-    var X=[[93,220],[296,424],[500,625]], Y=[[297,473],[548,723]];
+    var X=WIDE?[[397,503],[587,693],[777,883]]:[[93,220],[296,424],[500,625]], Y=WIDE?[[115,265],[334,481]]:[[297,473],[548,723]];
     fotos.forEach(function(f,i){
       var c=i%3, r=(i/3)|0, b=surf('button',rq(X[c][0],Y[r][0],X[c][1],Y[r][1]),'photo',0.12*i);
       b.type='button'; b.setAttribute('aria-label','Ampliar foto: '+(f.alt||('foto '+(i+1))));
@@ -1402,14 +1428,14 @@ function buildFotos(){
   }).catch(function(){});
 }
 function buildOficina(){
-  var mp=surf('button',rq(232,240,640,788),'hot map',0); mp.type='button'; mp.setAttribute('aria-label','Ver el mapa y cómo llegar');
+  var mp=surf('button',WIDE?rq(455,92,846,458):rq(232,240,640,788),'hot map',0); mp.type='button'; mp.setAttribute('aria-label','Ver el mapa y cómo llegar');
   mp.appendChild(mk('span','pill','Ver mapa')); mp.addEventListener('click',function(){ tocar('mapa'); sheetAt('home','#mapa'); });
-  var ph=surf('a',rq(40,1128,330,1275),'hot phone',0.1); ph.href='tel:'+TELEFONO; ph.setAttribute('data-call',''); ph.setAttribute('data-ev','llamar'); ph.setAttribute('data-src','oficina'); ph.setAttribute('aria-label','Llamar al taller');
+  var ph=surf('a',WIDE?rq(258,616,438,712):rq(40,1128,330,1275),'hot phone',0.1); ph.href='tel:'+TELEFONO; ph.setAttribute('data-call',''); ph.setAttribute('data-ev','llamar'); ph.setAttribute('data-src','oficina'); ph.setAttribute('aria-label','Llamar al taller');
   ph.appendChild(mk('span','pill','Llamar'));
-  var bl=surf('button',rq(64,632,200,692),'hot blogpill',0.15); bl.type='button'; bl.setAttribute('aria-label','Ver el blog'); bl.appendChild(mk('span','pill','Blog')); bl.addEventListener('click',function(){ tocar('blog'); sheetAt('blog'); });
+  var bl=surf('button',WIDE?rq(120,396,290,444):rq(64,632,200,692),'hot blogpill',0.15); bl.type='button'; bl.setAttribute('aria-label','Ver el blog'); bl.appendChild(mk('span','pill','Blog')); bl.addEventListener('click',function(){ tocar('blog'); sheetAt('blog'); });
   return getJSON('contenido/blog.json').then(function(d){
     var arts=(d&&d.articulos)||[];
-    [rq(10,438,88,549),rq(97,437,175,549)].forEach(function(q,i){
+    (WIDE?[rq(63,213,149,334),rq(160,212,247,334)]:[rq(10,438,88,549),rq(97,437,175,549)]).forEach(function(q,i){
       var a=arts[i]; if(!a) return;
       var b=surf('button',q,'sheet',0.2+0.15*i); b.type='button'; b.setAttribute('aria-label','Leer artículo: '+a.titulo);
       b.appendChild(mk('span','st',a.titulo)); b.addEventListener('click',function(){ tocar('articulo'); openPostFromRoom(i); });
@@ -1417,13 +1443,13 @@ function buildOficina(){
   }).catch(function(){});
 }
 function buildMostrador(){
-  var bd=surf('button',rq(127,207,437,672),'board',0); bd.type='button'; bd.setAttribute('aria-label','Ver las ofertas del taller');
+  var bd=surf('button',WIDE?rq(347,90,826,400):rq(127,207,437,672),'board',0); bd.type='button'; bd.setAttribute('aria-label','Ver las ofertas del taller');
   bd.appendChild(mk('span','bt','Ofertas'));
   bd.addEventListener('click',function(){ tocar('ofertas'); sheetAt('home','#banners'); });
   var redes=[['Instagram','ig',INSTAGRAM&&'@'+INSTAGRAM,INSTAGRAM&&'https://www.instagram.com/'+encodeURIComponent(INSTAGRAM)+'/'],
              ['Facebook','fb',FACEBOOK,FACEBOOK&&'https://www.facebook.com/'+encodeURIComponent(FACEBOOK)],
              ['TikTok','tt',TIKTOK&&'@'+TIKTOK,TIKTOK&&'https://www.tiktok.com/@'+encodeURIComponent(TIKTOK)]];
-  var Q=[[[134,962],[258,962],[252,1140],[130,1144]], rq(301,960,421,1143), [[465,961],[583,961],[592,1144],[469,1145]]];
+  var Q=WIDE?[[[412,559],[523,559],[517,697],[401,695]],[[582,560],[692,560],[694,697],[578,696]],[[746,559],[855,560],[865,696],[750,697]]]:[[[134,962],[258,962],[252,1140],[130,1144]], rq(301,960,421,1143), [[465,961],[583,961],[592,1144],[469,1145]]];
   redes.forEach(function(r,i){
     var url=r[3], el=surf(url?'a':'button',Q[i],'plaque',0.2+0.12*i);
     if(url){ el.href=url; el.target='_blank'; el.rel='noopener noreferrer'; el.setAttribute('aria-label','Abrir '+r[0]+' ('+r[2]+')'); }
@@ -1464,11 +1490,11 @@ function enterRoom(id){
   loader.classList.remove('done'); loader.firstElementChild.style.width='55%';
   vR.addEventListener('playing',function(){ loader.classList.add('done'); },{once:true});
   vRR.pause(); vRR.classList.remove('show');
-  vR.onended=null; vR.src=HAB+id+'-entrada.mp4'; vR.loop=false;
+  vR.onended=null; vR.src=HAB+id+SUF+'-entrada.mp4'; vR.loop=false;
   try{ vR.currentTime=0; }catch(e){}
   var p; try{ p=vR.play(); }catch(e){}
   revealVid(vR,function(){ setTimeout(function(){ try{ vB.pause(); }catch(e){} },300);
-    vRR.preload='auto'; vRR.poster=HAB+id+'.webp'; vRR.src=HAB+id+'-reposo.mp4'; vRR.loop=true; vRR.load(); });
+    vRR.preload='auto'; vRR.poster=HAB+id+SUF+'.webp'; vRR.src=HAB+id+SUF+'-reposo.mp4'; vRR.loop=true; vRR.load(); });
   vR.onended=function(){ restRoom(id); };
   vR.onerror=function(){ restRoom(id); };
   if(p&&p.catch) p.catch(function(){ restRoom(id); });
@@ -1479,7 +1505,7 @@ function restRoom(id){
   if(roomId!==id||roomReady||roomLeaving) return;
   roomReady=true; clearTimeout(roomT); vR.onended=null; vR.onerror=null;
   loader.classList.add('done');
-  if(!vRR.src||vRR.src.indexOf(id+'-reposo')<0){ vRR.poster=HAB+id+'.webp'; vRR.src=HAB+id+'-reposo.mp4'; vRR.loop=true; }
+  if(!vRR.src||vRR.src.indexOf(id+SUF+'-reposo')<0){ vRR.poster=HAB+id+SUF+'.webp'; vRR.src=HAB+id+SUF+'-reposo.mp4'; vRR.loop=true; }
   var p; try{ vRR.currentTime=0; p=vRR.play(); }catch(e){}
   if(p&&p.catch) p.catch(function(){});
   revealVid(vRR,function(){ setTimeout(function(){ if(roomId===id&&!roomLeaving){ vR.classList.remove('show'); try{ vR.pause(); }catch(e){} } },320); });
@@ -1511,7 +1537,7 @@ function leaveRoom(){
   };
   if(caminando){ finish(); return; }   // se sale mientras camina: se vuelve al bucle de la sala sin clip de salida
   vR.onended=finish; vR.onerror=finish;
-  vR.src=HAB+id+'-salida.mp4'; vR.loop=false; try{ vR.currentTime=0; }catch(e){}
+  vR.src=HAB+id+SUF+'-salida.mp4'; vR.loop=false; try{ vR.currentTime=0; }catch(e){}
   var p; try{ p=vR.play(); }catch(e){}
   revealVid(vR,function(){ vRR.classList.remove('show'); try{ vRR.pause(); }catch(e){} });
   if(p&&p.catch) p.catch(finish);

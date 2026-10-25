@@ -140,9 +140,9 @@ for(const [w,h] of [[390,844],[360,740]]){
  await ctx.close();}
 
 // escritorio con marco de 430 px
-{const ctx=await br.newContext({viewport:{width:1280,height:800}});const p=await ctx.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
+{const ctx=await br.newContext({viewport:{width:800,height:900}});const p=await ctx.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
  await p.goto('http://localhost:8141/',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>__boyacos.phase==='loop',null,{timeout:40000});
- await p.mouse.click(640,520);await p.waitForFunction(()=>__boyacos.phase==='book',null,{timeout:40000});await p.waitForTimeout(900);
+ await p.mouse.click(400,540);await p.waitForFunction(()=>__boyacos.phase==='book',null,{timeout:40000});await p.waitForTimeout(900);
  await p.click('#bk-menu');await p.waitForTimeout(800);
  ok('escritorio: marco de 430 px con banners y tarjetas',await p.evaluate(()=>document.getElementById('app').clientWidth===430&&document.querySelectorAll('#banners .banner').length===3&&document.querySelectorAll('#v-home .card:not([data-room])').length===8));
  await shot(p,{path:out+'/escritorio-p2-inicio.png'});

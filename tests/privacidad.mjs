@@ -5,7 +5,7 @@ const srv=http.createServer((q,r)=>{let f=path.join(root,decodeURIComponent(q.ur
 const results=[];const ok=(n,c,d='')=>results.push([c?'PASS':'FAIL',n,d]);
 const shot=async(p,o)=>{for(let i=0;i<6;i++){try{await p.screenshot(o);return}catch(e){await new Promise(r=>setTimeout(r,600))}}};
 const br=await chromium.launch({channel:'msedge',args:['--autoplay-policy=no-user-gesture-required']});
-for(const [w,h,mobile] of [[390,844,true],[360,740,true],[1280,800,false]]){
+for(const [w,h,mobile] of [[390,844,true],[360,740,true],[800,900,false]]){
   const tag=mobile?w+'x'+h:'escritorio';
   const ctx=await br.newContext({viewport:{width:w,height:h},hasTouch:mobile,isMobile:mobile,deviceScaleFactor:mobile?2:1});
   await ctx.route(/google\.com\/maps/,r=>r.fulfill({status:200,contentType:'text/html',body:'<html></html>'}));
