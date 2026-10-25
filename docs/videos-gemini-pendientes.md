@@ -144,3 +144,9 @@ Hechos y sin descargar: **D1 FOTOS, D2 OFICINA, D3 MOSTRADOR** (1280×720, 10 s)
 - Prompt usado: "…first frame (same first-person POV standing a few steps behind the brown leather sofa…) Horizontal 16:9, 10 seconds… The viewer walks forward around the leather sofa and sits down on it, ending seated: hands on the knees at the bottom center, looking at the walnut coffee table with the open book, the coffee cup and the small silver model car… last 3 seconds the camera is perfectly still…".
 - Siguiente intento sugerido: reintentar unas veces más; si persiste, simplificar el prompt (quitar "sits down" y los objetos de la mesa) o usar como imagen de partida la D0 de Gemini en vez de la D0b de Meta.
 - Aviso técnico: la interfaz de Gemini cargó muy lenta durante esta sesión (el menú "+" salió vacío hasta esperar ~40 s tras recargar).
+
+### D-entrada 16x9 — GENERADO (25 oct 2026), sin descargar
+- `BOYACOS - D-entrada 16x9 - de pie a sentado (NO descargado)` · https://gemini.google.com/app/5797d439db57d795 · 10 s, 1280×720.
+- Se usó el **prompt completo** (sin simplificar) con la imagen D0b de Meta AI (2048×1152) pegada, más "ultra-sharp high-detail image quality, stable gimbal-smooth motion" al final. Salió al 4.º intento (1 error de capacidad y 2 "hard time fulfilling"; el último "Rehacer" funcionó tras recargar).
+- Revisado: parte de pie detrás del sofá, rodea el sofá y termina sentado con las manos sobre las rodillas, mesa con libro abierto, taza y carro plateado, puertas oscuras a izquierda y derecha, el taller al fondo y final quieto.
+- Estado de los 6 videos de escritorio: D1 ✔, D2 ✔, D3 ✔, **D-entrada ✔**; pendientes **D-loop sala** y **D-catálogo**.
