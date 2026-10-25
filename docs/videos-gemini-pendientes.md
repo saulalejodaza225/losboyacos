@@ -150,3 +150,10 @@ Hechos y sin descargar: **D1 FOTOS, D2 OFICINA, D3 MOSTRADOR** (1280×720, 10 s)
 - Se usó el **prompt completo** (sin simplificar) con la imagen D0b de Meta AI (2048×1152) pegada, más "ultra-sharp high-detail image quality, stable gimbal-smooth motion" al final. Salió al 4.º intento (1 error de capacidad y 2 "hard time fulfilling"; el último "Rehacer" funcionó tras recargar).
 - Revisado: parte de pie detrás del sofá, rodea el sofá y termina sentado con las manos sobre las rodillas, mesa con libro abierto, taza y carro plateado, puertas oscuras a izquierda y derecha, el taller al fondo y final quieto.
 - Estado de los 6 videos de escritorio: D1 ✔, D2 ✔, D3 ✔, **D-entrada ✔**; pendientes **D-loop sala** y **D-catálogo**.
+
+### D-loop SALA 16x9 — GENERADO (25 oct 2026), sin descargar
+- `BOYACOS - D-loop SALA 16x9 - reposo en bucle (NO descargado)` · https://gemini.google.com/app/20b72e53f25b3db7 · 10 s, 1280×720. **A la primera**.
+- Imagen de partida: la D0 de **Meta AI** (2048×1152) pegada por portapapeles. Prompt completo: reposo sentado casi inmóvil (respiración sutil, deriva de milímetros, manos casi quietas, hilo de vapor de la taza, destellos cálidos en los metales, brillo suave del taller al fondo) y "el último cuadro debe volver exactamente a la posición del primero". Calidad: "ultra-sharp high-detail image quality, stable motion".
+- Revisado: el primer y el último cuadro coinciden (manos, mesa con libro/taza/carro, puertas a ambos lados, taller al fondo); el bucle cierra sin salto visible. Al integrar, repetir con `loop` y, si hiciera falta, un fundido cruzado de 0,3 s.
+- Estado de los 6 videos de escritorio: D1 ✔, D2 ✔, D3 ✔, D-entrada ✔, **D-loop ✔**; pendiente solo **D-catálogo** (el libro).
+- Nota técnica: si el envío se cuelga y el URL no cambia a /app/<id>, recargar: el mensaje no se envió y queda como borrador; hay que reactivar "Crear vídeo" y volver a pegar la imagen.
