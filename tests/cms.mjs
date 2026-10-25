@@ -1,0 +1,44 @@
+// Pruebas del CMS: configuración, funciones de acceso con GitHub y coherencia con los JSON de contenido.
+import fs from 'fs';import path from 'path';import {createRequire} from 'module';
+const root=process.argv[2];const require=createRequire(import.meta.url);
+const results=[];const ok=(n,c,d='')=>results.push([c?'PASS':'FAIL',n,d]);
+const cfg=fs.readFileSync(path.join(root,'admin/config.yml'),'utf8');
+const adm=fs.readFileSync(path.join(root,'admin/index.html'),'utf8');
+ok('admin/index.html carga Decap con versión exacta (no "latest")',/decap-cms@3\.\d+\.\d+\/dist\/decap-cms\.js/.test(adm)&&!/decap-cms@(latest|3)\//.test(adm));
+ok('admin/index.html no se indexa (noindex)',/name="robots" content="noindex"/.test(adm));
+ok('config: backend github, repo y rama correctos',/name: github/.test(cfg)&&/repo: saulalejodaza225\/losboyacos/.test(cfg)&&/branch: main/.test(cfg));
+ok('config: auth_endpoint api/auth y media en assets/img',/auth_endpoint: api\/auth/.test(cfg)&&/media_folder: assets\/img/.test(cfg)&&/public_folder: assets\/img/.test(cfg));
+for(const f of ['banners','galeria','blog']) ok('config: edita contenido/'+f+'.json y ese archivo existe y es JSON válido',cfg.includes('file: contenido/'+f+'.json')&&!!JSON.parse(fs.readFileSync(path.join(root,'contenido',f+'.json'),'utf8')));
+// los campos del panel coinciden con los que lee la página
+const banners=JSON.parse(fs.readFileSync(path.join(root,'contenido/banners.json'),'utf8')).banners[0];
+const foto=JSON.parse(fs.readFileSync(path.join(root,'contenido/galeria.json'),'utf8')).fotos[0];
+const art=JSON.parse(fs.readFileSync(path.join(root,'contenido/blog.json'),'utf8')).articulos[0];
+ok('config: campos de banners (texto, etiqueta)',Object.keys(banners).every(k=>new RegExp('name: '+k+'\\b').test(cfg)));
+ok('config: campos de galería (src, alt, cat)',Object.keys(foto).every(k=>new RegExp('name: '+k+'\\b').test(cfg)));
+ok('config: campos del blog (titulo, fecha, extracto, cuerpo, imagen)',Object.keys(art).every(k=>new RegExp('name: '+k+'\\b').test(cfg)));
+ok('config: categorías de la galería coinciden con las del contenido (taller, trabajos)',/options: \[taller, trabajos\]/.test(cfg));
+// funciones api
+const auth=require(path.join(root,'api/auth.js')),cb=require(path.join(root,'api/callback.js'));
+const mkRes=()=>{const r={headers:{},statusCode:200,body:'',setHeader(k,v){this.headers[k]=v},end(b){this.body=b||''}};return r};
+delete process.env.GITHUB_CLIENT_ID;let r=mkRes();auth({headers:{host:'x.test'}},r);
+ok('auth: sin GITHUB_CLIENT_ID responde 500 con mensaje claro',r.statusCode===500&&/GITHUB_CLIENT_ID/.test(r.body));
+process.env.GITHUB_CLIENT_ID='cid123';r=mkRes();auth({headers:{host:'losboyacos.vercel.app','x-forwarded-proto':'https'}},r);
+const loc=new URL(r.headers.Location||'http://x');
+ok('auth: redirige a GitHub con client_id, scope repo y callback propio',r.statusCode===302&&loc.host==='github.com'&&loc.searchParams.get('client_id')==='cid123'&&loc.searchParams.get('scope')==='repo'&&loc.searchParams.get('redirect_uri')==='https://losboyacos.vercel.app/api/callback');
+const st=loc.searchParams.get('state');
+ok('auth: guarda el mismo state en una cookie HttpOnly Secure',!!st&&st.length>=16&&new RegExp('oauth_state='+st+'.*HttpOnly.*Secure').test(r.headers['Set-Cookie']||''));
+r=mkRes();await cb({url:'/api/callback?code=abc&state=otro',headers:{host:'losboyacos.vercel.app',cookie:'oauth_state='+st}},r);
+ok('callback: state distinto → 400 y no entrega token',r.statusCode===400&&!/"token"/.test(r.body));
+r=mkRes();await cb({url:'/api/callback',headers:{host:'losboyacos.vercel.app',cookie:''}},r);
+ok('callback: sin código → 400',r.statusCode===400);
+const realFetch=globalThis.fetch;
+globalThis.fetch=async()=>({json:async()=>({access_token:'tok_secreto'})});
+r=mkRes();await cb({url:'/api/callback?code=abc&state='+st,headers:{host:'losboyacos.vercel.app',cookie:'oauth_state='+st}},r);
+ok('callback: con state y código válidos → 200 y token para Decap (formato authorization:github:success)',r.statusCode===200&&/authorization:/.test(r.body)&&r.body.includes('tok_secreto')&&/success/.test(r.body));
+ok('callback: solo responde a ventanas del mismo sitio (comprueba el origen) y limpia la cookie',/e\.origin\.replace/.test(r.body)&&/oauth_state=;/.test(r.headers['Set-Cookie']||''));
+globalThis.fetch=async()=>({json:async()=>({error:'bad_verification_code',error_description:'El código expiró'})});
+r=mkRes();await cb({url:'/api/callback?code=abc&state='+st,headers:{host:'losboyacos.vercel.app',cookie:'oauth_state='+st}},r);
+ok('callback: GitHub rechaza el código → 401 sin token',r.statusCode===401&&!/tok_/.test(r.body)&&/error/.test(r.body));
+globalThis.fetch=realFetch;
+ok('README-CMS.md existe y cubre OAuth App, variables de Vercel y colaboradores',fs.existsSync(path.join(root,'README-CMS.md'))&&/GITHUB_CLIENT_SECRET/.test(fs.readFileSync(path.join(root,'README-CMS.md'),'utf8'))&&/Collaborators/.test(fs.readFileSync(path.join(root,'README-CMS.md'),'utf8')));
+for(const x of results)console.log(x.join(' | '));

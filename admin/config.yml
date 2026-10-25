@@ -1,0 +1,63 @@
+# Decap CMS · Los Boyacos. Guía: README-CMS.md
+backend:
+  name: github
+  repo: saulalejodaza225/losboyacos
+  branch: main
+  # Dirección del sitio que aloja las funciones api/auth y api/callback (acceso con GitHub).
+  # Si el dominio cambia a https://losboyacos.com, actualiza esta línea.
+  base_url: https://losboyacos.vercel.app
+  auth_endpoint: api/auth
+
+# Cada guardado en el panel crea un cambio en GitHub y Vercel publica solo.
+publish_mode: simple
+site_url: https://losboyacos.vercel.app
+locale: es
+
+media_folder: assets/img
+public_folder: assets/img
+
+collections:
+  - name: contenido
+    label: Contenido del sitio
+    files:
+      - name: banners
+        label: Banners de oferta (inicio del catálogo)
+        file: contenido/banners.json
+        fields:
+          - label: Banners
+            name: banners
+            widget: list
+            summary: "{{fields.etiqueta}} · {{fields.texto}}"
+            hint: "Se muestran en este orden. Para ocultar todos, deja la lista vacía."
+            fields:
+              - { label: Texto de la oferta, name: texto, widget: string, hint: "Corto y con precio. Ej.: Frenos completos desde $120.000" }
+              - { label: Etiqueta, name: etiqueta, widget: string, required: false, hint: "Ej.: Oferta, 20% off, Gratis" }
+
+      - name: galeria
+        label: Galería de fotos
+        file: contenido/galeria.json
+        fields:
+          - label: Fotos
+            name: fotos
+            widget: list
+            summary: "{{fields.cat}} · {{fields.alt}}"
+            hint: "Sube hasta 20 fotos reales del taller y de los trabajos."
+            fields:
+              - { label: Foto, name: src, widget: image, hint: "Formato JPG o WebP, menos de 400 KB si es posible." }
+              - { label: Descripción de la foto, name: alt, widget: string, hint: "Una frase que describa lo que se ve (ayuda a personas ciegas y a Google)." }
+              - { label: Categoría, name: cat, widget: select, options: [taller, trabajos], default: taller }
+
+      - name: blog
+        label: Blog
+        file: contenido/blog.json
+        fields:
+          - label: Artículos
+            name: articulos
+            widget: list
+            summary: "{{fields.fecha}} · {{fields.titulo}}"
+            fields:
+              - { label: Título, name: titulo, widget: string }
+              - { label: Fecha, name: fecha, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+              - { label: Extracto, name: extracto, widget: text, hint: "Resumen de 1 o 2 frases que se ve en la lista." }
+              - { label: Cuerpo, name: cuerpo, widget: text, hint: "Separa los párrafos con una línea en blanco." }
+              - { label: Imagen, name: imagen, widget: image, required: false }
