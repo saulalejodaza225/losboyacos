@@ -29,6 +29,9 @@ La función `track(nombre, parámetros)` los manda a GA4 (`gtag`), al Píxel de 
 | `abrir_contacto` | Abre el formulario de contacto |
 | `envio_formulario` | El formulario se envió correctamente |
 | `envio_formulario_error` | El envío falló y se ofreció WhatsApp |
+| `entrar_habitacion`, `salir_habitacion` | Entra o sale de una habitación (`habitacion`: fotos, oficina, mostrador) |
+| `habitacion_lista` | El video de la habitación terminó de caminar y ya se puede tocar |
+| `toque_habitacion` | Toca un objeto de la habitación (`zona`: foto, ver_todas, mapa, blog, articulo, ofertas, red_…) |
 | `whatsapp`, `llamar`, `como_llegar` | Pulsa esos botones (`origen` indica desde dónde y `tema` el servicio) |
 
 ## Privacidad

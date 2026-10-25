@@ -22,7 +22,7 @@ for(const [w,h] of [[390,844],[360,740]]){
   const bn=await p.$$eval('#banners .banner',b=>b.map(x=>[x.querySelector('.b-txt').textContent,x.querySelector('.b-tag').textContent]));
   ok(tag+' 3 banners desde banners.json con su etiqueta',bn.length===3&&bn[0][1]==='Oferta'&&bn[1][1]==='20% off'&&bn[2][1]==='Gratis',JSON.stringify(bn.map(x=>x[1])));
   ok(tag+' banners encima de las tarjetas',await p.evaluate(()=>{const b=document.getElementById('banners').getBoundingClientRect(),c=document.querySelector('#v-home .cards').getBoundingClientRect();return b.bottom<=c.top+1}));
-  const ord=await p.$$eval('#v-home .card',c=>c.map(x=>x.dataset.go));
+  const ord=await p.$$eval('#v-home .card:not([data-room])',c=>c.map(x=>x.dataset.go));
   ok(tag+' 8 tarjetas: las 4 nuevas debajo de las existentes',ord.join()==='servicios,repuestos,vehiculos,ayuda,galeria,blog,redes,contacto',ord.join());
   const est=await p.evaluate(()=>{const b=document.querySelector('.banner');const cs=getComputedStyle(b);return [cs.backgroundColor,cs.borderLeftColor,cs.borderLeftWidth]});
   ok(tag+' estilo del banner (#1A1614, línea roja 3 px)',est[0]==='rgb(26, 22, 20)'&&est[1]==='rgb(200, 40, 30)'&&est[2]==='3px',est.join(' | '));
@@ -144,7 +144,7 @@ for(const [w,h] of [[390,844],[360,740]]){
  await p.goto('http://localhost:8141/',{waitUntil:'domcontentloaded'});await p.waitForFunction(()=>__boyacos.phase==='loop',null,{timeout:40000});
  await p.mouse.click(640,520);await p.waitForFunction(()=>__boyacos.phase==='book',null,{timeout:40000});await p.waitForTimeout(900);
  await p.click('#bk-menu');await p.waitForTimeout(800);
- ok('escritorio: marco de 430 px con banners y tarjetas',await p.evaluate(()=>document.getElementById('app').clientWidth===430&&document.querySelectorAll('#banners .banner').length===3&&document.querySelectorAll('#v-home .card').length===8));
+ ok('escritorio: marco de 430 px con banners y tarjetas',await p.evaluate(()=>document.getElementById('app').clientWidth===430&&document.querySelectorAll('#banners .banner').length===3&&document.querySelectorAll('#v-home .card:not([data-room])').length===8));
  await shot(p,{path:out+'/escritorio-p2-inicio.png'});
  await p.click('[data-go=contacto]');await p.waitForTimeout(400);await shot(p,{path:out+'/escritorio-p2-contacto.png'});
  ok('escritorio: sin errores de consola',errs.length===0,errs.join('|'));await ctx.close();}

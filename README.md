@@ -8,12 +8,13 @@ Página de una sola pantalla, solo HTML + CSS + JS (sin frameworks), pensada par
 | `index.html` | Toda la experiencia (estilos y script incluidos) |
 | `privacidad.html` | Política de tratamiento de datos (Ley 1581 de 2012) |
 | `assets/` | Videos (`clip1-entrada`, `clip2-loop`, `clip3a/b/c`), `poster.webp`, `og.jpg` y `img/` (imágenes de ejemplo) |
+| `assets/habitaciones/` | Las 3 habitaciones móviles (fotos, oficina, mostrador): por cada una `-entrada`, `-reposo`, `-salida` (mp4 720×1280) y un póster `.webp` |
 | `contenido/` | `banners.json`, `galeria.json`, `blog.json`: contenido editable (también desde el CMS) |
 | `admin/`, `api/` | Panel de contenido (Decap CMS) y su acceso con GitHub. Guía: `README-CMS.md`; plantillas reutilizables en `docs/cms/` (una para Claude y otra para el cliente) |
 | `robots.txt`, `sitemap.xml` | SEO (apuntan al dominio final losboyacos.com) |
 | `docs/` | `analitica.md` (cómo activar GA4/Hotjar/Meta) y `videos-gemini-pendientes.md` (registro de videos e imágenes generados con IA, pendientes de descargar) |
 | `tests/` | Pruebas con Playwright (ver abajo) |
-| `tools/` | Utilidades de video usadas en la producción (seguimiento de hojas, texto sobre el libro) |
+| `tools/` | Utilidades de video usadas en la producción (seguimiento de hojas, texto sobre el libro) y `procesar-habitaciones.sh` (recorta los videos de Gemini y genera entrada/reposo/salida/póster con ffmpeg) |
 
 ## Pruebas
 Necesitan Playwright con Microsoft Edge. Cada archivo recibe la carpeta del proyecto como argumento: `node tests/<archivo>.mjs <ruta-del-proyecto>`. Las capturas quedan en `shots/` (no se versiona).
@@ -28,6 +29,7 @@ Necesitan Playwright con Microsoft Edge. Cada archivo recibe la carpeta del proy
 | `cms.mjs` | Configuración del CMS y funciones de acceso |
 | `seo.mjs` | Canonical, og:url, JSON-LD, robots.txt y sitemap.xml (no necesita navegador) |
 | `accesibilidad.mjs` | Auditoría axe-core (WCAG 2.1 A/AA) en 9 pantallas y alternativa sin JavaScript. Requiere `npm i axe-core` junto a Playwright |
+| `habitaciones.mjs` | Las 3 habitaciones: acceso, alineación de fotos/mapa/placas/pizarra, hojas, lightbox y regreso a la sala |
 | `clic-fantasma.mjs`, `clips-lentos.mjs` | Casos límite de toque y de conexión lenta |
 
 ## Pendiente (lo entrega el cliente)

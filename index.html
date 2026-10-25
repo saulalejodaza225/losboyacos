@@ -157,6 +157,55 @@ a{color:inherit;text-decoration:none}
 #shade{position:absolute;inset:0;z-index:3;pointer-events:none;
   background:linear-gradient(to bottom,rgba(14,12,11,.78) 0,rgba(14,12,11,.35) 30%,rgba(14,12,11,0) 48%,rgba(14,12,11,0) 78%,rgba(14,12,11,.45) 100%)}
 
+/* habitaciones: el video es el escenario; el contenido real (fotos, mapa, blog, ofertas, redes) lo pone la página encima */
+#vR,#vRR{z-index:2;opacity:0;transition:opacity .3s linear}
+#vR.show,#vRR.show{opacity:1}
+#shade{transition:opacity .4s ease}
+#app[data-phase="room"] #shade{opacity:0}
+#rooms-nav{position:absolute;z-index:5;left:0;right:0;top:calc(var(--sat) + 9% + 122px);display:flex;justify-content:center;gap:8px;padding:0 12px;opacity:0;pointer-events:none;transition:opacity .6s ease .2s}
+#app[data-phase="loop"] #invite.on~#rooms-nav{opacity:1;pointer-events:auto}
+.rchip{min-height:44px;padding:0 15px 0 12px;border-radius:999px;border:1px solid var(--text-2);background:rgba(14,12,11,.62);font-size:14px;letter-spacing:.05em;display:inline-flex;align-items:center;gap:7px}
+.rchip svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.rchip:focus-visible{outline:2px solid #C8281E;outline-offset:2px}
+.sec-t{margin:4px 0 10px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-2)}
+#room{position:absolute;inset:0;z-index:7;pointer-events:none;opacity:0;visibility:hidden;transition:opacity .35s,visibility 0s linear .35s}
+#app[data-phase="room"] #room.on{opacity:1;visibility:visible;transition-delay:0s}
+.r-top{pointer-events:auto;position:absolute;left:0;right:0;top:0;display:flex;align-items:center;gap:10px;padding:calc(var(--sat) + 8px) calc(10px + var(--sar)) 0 calc(10px + var(--sal))}
+.r-top .rb{min-height:44px;padding:0 14px 0 10px;border-radius:999px;background:rgba(14,12,11,.62);border:1px solid var(--border);display:inline-flex;align-items:center;gap:6px;font-size:14px}
+.r-top .rb svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.r-top .rb:focus-visible,.r-wa:focus-visible,#r-pill:focus-visible{outline:2px solid #C8281E;outline-offset:2px}
+.r-tt{flex:1;min-width:0;display:flex;flex-direction:column;text-shadow:0 1px 10px #000}
+.r-tt b{font-family:var(--font-title);font-weight:700;font-size:22px;letter-spacing:.1em;text-transform:uppercase;line-height:1.05}
+.r-tt span{font-size:12px;opacity:.9;letter-spacing:.03em}
+.r-wa{width:44px;height:44px;border-radius:50%;background:var(--wa);color:#06260f;display:grid;place-items:center;box-shadow:0 4px 14px rgba(0,0,0,.5)}
+.r-wa svg{width:24px;height:24px;fill:currentColor}
+#r-pill{pointer-events:auto;position:absolute;left:50%;bottom:calc(22px + var(--sab));transform:translateX(-50%);min-height:44px;padding:0 20px;border-radius:999px;background:rgba(14,12,11,.74);border:1px solid var(--text);font-size:14px;letter-spacing:.05em;white-space:nowrap;opacity:0;transition:opacity .5s ease .5s}
+#r-pill[hidden]{display:none}
+#room.ready #r-pill{opacity:1}
+#room:not(.ready) #r-pill{pointer-events:none}
+#rstage{position:absolute;left:0;top:0;width:720px;height:1280px;transform-origin:0 0;pointer-events:none}
+.rs{position:absolute;left:0;top:0;transform-origin:0 0;display:block;margin:0;padding:0;border:0;background:none;color:inherit;overflow:hidden;cursor:pointer;opacity:0;transition:opacity .5s ease var(--d,0s)}
+#rstage.ready .rs{opacity:1;pointer-events:auto}
+.rs:focus-visible{outline:5px solid #fff;outline-offset:2px;border-radius:4px}
+.rs.photo img{width:100%;height:100%;object-fit:cover;display:block;box-shadow:inset 0 0 14px rgba(0,0,0,.5)}
+.rs .pill{position:absolute;background:rgba(14,12,11,.82);color:#fff;border:2px solid #fff;border-radius:999px;padding:12px 26px;font:600 26px/1 var(--font-body);white-space:nowrap;letter-spacing:.03em}
+.rs.map .pill{left:50%;bottom:20px;transform:translateX(-50%)}
+.rs.phone .pill{right:12px;top:50%;transform:translateY(-50%)}
+.rs.blogpill .pill{left:50%;top:50%;transform:translate(-50%,-50%)}
+.rs.board{background:radial-gradient(120% 90% at 40% 25%,#242726 0,#171918 72%);color:#efe9df;padding:20px 22px;text-align:left;font-family:var(--font-title);box-shadow:inset 0 0 34px rgba(0,0,0,.65)}
+.rs.board .bt{display:block;font-size:46px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-align:center;border-bottom:3px solid #efe9df;padding-bottom:6px;margin-bottom:16px;text-shadow:0 0 2px rgba(239,233,223,.5)}
+.rs.board ul{list-style:none;display:grid;gap:18px}
+.rs.board li{font-size:29px;font-weight:600;line-height:1.1;letter-spacing:.03em;text-shadow:0 0 2px rgba(239,233,223,.35)}
+.rs.board li small{display:block;font-size:19px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#ff8a7e;margin-bottom:3px}
+.rs.board .bm{display:block;margin-top:18px;font-size:22px;letter-spacing:.12em;text-transform:uppercase;text-align:center;color:#c9c0b5;text-decoration:underline;text-underline-offset:5px}
+.rs.sheet{background:linear-gradient(#f7f3ea,#e8e2d4);color:#2b2420;padding:8px;text-align:left;box-shadow:0 2px 6px rgba(0,0,0,.35)}
+.rs.sheet .st{display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden;font:700 15px/1.15 var(--font-body)}
+.rs.plaque{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#2b2420;text-align:center}
+.rs.plaque svg{width:60px;height:60px;stroke:#2b2420;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.rs.plaque .pn{font:700 24px/1.1 var(--font-title);text-transform:uppercase;letter-spacing:.06em}
+.rs.plaque .ps{font:600 17px/1.1 var(--font-body);color:#6b5f56}
+@media (prefers-reduced-motion:reduce){ .rs,#r-pill,#room{transition:none} }
+
 /* cargador */
 #loader{position:absolute;left:0;right:0;bottom:0;height:2px;z-index:9;background:transparent;transition:opacity .3s}
 #loader i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s ease-out}
@@ -359,6 +408,8 @@ a{color:inherit;text-decoration:none}
   <video id="vD" class="layer" muted playsinline webkit-playsinline preload="auto" data-src="assets/clip3b-pagina.mp4" aria-hidden="true" tabindex="-1"></video>
   <video id="vE" class="layer" muted playsinline webkit-playsinline preload="auto" data-src="assets/clip3c-atras.mp4" aria-hidden="true" tabindex="-1"></video>
   <img id="hold" class="layer" alt="" aria-hidden="true" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+  <video id="vR" class="layer" muted playsinline webkit-playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+  <video id="vRR" class="layer" muted loop playsinline webkit-playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
   <div id="shade"></div>
 
   <div id="invite">
@@ -366,6 +417,11 @@ a{color:inherit;text-decoration:none}
     <i class="rule"></i>
     <p>Servicio automotriz · Suba</p>
   </div>
+  <nav id="rooms-nav" aria-label="Habitaciones del taller">
+    <button class="rchip" type="button" data-room="fotos"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="M21 16l-5-5-8 8"/></svg>Fotos</button>
+    <button class="rchip" type="button" data-room="oficina"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.500C19 14.800 12 21 12 21z"/><circle cx="12" cy="9.500" r="2.500"/></svg>Oficina</button>
+    <button class="rchip" type="button" data-room="mostrador"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="11" rx="1.500"/><path d="M2 20h20M8 15v5M16 15v5"/></svg>Mostrador</button>
+  </nav>
   <div id="pulse" aria-hidden="true"></div>
   <p id="hint">Toca el catálogo para abrirlo</p>
   <div class="fabs">
@@ -375,6 +431,15 @@ a{color:inherit;text-decoration:none}
     <a class="fab wa" id="fab-wa" data-wa data-ev="whatsapp" data-src="flotante" aria-label="Escribir por WhatsApp" href="https://wa.me/573144852891">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14c-.2.6-1.300 1.200-1.800 1.200-.5.100-1 .2-3.300-.7-2.800-1.100-4.600-4-4.700-4.200-.1-.2-1.100-1.500-1.100-2.800s.7-2 1-2.300c.2-.3.500-.3.700-.3h.5c.2 0 .4 0 .6.500l.8 2c.1.200.1.300 0 .5l-.4.600-.4.400c-.1.200-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.200 1 2.100 1.300 2.400 1.500.3.100.5.100.6-.1l.9-1c.2-.3.400-.2.600-.1l2 1c.3.100.5.200.5.300.1.200.1.800-.1 1.300z"/></svg>
     </a>
+  </div>
+  <div id="room" inert>
+    <div class="r-top">
+      <button class="rb" id="r-back" type="button" aria-label="Volver a la sala"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>Sala</button>
+      <div class="r-tt"><b id="r-title"></b><span id="r-hint"></span></div>
+      <a class="r-wa" data-wa data-ev="whatsapp" data-src="habitacion" aria-label="Escribir por WhatsApp" href="https://wa.me/573144852891"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.2 14c-.2.6-1.300 1.200-1.800 1.200-.5.100-1 .2-3.300-.7-2.800-1.100-4.600-4-4.700-4.200-.1-.2-1.100-1.500-1.100-2.800s.7-2 1-2.300c.2-.3.500-.3.700-.3h.5c.2 0 .4 0 .6.500l.8 2c.1.200.1.300 0 .5l-.4.600-.4.400c-.1.200-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.200 1 2.100 1.300 2.400 1.500.3.100.5.100.6-.1l.9-1c.2-.3.400-.2.600-.1l2 1c.3.100.5.200.5.300.1.200.1.800-.1 1.300z"/></svg></a>
+    </div>
+    <div id="rstage"></div>
+    <button id="r-pill" type="button" hidden></button>
   </div>
   <button id="enter" type="button" hidden>Toca para entrar</button>
   <div id="loader" role="progressbar" aria-label="Cargando" aria-valuemin="0" aria-valuemax="100"><i></i></div>
@@ -458,6 +523,23 @@ a{color:inherit;text-decoration:none}
         </div>
         <ul class="banners" id="banners" aria-label="Ofertas del taller" hidden></ul>
         <div class="cards">
+          <p class="sec-t">Recorre el taller</p>
+          <button class="card" type="button" data-room="fotos">
+            <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.500"/><path d="M21 16l-5-5-8 8"/></svg></span>
+            <span class="tx"><b>Sala de fotos</b><small>Camina hasta la pared de fotos</small></span>
+            <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+          <button class="card" type="button" data-room="oficina">
+            <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.500C19 14.800 12 21 12 21z"/><circle cx="12" cy="9.500" r="2.500"/></svg></span>
+            <span class="tx"><b>Oficina</b><small>Mapa, tablón del blog y teléfono</small></span>
+            <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+          <button class="card" type="button" data-room="mostrador">
+            <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="11" rx="1.500"/><path d="M2 20h20M8 15v5M16 15v5"/></svg></span>
+            <span class="tx"><b>Mostrador</b><small>Ofertas del día y redes</small></span>
+            <svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+          <p class="sec-t">Servicios y más</p>
           <button class="card" type="button" data-go="servicios">
             <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5 5L4 17l3 3 5.7-5.7a4 4 0 0 0 5-5l-2.5 2.5-2.2-.5-.5-2.2z"/></svg></span>
             <span class="tx"><b>Servicios</b><small>Frenos, suspensión, motor, dirección y más</small></span>
@@ -1155,7 +1237,7 @@ function closeSheet(){
     setPhase('book'); current='book'; refreshLinks();
     var el=$('.pg.on'); if(el) try{ el.focus({preventScroll:true}); }catch(e){}
   } else {
-    setPhase(loopStarted||staticMode?'loop':'intro');
+    setPhase(roomId?'room':(loopStarted||staticMode?'loop':'intro'));
     if(phase==='loop') showInvite(true);
     if(lastFocus&&lastFocus.focus) try{lastFocus.focus({preventScroll:true})}catch(e){}
   }
@@ -1283,10 +1365,175 @@ app.tabIndex=0; app.setAttribute('aria-label','Los Boyacos. Toca para abrir el c
 app.style.outline='none';
 app.addEventListener('focus',function(){ app.style.outline=''; });
 
-placePages(); layoutStage();
+/* ---------- habitaciones: Fotos, Oficina y Mostrador ----------
+   Cada habitación son 3 clips: entrada (camina), reposo (vaivén sin salto) y salida (la entrada al revés).
+   Sobre el reposo la página dibuja el contenido real de contenido/*.json en las superficies del video. */
+var vR=$('#vR'), vRR=$('#vRR'), roomEl=$('#room'), rstage=$('#rstage'), rTitle=$('#r-title'), rHint=$('#r-hint'), rBack=$('#r-back'), rPill=$('#r-pill');
+var roomId=null, roomReady=false, roomLeaving=false, roomBuilt=null, roomT=0;
+var HAB='assets/habitaciones/';
+var ROOMS={
+  fotos:    {titulo:'Fotos',    pista:'Toca una foto para verla grande',       pill:'Ver todas las fotos'},
+  oficina:  {titulo:'Oficina',  pista:'Toca el mapa, el tablón o el teléfono'},
+  mostrador:{titulo:'Mostrador',pista:'Ofertas del día y nuestras redes'}
+};
+function rq(x0,y0,x1,y1){ return [[x0,y0],[x1,y0],[x1,y1],[x0,y1]]; }
+function surf(tag,q,cls,delay){
+  var w=Math.round((dist(q[0],q[1])+dist(q[3],q[2]))/2), h=Math.round((dist(q[0],q[3])+dist(q[1],q[2]))/2);
+  var el=document.createElement(tag); el.className='rs '+(cls||''); el.style.width=w+'px'; el.style.height=h+'px'; el.style.transform=quadMatrix(q,w,h);
+  if(delay!=null) el.style.setProperty('--d',delay+'s');
+  rstage.appendChild(el); return el;
+}
+function layoutRoom(){ var W=app.clientWidth,H=app.clientHeight,s=Math.max(W/720,H/1280); rstage.style.transform='translate('+((W-720*s)/2)+'px,'+((H-1280*s)/2)+'px) scale('+s+')'; }
+window.addEventListener('resize',layoutRoom);
+function tocar(zona){ track('toque_habitacion',{habitacion:roomId,zona:zona}); }
+function sheetAt(view,sel){ openSheet(view); if(sel) setTimeout(function(){ var e=$(sel); if(e&&e.scrollIntoView) e.scrollIntoView({block:'start'}); },460); }
+function openPostFromRoom(i){ openSheet('blog'); var n=0; (function w(){ if(blogState===2){ openPost(i); } else if(n++<50) setTimeout(w,100); })(); }
+
+function buildFotos(){
+  return getJSON('contenido/galeria.json').then(function(d){
+    var fotos=((d&&d.fotos)||[]).filter(function(f){ return f&&f.src; }).slice(0,6);
+    var X=[[93,220],[296,424],[500,625]], Y=[[297,473],[548,723]];
+    fotos.forEach(function(f,i){
+      var c=i%3, r=(i/3)|0, b=surf('button',rq(X[c][0],Y[r][0],X[c][1],Y[r][1]),'photo',0.12*i);
+      b.type='button'; b.setAttribute('aria-label','Ampliar foto: '+(f.alt||('foto '+(i+1))));
+      var im=new Image(); im.src=f.src; im.alt=''; im.decoding='async'; b.appendChild(im);
+      b.addEventListener('click',function(){ tocar('foto'); openLightbox(f,b); });
+    });
+  }).catch(function(){});
+}
+function buildOficina(){
+  var mp=surf('button',rq(232,240,640,788),'hot map',0); mp.type='button'; mp.setAttribute('aria-label','Ver el mapa y cómo llegar');
+  mp.appendChild(mk('span','pill','Ver mapa')); mp.addEventListener('click',function(){ tocar('mapa'); sheetAt('home','#mapa'); });
+  var ph=surf('a',rq(40,1128,330,1275),'hot phone',0.1); ph.href='tel:'+TELEFONO; ph.setAttribute('data-call',''); ph.setAttribute('data-ev','llamar'); ph.setAttribute('data-src','oficina'); ph.setAttribute('aria-label','Llamar al taller');
+  ph.appendChild(mk('span','pill','Llamar'));
+  var bl=surf('button',rq(64,632,200,692),'hot blogpill',0.15); bl.type='button'; bl.setAttribute('aria-label','Ver el blog'); bl.appendChild(mk('span','pill','Blog')); bl.addEventListener('click',function(){ tocar('blog'); sheetAt('blog'); });
+  return getJSON('contenido/blog.json').then(function(d){
+    var arts=(d&&d.articulos)||[];
+    [rq(10,438,88,549),rq(97,437,175,549)].forEach(function(q,i){
+      var a=arts[i]; if(!a) return;
+      var b=surf('button',q,'sheet',0.2+0.15*i); b.type='button'; b.setAttribute('aria-label','Leer artículo: '+a.titulo);
+      b.appendChild(mk('span','st',a.titulo)); b.addEventListener('click',function(){ tocar('articulo'); openPostFromRoom(i); });
+    });
+  }).catch(function(){});
+}
+function buildMostrador(){
+  var bd=surf('button',rq(127,207,437,672),'board',0); bd.type='button'; bd.setAttribute('aria-label','Ver las ofertas del taller');
+  bd.appendChild(mk('span','bt','Ofertas'));
+  bd.addEventListener('click',function(){ tocar('ofertas'); sheetAt('home','#banners'); });
+  var redes=[['Instagram','ig',INSTAGRAM&&'@'+INSTAGRAM,INSTAGRAM&&'https://www.instagram.com/'+encodeURIComponent(INSTAGRAM)+'/'],
+             ['Facebook','fb',FACEBOOK,FACEBOOK&&'https://www.facebook.com/'+encodeURIComponent(FACEBOOK)],
+             ['TikTok','tt',TIKTOK&&'@'+TIKTOK,TIKTOK&&'https://www.tiktok.com/@'+encodeURIComponent(TIKTOK)]];
+  var Q=[[[134,962],[258,962],[252,1140],[130,1144]], rq(301,960,421,1143), [[465,961],[583,961],[592,1144],[469,1145]]];
+  redes.forEach(function(r,i){
+    var url=r[3], el=surf(url?'a':'button',Q[i],'plaque',0.2+0.12*i);
+    if(url){ el.href=url; el.target='_blank'; el.rel='noopener noreferrer'; el.setAttribute('aria-label','Abrir '+r[0]+' ('+r[2]+')'); }
+    else { el.type='button'; el.setAttribute('aria-label',r[0]+': próximamente. Ver nuestras redes'); }
+    el.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true">'+ICONOS[r[1]]+'</svg>';
+    el.appendChild(mk('span','pn',r[0])); el.appendChild(mk('span','ps',url?'Seguir':'Pronto'));
+    el.addEventListener('click',function(){ tocar('red_'+r[1]); if(!url) sheetAt('redes'); });
+  });
+  return getJSON('contenido/banners.json').then(function(d){
+    var list=((d&&d.banners)||[]).filter(function(b){ return b&&b.texto; }).slice(0,3), ul=mk('ul');
+    list.forEach(function(b){ var li=mk('li'); if(b.etiqueta) li.appendChild(mk('small',null,b.etiqueta)); li.appendChild(document.createTextNode(b.texto)); ul.appendChild(li); });
+    if(list.length) bd.appendChild(ul);
+    bd.appendChild(mk('span','bm','Ver todas'));
+  }).catch(function(){});
+}
+var BUILD={fotos:buildFotos,oficina:buildOficina,mostrador:buildMostrador};
+
+function revealVid(v,fn){
+  var done=false, go=function(){ if(done) return; done=true; v.classList.add('show'); if(fn) fn(); };
+  if('requestVideoFrameCallback' in v) v.requestVideoFrameCallback(go); else v.addEventListener('playing',go,{once:true});
+  setTimeout(go,600);
+}
+function enterRoom(id){
+  var R=ROOMS[id]; if(!R||roomId||phase!=='loop') return;
+  roomId=id; roomReady=false; roomLeaving=false; stampGesture();
+  track('entrar_habitacion',{habitacion:id});
+  try{ navigator.vibrate && navigator.vibrate(10); }catch(e){}
+  lastFocus=document.activeElement;
+  invite.classList.remove('on'); hint.classList.remove('on'); pulse.classList.remove('on');
+  setPhase('room'); app.dataset.room=id;
+  rstage.innerHTML=''; rstage.classList.remove('ready'); roomEl.classList.remove('ready');
+  rTitle.textContent=R.titulo; rHint.textContent=R.pista;
+  rPill.hidden=!R.pill; if(R.pill){ rPill.textContent=R.pill; }
+  roomEl.removeAttribute('inert'); roomEl.classList.add('on'); layoutRoom();
+  // el contenido se prepara mientras camina
+  roomBuilt=BUILD[id]();
+  // entrada: arranca ya, dentro del gesto del usuario (iOS no precarga)
+  loader.classList.remove('done'); loader.firstElementChild.style.width='55%';
+  vR.addEventListener('playing',function(){ loader.classList.add('done'); },{once:true});
+  vRR.pause(); vRR.classList.remove('show');
+  vR.onended=null; vR.src=HAB+id+'-entrada.mp4'; vR.loop=false;
+  try{ vR.currentTime=0; }catch(e){}
+  var p; try{ p=vR.play(); }catch(e){}
+  revealVid(vR,function(){ setTimeout(function(){ try{ vB.pause(); }catch(e){} },300);
+    vRR.preload='auto'; vRR.poster=HAB+id+'.webp'; vRR.src=HAB+id+'-reposo.mp4'; vRR.loop=true; vRR.load(); });
+  vR.onended=function(){ restRoom(id); };
+  vR.onerror=function(){ restRoom(id); };
+  if(p&&p.catch) p.catch(function(){ restRoom(id); });
+  clearTimeout(roomT);
+  roomT=setTimeout(function(){ if(!roomReady&&roomId===id&&(vR.paused||vR.currentTime<0.2)) restRoom(id); },12000);
+}
+function restRoom(id){
+  if(roomId!==id||roomReady||roomLeaving) return;
+  roomReady=true; clearTimeout(roomT); vR.onended=null; vR.onerror=null;
+  loader.classList.add('done');
+  if(!vRR.src||vRR.src.indexOf(id+'-reposo')<0){ vRR.poster=HAB+id+'.webp'; vRR.src=HAB+id+'-reposo.mp4'; vRR.loop=true; }
+  var p; try{ vRR.currentTime=0; p=vRR.play(); }catch(e){}
+  if(p&&p.catch) p.catch(function(){});
+  revealVid(vRR,function(){ setTimeout(function(){ if(roomId===id&&!roomLeaving){ vR.classList.remove('show'); try{ vR.pause(); }catch(e){} } },320); });
+  (roomBuilt||Promise.resolve()).then(function(){
+    if(roomId!==id||roomLeaving) return;
+    rstage.classList.add('ready'); roomEl.classList.add('ready');
+    track('habitacion_lista',{habitacion:id});
+    setTimeout(function(){ try{ rBack.focus({preventScroll:true}); }catch(e){} },80);
+  });
+}
+function skipRoom(){
+  if(phase!=='room'||roomReady||!vR.duration||vR.paused) return;
+  stampGesture(); try{ vR.currentTime=Math.max(0,vR.duration-0.05); }catch(e){}
+}
+function leaveRoom(){
+  if(!roomId||roomLeaving) return;
+  var id=roomId; roomLeaving=true; roomReady=false; clearTimeout(roomT);
+  track('salir_habitacion',{habitacion:id});
+  var caminando=!roomReady&&!vRR.classList.contains('show');
+  rstage.classList.remove('ready'); roomEl.classList.remove('ready','on'); roomEl.setAttribute('inert','');
+  var finish=function(){
+    if(roomId!==id) return;
+    try{ vB.play(); }catch(e){}
+    vR.classList.remove('show'); vRR.classList.remove('show');
+    setTimeout(function(){ try{ vR.pause(); vRR.pause(); }catch(e){} },350);
+    vR.onended=null; vR.onerror=null; roomId=null; roomLeaving=false; delete app.dataset.room;
+    setPhase('loop'); showInvite(true);
+    if(lastFocus&&lastFocus.focus) try{ lastFocus.focus({preventScroll:true}); }catch(e){}
+  };
+  if(caminando){ finish(); return; }   // se sale mientras camina: se vuelve al bucle de la sala sin clip de salida
+  vR.onended=finish; vR.onerror=finish;
+  vR.src=HAB+id+'-salida.mp4'; vR.loop=false; try{ vR.currentTime=0; }catch(e){}
+  var p; try{ p=vR.play(); }catch(e){}
+  revealVid(vR,function(){ vRR.classList.remove('show'); try{ vRR.pause(); }catch(e){} });
+  if(p&&p.catch) p.catch(finish);
+  setTimeout(function(){ if(roomLeaving&&roomId===id) finish(); },9000);   // red lenta: no atascar
+}
+function enterRoomFrom(b){
+  var id=b.dataset.room;
+  if(b.closest('#sheet')){
+    if(bookActive) closeBook(); else if(phase==='open') closeSheet();
+    setTimeout(function(){ enterRoom(id); },80);
+  } else enterRoom(id);
+}
+$$('[data-room]').forEach(function(b){ b.addEventListener('click',function(){ enterRoomFrom(b); }); });
+rBack.addEventListener('click',leaveRoom);
+rPill.addEventListener('click',function(){ tocar('ver_todas'); sheetAt('galeria'); });
+app.addEventListener('pointerup',function(e){ if(phase==='room'&&!roomReady&&!e.target.closest('button,a')) skipRoom(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&phase==='room'&&lb.hidden) leaveRoom(); });
+
+placePages(); layoutStage(); layoutRoom();
 refreshLinks();
 boot();
-window.__boyacos={get phase(){return phase},open:openCatalog,close:closeBook,get page(){return pg}};
+window.__boyacos={get phase(){return phase},open:openCatalog,close:closeBook,get page(){return pg},room:enterRoom,leave:leaveRoom,get roomId(){return roomId},get roomReady(){return roomReady}};
 })();
 </script>
 </body>
