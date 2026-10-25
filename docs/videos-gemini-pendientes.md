@@ -187,7 +187,7 @@ Carpeta: `C:\Users\COMPUMAX\Desktop\Modelos de páginas web\Videos\Mecanic walk 
 | `D-CATALOGO-16x9-video1.mp4` | 1280×720 (el bueno; "Otro" repetido en la 2.ª doble) | 654bb33ab335de19 |
 | `D-CATALOGO-16x9-video2-alternativo.mp4` | 1280×720 (peor; "OYD" en vez de "BYD") | 654bb33ab335de19 |
 
-- Las conversaciones de Gemini conservan el sufijo "(NO descargado)" en su título; ya no es cierto, el archivo está en la carpeta de arriba.
+- Las conversaciones de Gemini ya se renombraron con el sufijo "(DESCARGADO)" (25 oct 2026).
 - **Método de descarga que funcionó:** abrir la conversación en una pestaña NUEVA (Chrome solo permite una descarga automática por pestaña), esperar a que cargue (~40 s), y desde la página hacer `fetch(video.currentSrc,{credentials:'include'})` → blob → enlace `<a download="NOMBRE.mp4">`. Llegan a `~/Downloads` y se mueven a la carpeta destino. Un receptor local en `127.0.0.1` NO sirve: Gemini bloquea esa conexión.
 - No están descargados: las imágenes D0 y D0b (siguen en Meta AI/Gemini) ni los videos de sesiones anteriores ya usados en producción (`clip1-entrada`, `clip2-loop`, `clip3a/b/c`, ya en `assets/`).
 - Siguiente fase: recodificar con ffmpeg (crf 18–20, sin audio, 24 fps), cortar entrada/reposo, medir esquinas de superficies, integrar habitaciones con contenido de la página encima, tapar "MENU" (M3) y el "Otro" repetido (catálogo).
