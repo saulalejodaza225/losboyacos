@@ -9,7 +9,7 @@ Página de una sola pantalla, solo HTML + CSS + JS (sin frameworks), pensada par
 | `privacidad.html` | Política de tratamiento de datos (Ley 1581 de 2012) |
 | `assets/` | Videos (`clip1-entrada`, `clip2-loop`, `clip3a/b/c`), `poster.webp`, `og.jpg` y `img/` (imágenes de ejemplo) |
 | `assets/habitaciones/` | Las 3 habitaciones móviles (fotos, oficina, mostrador): por cada una `-entrada`, `-reposo`, `-salida` (mp4 720×1280) y un póster `.webp` |
-| `assets/escritorio/` | Sala para pantallas anchas (16:9, ≥900 px): `entrada.mp4`, `loop.mp4` y `poster.webp`. Las habitaciones de escritorio son `assets/habitaciones/<id>-16x9-*.mp4` y `<id>-16x9.webp`. En escritorio la hoja sale como panel a la derecha y el catálogo en video aún no existe (toque en la sala → panel con tarjetas) |
+| `assets/escritorio/` | Sala para pantallas anchas (16:9, ≥900 px): `entrada.mp4`, `loop.mp4` y `poster.webp`. Las habitaciones de escritorio son `assets/habitaciones/<id>-16x9-*.mp4` y `<id>-16x9.webp`. También `cat-abre`, `cat-pasa`, `cat-atras` (catálogo en video 16:9) y `cat-parche.webp`. En escritorio el texto de las hojas viene dentro del video (las hojas HTML son solo zonas táctiles invisibles), el detalle sale como panel a la derecha y `cat-parche.webp` tapa el "Otro" repetido de la 2.ª doble. Si cambian las marcas del catálogo hay que regenerar el video |
 | `contenido/` | `banners.json`, `galeria.json`, `blog.json`: contenido editable (también desde el CMS) |
 | `admin/`, `api/` | Panel de contenido (Decap CMS) y su acceso con GitHub. Guía: `README-CMS.md`; plantillas reutilizables en `docs/cms/` (una para Claude y otra para el cliente) |
 | `robots.txt`, `sitemap.xml` | SEO (apuntan al dominio final losboyacos.com) |

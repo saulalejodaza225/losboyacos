@@ -23,4 +23,12 @@ for h in "fotos|D1-FOTOS-16x9.mp4|8.6" "oficina|D2-OFICINA-16x9.mp4|8.4" "mostra
     "[0:v]setpts=PTS-STARTPTS,split[a][b];[b]reverse[r];[a][r]concat=n=2:v=1:a=0[v]" -map "[v]" "${ENC[@]}" "$HAB/$id-16x9-reposo.mp4"
   ffmpeg -v error -y -ss 9.6 -i "$in" -frames:v 1 -c:v libwebp -quality 82 "$HAB/$id-16x9.webp"
 done
-ls -la "$ESC" "$HAB"
+
+
+# catálogo: abre (0–4.2 s, termina en la 1.ª doble), pasa (4.2–7.2 s, termina en la 2.ª doble) y atrás (pasa al revés)
+echo "== catálogo"
+CAT="$SRC/D-CATALOGO-16x9-video1.mp4"
+ffmpeg -v error -y -i "$CAT" -t 4.2 "${ENC[@]}" "$ESC/cat-abre.mp4"
+ffmpeg -v error -y -ss 4.2 -i "$CAT" -t 3.0 "${ENC[@]}" "$ESC/cat-pasa.mp4"
+ffmpeg -v error -y -i "$ESC/cat-pasa.mp4" -vf reverse "${ENC[@]}" "$ESC/cat-atras.mp4"
+ls -la "$ESC"

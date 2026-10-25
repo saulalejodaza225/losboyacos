@@ -229,6 +229,11 @@ a{color:inherit;text-decoration:none}
 .wide .rs.plaque{gap:5px}
 .wide .rs.plaque svg{width:40px;height:40px}
 .wide .rs.plaque .pn{font-size:16px}.wide .rs.plaque .ps{font-size:13px}
+.wide .pg{background:none;box-shadow:none;border-radius:0;-webkit-mask-image:none;mask-image:none}
+.wide .pg>*{visibility:hidden}
+.wide .parche{display:none;position:absolute;left:452px;top:495px;width:48px;height:23px;background:url(assets/escritorio/cat-parche.webp)}
+.wide #stage.p2 .parche{display:block}
+.wide .bk-bottom{left:50%;right:auto;width:min(520px,92vw);transform:translateX(-50%)}
 /* cargador */
 #loader{position:absolute;left:0;right:0;bottom:0;height:2px;z-index:9;background:transparent;transition:opacity .3s}
 #loader i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s ease-out}
@@ -430,7 +435,7 @@ a{color:inherit;text-decoration:none}
   <video id="vC" class="layer" muted playsinline webkit-playsinline preload="auto" data-src="assets/clip3a-agarra.mp4" aria-hidden="true" tabindex="-1"></video>
   <video id="vD" class="layer" muted playsinline webkit-playsinline preload="auto" data-src="assets/clip3b-pagina.mp4" aria-hidden="true" tabindex="-1"></video>
   <video id="vE" class="layer" muted playsinline webkit-playsinline preload="auto" data-src="assets/clip3c-atras.mp4" aria-hidden="true" tabindex="-1"></video>
-  <script>if(document.documentElement.classList.contains('wide')){var _q=function(i){return document.getElementById(i)};_q('poster').src='assets/escritorio/poster.webp';_q('vA').poster=_q('vB').poster='assets/escritorio/poster.webp';_q('vA').dataset.src='assets/escritorio/entrada.mp4';_q('vB').dataset.src='assets/escritorio/loop.mp4';['vC','vD','vE'].forEach(function(i){_q(i).removeAttribute('data-src')})}</script>
+  <script>if(document.documentElement.classList.contains('wide')){var _q=function(i){return document.getElementById(i)};_q('poster').src='assets/escritorio/poster.webp';_q('vA').poster=_q('vB').poster='assets/escritorio/poster.webp';_q('vA').dataset.src='assets/escritorio/entrada.mp4';_q('vB').dataset.src='assets/escritorio/loop.mp4';_q('vC').dataset.src='assets/escritorio/cat-abre.mp4';_q('vD').dataset.src='assets/escritorio/cat-pasa.mp4';_q('vE').dataset.src='assets/escritorio/cat-atras.mp4'}</script>
   <img id="hold" class="layer" alt="" aria-hidden="true" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
   <video id="vR" class="layer" muted playsinline webkit-playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
   <video id="vRR" class="layer" muted loop playsinline webkit-playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
@@ -482,6 +487,7 @@ a{color:inherit;text-decoration:none}
     </div>
     <p class="bk-hint" id="bk-hint">Toca una hoja para abrirla</p>
     <div id="stage">
+      <i class="parche" aria-hidden="true"></i>
       <button class="pg" type="button" data-spread="1" data-view="servicios" aria-label="Servicios: ver todos">
         <h2>Servicios</h2><i class="rule"></i>
         <ul><li>Discos y pastillas</li><li>Suspensión</li><li>Mecánica general</li><li>Motor y dirección</li><li>Llantas y batería</li></ul>
@@ -1108,6 +1114,10 @@ var vD=$('#vD'), vE=$('#vE'), book=$('#book'), stage=$('#stage'), prevB=$('#prev
 var pg=1, bookActive=false, sheetFromBook=false, guardT=0, waitT=0, seqBusy=false;
 
 /* Esquinas de cada hoja en el cuadro del video (720×1280): TL, TR, BR, BL; i = recorte útil [u0,v0,u1,v1] */
+var SPREADS_W={
+  1:{L:{q:[[295,142],[630,142],[630,602],[268,600]],i:[0,0,1,1]},R:{q:[[637,142],[975,150],[998,602],[637,605]],i:[0,0,1,1]}},
+  2:{L:{q:[[290,142],[630,143],[632,605],[262,603]],i:[0,0,1,1]},R:{q:[[640,142],[990,148],[1003,605],[640,607]],i:[0,0,1,1]}}
+};
 var SPREADS={
   1:{L:{q:[[80,490],[354,488],[357,880],[68,878]],i:[.16,.13,.97,.88]},R:{q:[[360,488],[615,486],[655,872],[360,880]],i:[.05,.13,.84,.88]}},
   2:{L:{q:[[88,516],[354,512],[358,920],[50,920]],i:[.14,.07,.97,.82]},R:{q:[[360,512],[618,508],[668,912],[358,920]],i:[.05,.07,.84,.84]}}
@@ -1128,7 +1138,7 @@ function quadMatrix(p,w,h){       // rectángulo w×h → cuadrilátero p (homog
 }
 function placePages(){
   $$('.pg').forEach(function(el,idx){
-    var s=SPREADS[el.dataset.spread][idx%2===0?'L':'R'];
+    var s=(WIDE?SPREADS_W:SPREADS)[el.dataset.spread][idx%2===0?'L':'R'];
     var p=subQuad(s.q,s.i), w=300;
     var qw=(dist(p[0],p[1])+dist(p[3],p[2]))/2, qh=(dist(p[0],p[3])+dist(p[1],p[2]))/2;
     var h=Math.round(w*qh/qw);
@@ -1136,8 +1146,9 @@ function placePages(){
   });
 }
 function layoutStage(){      // mismo recorte "cover" que los videos
-  var W=app.clientWidth,H=app.clientHeight,s=Math.max(W/720,H/1280);
-  stage.style.transform='translate('+((W-720*s)/2)+'px,'+((H-1280*s)/2)+'px) scale('+s+')';
+  var W=app.clientWidth,H=app.clientHeight,s=Math.max(W/RW,H/RH);
+  stage.style.width=RW+'px'; stage.style.height=RH+'px';
+  stage.style.transform='translate('+((W-RW*s)/2)+'px,'+((H-RH*s)/2)+'px) scale('+s+')';
 }
 window.addEventListener('resize',layoutStage);
 
@@ -1200,7 +1211,7 @@ function setActivePage(n,silent){
   $$('.pg').forEach(function(el){ var on=+el.dataset.spread===n; el.classList.toggle('on',on); el.tabIndex=on?0:-1; el.setAttribute('aria-hidden',on?'false':'true'); });
   prevB.setAttribute('aria-disabled',n===1?'true':'false'); nextB.setAttribute('aria-disabled',n===2?'true':'false');
   prevB.tabIndex=n===1?-1:0; nextB.tabIndex=n===2?-1:0;
-  dots.textContent=n+' / 2';
+  dots.textContent=n+' / 2'; stage.classList.toggle('p2',n===2);
 }
 function enterPage(n){
   stack(n===1?vC:vD);
@@ -1312,7 +1323,7 @@ function startLoop(){
   if(phase!=='open') setPhase('loop');
   showInvite(false);
   // tramos del catálogo: se precargan en cadena cuando ya corre el loop
-  var chain=WIDE?[]:[vC,vD,vE];
+  var chain=[vC,vD,vE];
   (function next(i){ if(i>=chain.length) return; var v=chain[i]; if(v.src) return next(i+1); v.src=v.dataset.src; v.load(); var done=false,fn=function(){ if(done) return; done=true; next(i+1); }; v.addEventListener('canplaythrough',fn,{once:true}); setTimeout(fn,6000); })(0);
 }
 
