@@ -1,5 +1,7 @@
 # Cómo editar el contenido de Los Boyacos (CMS)
 
+> Guías **reutilizables** para otros proyectos: [`docs/cms/GUIA-PARA-CLAUDE.md`](docs/cms/GUIA-PARA-CLAUDE.md) (para dárselas a Claude y que instale y verifique el CMS) y [`docs/cms/GUIA-PARA-CLIENTE.md`](docs/cms/GUIA-PARA-CLIENTE.md) (para enviar al cliente con los pasos exactos). Este archivo contiene los valores de Los Boyacos.
+
 El panel está en **`https://losboyacos.vercel.app/admin`** (cuando el dominio sea losboyacos.com, será `/admin` de ese dominio).
 Desde ahí el cliente cambia **banners de oferta**, **galería de fotos** y **blog** sin tocar código. Cada "Guardar" crea un cambio en GitHub y Vercel publica la página sola en 1 o 2 minutos.
 
