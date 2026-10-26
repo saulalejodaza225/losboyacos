@@ -34,3 +34,10 @@ Todos empiezan con: *"Use the attached image as the exact first frame (same firs
 
 ## Qué reemplazar cuando haya videos nuevos
 `assets/habitaciones/{fotos,oficina,mostrador}-{entrada,reposo,salida}.mp4` + `{fotos,oficina,mostrador}.webp` (móvil) y los mismos con `-16x9` (escritorio). Se generan con `tools/procesar-habitaciones.sh` y `tools/procesar-escritorio.sh` (poner el nombre del original y el segundo en que la cámara se detiene). Luego correr `tests/habitaciones.mjs` y `tests/escritorio.mjs`.
+
+## Resultado de la prueba en Higgsfield (26 oct 2026, madrugada) — modelo `wan3_0`, 9:16, 720p, 10 s, sin audio (17,5 créditos c/u)
+- Cuadros de partida con el vano visible (editados con `gpt_image_2_5` a partir de `start-bucle-9x16-sin-gente.png`): `docs/fotogramas/start-fotos-puerta-9x16.png` (puerta a la izquierda), `start-oficina-puerta-9x16.png` (puerta a la derecha), `start-mostrador-puerta-9x16.png` (puerta de vidrio abierta).
+- **Fotos:** `M1-FOTOS-v3-puerta-9x16.mp4` (carpeta Mecanic walk in). La puerta se ve desde el primer cuadro, la pared nunca cambia y la cámara la atraviesa. Defecto: la sala de fotos salió con pared **clara** (no de nogal oscuro) y marcos blancos.
+- **Oficina:** `M2-OFICINA-v3-puerta-9x16.mp4`. Puerta a la derecha desde el primer cuadro, misma paleta oscura, reposo final con panel vacío al centro, tablón de 3 hojas a la izquierda y escritorio con teléfono abajo. Sin cambios de pared. Es la mejor de las dos.
+- **Mostrador:** NO generado: Higgsfield respondió "daily generation limit for your grace period".
+- **Sin integrar todavía en la página.** Motivo: los cuadros de partida llevan una puerta que el bucle de la sala no tiene; si se integran tal cual, la puerta "aparece" en el fundido de 0,3 s, que es el mismo efecto que se quiere evitar. Solución pendiente: un cuadro maestro de la sala con las puertas (izquierda, vidrio y derecha), regenerar el bucle desde él y regenerar las 3 habitaciones partiendo de ese mismo cuadro.
