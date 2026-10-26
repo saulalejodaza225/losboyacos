@@ -13,7 +13,7 @@ Objetivo (decidido por el usuario el 26 oct 2026, estará fuera todo el día): g
 |---|---|---|
 | Oficina (inicio+fin) | Higgsfield `wan3_0` (acepta start_image y end_image; Gemini no tiene "fin") | pendiente |
 | Fotos | Gemini (Crear vídeo, Vertical 9:16, Pro) | HECHO e integrado 26 oct (conv. 15c6615d47921962, 4 intentos; archivo M1-FOTOS-v8-9x16.mp4) |
-| Mostrador | Gemini | 2 intentos descartados (van al taller); probar prompt 2b en chat NUEVO; cupo Gemini agotado otra vez ~16:35 (Crear vídeo atenuado) |
+| Mostrador | Gemini | 2 intentos descartados (van al taller); probar prompt 2b en chat NUEVO; cupo Gemini agotado, vuelve el 26 oct a las 20:26 |
 | Catálogo vertical | Gemini | pendiente |
 
 ## Dónde guardar
@@ -50,3 +50,4 @@ Cuadros cada ~1 s: debe empezar en el maestro, SIN personas (ni de espaldas), pu
 - 26 oct 15:56: cupo Gemini reabierto; Rehacer en conv. 1ba2a8c836c7bcef lanzó 'Generating the video' (Mostrador v8 intento 4). Pendiente: descargar (fetch credentials include), revisar, integrar.
 - 26 oct ~16:25: Mostrador v8 intento 5 (Rehacer) también termina en el taller (descartado2). Probar prompt 2b (docs/prompts-videos-v8.md) en chat nuevo.
 - 26 oct ~16:35: 'Crear vídeo' atenuado en Gemini (cupo agotado). Pestaña de Chrome actual: 1149768114 (la anterior se congeló y se cerró). Reintentar en la siguiente ejecución con chat nuevo + maestro + prompt 2b; si el botón sigue atenuado, abrir una conversación para leer la hora de reactivación.
+- 26 oct 16:20: Gemini: 'Los vídeos volverán a estar disponibles el 26 oct a las 20:26' (corrige la nota de ~16:35, que era la hora estimada errónea; hora real 16:15). No reintentar Gemini antes de las 20:26. Siguiente: chat nuevo + maestro + prompt 2b (Mostrador); luego Catálogo vertical; Oficina por Higgsfield/Gemini.
