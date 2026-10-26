@@ -8,13 +8,13 @@ OUT="${2:-assets/habitaciones}"
 mkdir -p "$OUT"
 # id | archivo original | segundo en que la cámara se detiene (empieza el reposo)
 HAB=(
-  "fotos|M1-FOTOS-9x16.mp4|8.0"
+  "fotos|M1-FOTOS-v2-9x16.mp4|8.6|9.3"
   "oficina|M2-OFICINA-9x16.mp4|6.25"
-  "mostrador|M3-MOSTRADOR-9x16.mp4|8.0"
+  "mostrador|M3-MOSTRADOR-v2-9x16.mp4|7.5|8.7"
 )
 ENC=(-c:v libx264 -preset slow -crf 22 -pix_fmt yuv420p -r 24 -an -movflags +faststart)
 for h in "${HAB[@]}"; do
-  IFS='|' read -r id file stop <<<"$h"
+  IFS="|" read -r id file stop pt <<<"$h"; pt="${pt:-9.6}"
   in="$SRC/$file"
   echo "== $id ($file, reposo desde ${stop}s)"
   # entrada: del inicio hasta que la cámara se detiene
@@ -25,6 +25,6 @@ for h in "${HAB[@]}"; do
   ffmpeg -v error -y -ss "$stop" -i "$in" -filter_complex \
     "[0:v]setpts=PTS-STARTPTS,split[a][b];[b]reverse[r];[a][r]concat=n=2:v=1:a=0[v]" -map "[v]" "${ENC[@]}" "$OUT/$id-reposo.mp4"
   # póster: fotograma quieto del reposo
-  ffmpeg -v error -y -ss 9.6 -i "$in" -frames:v 1 -c:v libwebp -quality 82 "$OUT/$id.webp"
+  ffmpeg -v error -y -ss "$pt" -i "$in" -frames:v 1 -c:v libwebp -quality 82 "$OUT/$id.webp"
 done
 echo "Listo:"; ls -la "$OUT"
