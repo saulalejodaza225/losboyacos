@@ -12,7 +12,7 @@ Objetivo (decidido por el usuario el 26 oct 2026, estará fuera todo el día): g
 | Video | Generador | Estado |
 |---|---|---|
 | Oficina (inicio+fin) | Higgsfield `wan3_0` (acepta start_image y end_image; Gemini no tiene "fin") | pendiente |
-| Fotos | Gemini (Crear vídeo, Vertical 9:16, Pro) | pendiente |
+| Fotos | Gemini (Crear vídeo, Vertical 9:16, Pro) | HECHO e integrado 26 oct (conv. 15c6615d47921962, 4 intentos; archivo M1-FOTOS-v8-9x16.mp4) |
 | Mostrador | Gemini | pendiente |
 | Catálogo vertical | Gemini | pendiente |
 
@@ -40,3 +40,7 @@ Cuadros cada ~1 s: debe empezar en el maestro, SIN personas (ni de espaldas), pu
 3. Oficina: el mapa ya viene dentro del video; la zona "Ver mapa" debe quedar sobre el mapa SIN dibujar encima el mapa de OpenStreetMap (zona transparente con el pill).
 4. Catálogo vertical: nueva rama móvil con el texto dentro del video (clips abre/pasa/atrás, zonas táctiles invisibles, parche si hay palabras repetidas), igual que en escritorio.
 5. Regresión móvil completa + escritorio solo para comprobar que no se rompe; commit con `Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>` y push; verificar en Vercel.
+
+## Bitácora
+- 26 oct 13:20: Higgsfield (Oficina) respondió de nuevo "daily generation limit"; ids de imagen subidas (válidos 24 h, hasta ~26 oct 18:16 local): maestro `a767e72c-c5c0-4f2c-8f83-3ac0aa182735`, fin `ff4e764f-afda-4247-a3a6-603c86fdf4f0`. Gemini sí dejó crear videos (cupo reiniciado).
+- 26 oct ~15:00: Fotos v8 generado en Gemini, revisado (sin personas, atraviesa una puerta visible, termina en galería oscura con 6 marcos), integrado en móvil: marcos X=[123,223],[310,409],[496,596] Y=[297,434],[503,639]; habitaciones 68/68.

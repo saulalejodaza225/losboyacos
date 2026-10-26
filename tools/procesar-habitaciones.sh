@@ -8,7 +8,7 @@ OUT="${2:-assets/habitaciones}"
 mkdir -p "$OUT"
 # id | archivo original | segundo en que la cámara se detiene (empieza el reposo)
 HAB=(
-  "fotos|M1-FOTOS-v2-9x16.mp4|8.6|9.3"
+  "fotos|M1-FOTOS-v8-9x16.mp4|8.0|9.3"
   "oficina|M2-OFICINA-9x16.mp4|6.25"
   "mostrador|M3-MOSTRADOR-v2-9x16.mp4|7.5|8.7"
 )

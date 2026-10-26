@@ -1431,7 +1431,7 @@ function openPostFromRoom(i){ openSheet('blog'); var n=0; (function w(){ if(blog
 function buildFotos(){
   return getJSON('contenido/galeria.json').then(function(d){
     var fotos=((d&&d.fotos)||[]).filter(function(f){ return f&&f.src; }).slice(0,6);
-    var X=WIDE?[[397,503],[587,693],[777,883]]:[[83,213],[293,424],[504,635]], Y=WIDE?[[115,265],[334,481]]:[[258,446],[526,716]];
+    var X=WIDE?[[397,503],[587,693],[777,883]]:[[123,223],[310,409],[496,596]], Y=WIDE?[[115,265],[334,481]]:[[297,434],[503,639]];
     fotos.forEach(function(f,i){
       var c=i%3, r=(i/3)|0, b=surf('button',rq(X[c][0],Y[r][0],X[c][1],Y[r][1]),'photo',0.12*i);
       b.type='button'; b.setAttribute('aria-label','Ampliar foto: '+(f.alt||('foto '+(i+1))));

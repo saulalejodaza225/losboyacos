@@ -34,10 +34,10 @@ for(const [w,h] of [[390,844],[360,740]]){
     ok(tag+' '+id+': barra superior con botón Sala ≥44 px y título',bar.hb>=44&&bar.wb>=44&&bar.t.length>0,JSON.stringify(bar));
     if(id==='fotos'){
       const ph=surf.filter(s=>/photo/.test(s.c));
-      const [cx,cy,s]=f(148,352);const m=ph[0];
+      const [cx,cy,s]=f(173,365.5);const m=ph[0];
       ok(tag+' fotos: 6 fotos colocadas sobre los 6 marcos',ph.length===6,String(ph.length));
       ok(tag+' fotos: la 1.ª foto cae sobre el marco 1 (±3 px)',Math.abs(m.x+m.w/2-cx)<3&&Math.abs(m.y+m.h/2-cy)<3,JSON.stringify([m.x+m.w/2,m.y+m.h/2,cx,cy]));
-      const m6=ph[5],[c6x,c6y]=f(569.5,621);
+      const m6=ph[5],[c6x,c6y]=f(546,571);
       ok(tag+' fotos: la 6.ª foto cae sobre el marco 6 (±3 px)',Math.abs(m6.x+m6.w/2-c6x)<3&&Math.abs(m6.y+m6.h/2-c6y)<3,JSON.stringify([m6.x+m6.w/2,m6.y+m6.h/2,c6x,c6y]));
       ok(tag+' fotos: cada foto mide ≥44 px por lado',ph.every(x=>x.w>=44&&x.h>=44),JSON.stringify(ph.map(x=>[Math.round(x.w),Math.round(x.h)])));
       await p.tap('#rstage .photo >> nth=1');await p.waitForTimeout(500);
