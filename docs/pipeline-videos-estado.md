@@ -13,7 +13,7 @@ Objetivo (decidido por el usuario el 26 oct 2026, estará fuera todo el día): g
 |---|---|---|
 | Oficina (inicio+fin) | Higgsfield `wan3_0` (acepta start_image y end_image; Gemini no tiene "fin") | pendiente |
 | Fotos | Gemini (Crear vídeo, Vertical 9:16, Pro) | HECHO e integrado 26 oct (conv. 15c6615d47921962, 4 intentos; archivo M1-FOTOS-v8-9x16.mp4) |
-| Mostrador | Gemini | pendiente |
+| Mostrador | Gemini | intento 3 descartado (taller); cupo Gemini hasta 26 oct 15:26, reintentar con Rehacer en conv. 1ba2a8c836c7bcef |
 | Catálogo vertical | Gemini | pendiente |
 
 ## Dónde guardar
@@ -46,3 +46,4 @@ Cuadros cada ~1 s: debe empezar en el maestro, SIN personas (ni de espaldas), pu
 - 26 oct ~15:00: Fotos v8 generado en Gemini, revisado (sin personas, atraviesa una puerta visible, termina en galería oscura con 6 marcos), integrado en móvil: marcos X=[123,223],[310,409],[496,596] Y=[297,434],[503,639]; habitaciones 68/68.
 - 26 oct ~14:15: Mostrador v8 en Gemini (conv. 1ba2a8c836c7bcef; maestro adjunto, Vertical): intento 3 generó video pero DESCARTADO (atraviesa la puerta de vidrio y termina en el taller con elevadores, sin mostrador; guardado como M3-MOSTRADOR-v8-descartado1-taller.mp4). Al pulsar Rehacer: "No puedes crear más vídeos por ahora… disponibles el 26 oct a las 15:26". Reintentar desde las 15:26 (Rehacer en esa conversación; si vuelve a ir al taller, reforzar en el prompt "the glass door leads to a small service reception room, NOT the workshop floor").
 - Nota técnica: descarga que funciona = fetch(video.currentSrc,{credentials:'include'}) → blob → a[download].
+- 26 oct ~14:20: Higgsfield (Oficina) otra vez 'daily generation limit'; reintentar tras 18:00 o al día siguiente (ids de imagen vencen ~18:16, re-subir si hace falta). Gemini: nada que hacer hasta 15:26.
