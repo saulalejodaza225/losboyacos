@@ -65,3 +65,9 @@ SECOND SPREAD (held perfectly still until the end of the video, at least 2 secon
 AVOID: any repeated word in the lists, a duplicated "Otro", misspelled words, white or light paper, any person other than the viewer's own hands, a man or woman in the scene, extra text, logos, watermarks, camera shake, music and speech.
 
 Photorealistic, ultra-sharp high-detail image quality, stable motion.
+
+## 2b) MOSTRADOR — variante (los intentos con el prompt 2 terminaron 2 veces en el piso del taller: tras la puerta de vidrio se ve el taller)
+Igual que el prompt 2 pero reemplazando el tramo 1.0–6.0 s y añadiendo la ubicación del mostrador:
+1.0 to 6.0 s: the camera glides forward by itself at standing eye height, passes through the open GLASS DOOR in the center of the partition, and IMMEDIATELY after the threshold turns sharply LEFT (about 90 degrees) toward the service reception counter, which stands right next to the glass door just inside the glass partition, against a dark walnut slat wall. The camera never looks at the open workshop floor, cars or lifts; they stay behind the camera.
+6.0 to 10.0 s: stops completely still, frontal and parallel to the wall behind the counter.
+Añadir en AVOID: "the open workshop floor, car lifts, cars, tool cabinets, concrete floor as the main view".
