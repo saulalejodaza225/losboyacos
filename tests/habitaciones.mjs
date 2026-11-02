@@ -34,12 +34,12 @@ for(const [w,h] of [[390,844],[360,740]]){
     ok(tag+' '+id+': barra superior con botón Sala ≥44 px y título',bar.hb>=44&&bar.wb>=44&&bar.t.length>0,JSON.stringify(bar));
     if(id==='fotos'){
       const ph=surf.filter(s=>/photo/.test(s.c));
-      const [cx,cy,s]=f(173,365.5);const m=ph[0];
+      const [cx,cy,s]=f(306.5,357.5);const m=ph[0];
       ok(tag+' fotos: 6 fotos colocadas sobre los 6 marcos',ph.length===6,String(ph.length));
       ok(tag+' fotos: la 1.ª foto cae sobre el marco 1 (±3 px)',Math.abs(m.x+m.w/2-cx)<3&&Math.abs(m.y+m.h/2-cy)<3,JSON.stringify([m.x+m.w/2,m.y+m.h/2,cx,cy]));
-      const m6=ph[5],[c6x,c6y]=f(546,571);
+      const m6=ph[5],[c6x,c6y]=f(452,448.5);
       ok(tag+' fotos: la 6.ª foto cae sobre el marco 6 (±3 px)',Math.abs(m6.x+m6.w/2-c6x)<3&&Math.abs(m6.y+m6.h/2-c6y)<3,JSON.stringify([m6.x+m6.w/2,m6.y+m6.h/2,c6x,c6y]));
-      ok(tag+' fotos: cada foto mide ≥44 px por lado',ph.every(x=>x.w>=44&&x.h>=44),JSON.stringify(ph.map(x=>[Math.round(x.w),Math.round(x.h)])));
+      ok(tag+' fotos: cada foto, con su zona táctil ampliada (+11/+9 px), mide ≥44 px por lado',ph.every(x=>x.w+22*s>=44&&x.h+18*s>=44),JSON.stringify(ph.map(x=>[Math.round(x.w),Math.round(x.h)])));
       await p.tap('#rstage .photo >> nth=1');await p.waitForTimeout(500);
       ok(tag+' fotos: tocar una foto abre la imagen ampliada',await p.evaluate(()=>!document.getElementById('lightbox').hidden));
       await p.tap('#lb-close');await p.waitForTimeout(300);
@@ -69,8 +69,8 @@ for(const [w,h] of [[390,844],[360,740]]){
     if(id==='mostrador'){
       const pl=surf.filter(s=>/plaque/.test(s.c));
       ok(tag+' mostrador: 3 placas de redes sobre las 3 placas',pl.length===3);
-      const [p2x,p2y]=f(376,878.5);ok(tag+' mostrador: la placa central cae sobre la placa (±3 px)',Math.abs(pl[1].x+pl[1].w/2-p2x)<3&&Math.abs(pl[1].y+pl[1].h/2-p2y)<3,JSON.stringify([pl[1].x+pl[1].w/2,pl[1].y+pl[1].h/2,p2x,p2y]));
-      const bd=surf.find(s=>/board/.test(s.c)),[bx,by]=f(402,420);
+      const [p2x,p2y]=f(355,602.5);ok(tag+' mostrador: la placa central cae sobre la placa (±3 px)',Math.abs(pl[1].x+pl[1].w/2-p2x)<3&&Math.abs(pl[1].y+pl[1].h/2-p2y)<3,JSON.stringify([pl[1].x+pl[1].w/2,pl[1].y+pl[1].h/2,p2x,p2y]));
+      const bd=surf.find(s=>/board/.test(s.c)),[bx,by]=f(444.5,355);
       ok(tag+' mostrador: la pizarra cae sobre el pizarrón (±3 px)',!!bd&&Math.abs(bd.x+bd.w/2-bx)<3&&Math.abs(bd.y+bd.h/2-by)<3,JSON.stringify(bd));
       const txt=await p.evaluate(()=>document.querySelector('#rstage .board').innerText);
       ok(tag+' mostrador: la pizarra muestra las ofertas de banners.json (y tapa la palabra MENU del video)',/OFERTAS/i.test(txt)&&/Frenos completos/i.test(txt)&&!/MENU/i.test(txt),txt.replace(/\n/g,' | ').slice(0,120));

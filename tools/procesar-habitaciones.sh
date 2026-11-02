@@ -6,15 +6,18 @@ set -euo pipefail
 SRC="${1:?Falta la carpeta con los videos originales}"
 OUT="${2:-assets/habitaciones}"
 mkdir -p "$OUT"
-# id | archivo original | segundo en que la cámara se detiene (empieza el reposo)
+# id | archivo original | segundo en que empieza el reposo | segundo del póster | segundo en que termina el reposo (opcional; v9: la puerta se cierra después)
+# Variable ONLY="fotos mostrador" procesa solo esas habitaciones.
 HAB=(
-  "fotos|M1-FOTOS-v8-9x16.mp4|8.0|9.3"
+  "fotos|v9/V9-1-FOTOS.mp4|4.6|5.5|6.7"
   "oficina|M2-OFICINA-9x16.mp4|6.25"
-  "mostrador|M3-MOSTRADOR-v2-9x16.mp4|7.5|8.7"
+  "mostrador|v9/V9-2-MOSTRADOR.mp4|5.8|6.3|6.9"
 )
 ENC=(-c:v libx264 -preset slow -crf 22 -pix_fmt yuv420p -r 24 -an -movflags +faststart)
 for h in "${HAB[@]}"; do
-  IFS="|" read -r id file stop pt <<<"$h"; pt="${pt:-9.6}"
+  IFS="|" read -r id file stop pt rend <<<"$h"; pt="${pt:-9.6}"
+  if [ -n "${ONLY:-}" ] && [[ " $ONLY " != *" $id "* ]]; then continue; fi
+  RT=(); [ -n "${rend:-}" ] && RT=(-t "$(awk "BEGIN{print $rend-$stop}")")
   in="$SRC/$file"
   echo "== $id ($file, reposo desde ${stop}s)"
   # entrada: del inicio hasta que la cámara se detiene
@@ -22,7 +25,7 @@ for h in "${HAB[@]}"; do
   # salida: la entrada al revés (para volver a la sala)
   ffmpeg -v error -y -i "$OUT/$id-entrada.mp4" -vf reverse "${ENC[@]}" "$OUT/$id-salida.mp4"
   # reposo: tramo quieto adelante y atrás (bucle continuo sin salto)
-  ffmpeg -v error -y -ss "$stop" -i "$in" -filter_complex \
+  ffmpeg -v error -y -ss "$stop" "${RT[@]}" -i "$in" -filter_complex \
     "[0:v]setpts=PTS-STARTPTS,split[a][b];[b]reverse[r];[a][r]concat=n=2:v=1:a=0[v]" -map "[v]" "${ENC[@]}" "$OUT/$id-reposo.mp4"
   # póster: fotograma quieto del reposo
   ffmpeg -v error -y -ss "$pt" -i "$in" -frames:v 1 -c:v libwebp -quality 82 "$OUT/$id.webp"

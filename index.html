@@ -231,6 +231,18 @@ a{color:inherit;text-decoration:none}
 .wide .rs.plaque{gap:5px}
 .wide .rs.plaque svg{width:40px;height:40px}
 .wide .rs.plaque .pn{font-size:16px}.wide .rs.plaque .ps{font-size:13px}
+/* móvil v9: la sala se ve a través de la puerta, así que las zonas son pequeñas */
+html:not(.wide) .rs.board{padding:8px 10px}
+html:not(.wide) .rs.board .bt{font-size:19px;border-bottom-width:2px;padding-bottom:2px;margin-bottom:6px}
+html:not(.wide) .rs.board ul{gap:5px}
+html:not(.wide) .rs.board li{font-size:12.5px}
+html:not(.wide) .rs.board li small{font-size:8.5px;margin-bottom:1px}
+html:not(.wide) .rs.board .bm{font-size:10px;margin-top:5px;text-underline-offset:3px}
+html:not(.wide) .rs.photo,html:not(.wide) .rs.plaque{overflow:visible}
+html:not(.wide) .rs.photo::after{content:"";position:absolute;inset:-9px -11px}
+html:not(.wide) .rs.plaque::after{content:"";position:absolute;inset:-7px}
+html:not(.wide) .rs.plaque svg{width:34px;height:34px}
+html:not(.wide) .rs.plaque .pn,html:not(.wide) .rs.plaque .ps{display:none}
 .wide .pg{background:none;box-shadow:none;border-radius:0;-webkit-mask-image:none;mask-image:none}
 .wide .pg>*{visibility:hidden}
 .wide .parche{display:none;position:absolute;left:452px;top:495px;width:48px;height:23px;background:url(assets/escritorio/cat-parche.webp)}
@@ -1431,7 +1443,7 @@ function openPostFromRoom(i){ openSheet('blog'); var n=0; (function w(){ if(blog
 function buildFotos(){
   return getJSON('contenido/galeria.json').then(function(d){
     var fotos=((d&&d.fotos)||[]).filter(function(f){ return f&&f.src; }).slice(0,6);
-    var X=WIDE?[[397,503],[587,693],[777,883]]:[[123,223],[310,409],[496,596]], Y=WIDE?[[115,265],[334,481]]:[[297,434],[503,639]];
+    var X=WIDE?[[397,503],[587,693],[777,883]]:[[279,334],[351,407],[424,480]], Y=WIDE?[[115,265],[334,481]]:[[320,395],[412,485]];
     fotos.forEach(function(f,i){
       var c=i%3, r=(i/3)|0, b=surf('button',rq(X[c][0],Y[r][0],X[c][1],Y[r][1]),'photo',0.12*i);
       b.type='button'; b.setAttribute('aria-label','Ampliar foto: '+(f.alt||('foto '+(i+1))));
@@ -1457,13 +1469,13 @@ function buildOficina(){
   }).catch(function(){});
 }
 function buildMostrador(){
-  var bd=surf('button',WIDE?rq(448,76,830,338):rq(238,204,566,636),'board',0); bd.type='button'; bd.setAttribute('aria-label','Ver las ofertas del taller');
+  var bd=surf('button',WIDE?rq(448,76,830,338):rq(340,259,549,451),'board',0); bd.type='button'; bd.setAttribute('aria-label','Ver las ofertas del taller');
   bd.appendChild(mk('span','bt','Ofertas'));
   bd.addEventListener('click',function(){ tocar('ofertas'); sheetAt('home','#banners'); });
   var redes=[['Instagram','ig',INSTAGRAM&&'@'+INSTAGRAM,INSTAGRAM&&'https://www.instagram.com/'+encodeURIComponent(INSTAGRAM)+'/'],
              ['Facebook','fb',FACEBOOK,FACEBOOK&&'https://www.facebook.com/'+encodeURIComponent(FACEBOOK)],
              ['TikTok','tt',TIKTOK&&'@'+TIKTOK,TIKTOK&&'https://www.tiktok.com/@'+encodeURIComponent(TIKTOK)]];
-  var Q=WIDE?[rq(426,530,535,659),rq(589,531,695,659),rq(747,531,855,659)]:[rq(190,823,294,934),rq(324,823,428,934),rq(457,823,560,933)];
+  var Q=WIDE?[rq(426,530,535,659),rq(589,531,695,659),rq(747,531,855,659)]:[rq(247,573,305,631),rq(326,574,384,631),rq(404,574,463,631)];
   redes.forEach(function(r,i){
     var url=r[3], el=surf(url?'a':'button',Q[i],'plaque',0.2+0.12*i);
     if(url){ el.href=url; el.target='_blank'; el.rel='noopener noreferrer'; el.setAttribute('aria-label','Abrir '+r[0]+' ('+r[2]+')'); }
