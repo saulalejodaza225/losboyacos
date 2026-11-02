@@ -9,7 +9,7 @@ Decisión del usuario (2 nov 2026): los videos v8 salieron desfasados entre sí 
 - Sin personas (POV estricto), vertical 9:16, 10 s.
 
 ## Orden de trabajo (marcar con [x])
-- [x] 1. Cuadro maestro v9 (puertas cerradas) HECHO → `docs/sesion-v9/maestro-v9-cerradas-9x16.jpg` (copia en VideosMecanic walk in9). Chat de imagen: https://gemini.google.com/app/3c0026ad575cdad2
+- [x] 1. Cuadro maestro v9 (puertas cerradas) HECHO → `docs/sesion-v9/maestro-v9-cerradas-9x16.jpg` (copia en la carpeta de videos: Videos/Mecanic walk in/v9/V9-0-maestro-cerradas-9x16.jpg). Chat de imagen: https://gemini.google.com/app/3c0026ad575cdad2
 - [ ] 2. Clip Fotos (puerta izquierda)
 - [ ] 3. Clip Mostrador (puerta de vidrio)
 - [ ] 4. Clip Oficina (puerta derecha)
