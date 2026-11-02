@@ -24,4 +24,10 @@ small service reception of a car repair shop (NOT the open workshop floor, no ca
 ## 3) OFICINA — `<PUERTA>` = "RIGHT steel-framed door" y `<HABITACIÓN>` por:
 small warm office with dark walnut slat walls: a large HORIZONTAL framed map of the city of Bogotá with a brown wooden frame hanging in the upper center of the wall, large and sharp; a wooden notice board with three blank white paper sheets on the left; a walnut desk with a black landline desk phone at the bottom.
 
+### 3b) OFICINA reforzado (tras el intento 1 que transformó la pared). Sobre la base con la sección 3:
+- CAMERA: añadir «No camera movement, no zoom, no dolly, no reframing: the framing is identical in every frame.»
+- Nuevo bloque tras CAMERA: «LAYOUT: the back wall keeps exactly the same three doors in exactly the same positions for all 10 seconds. The LEFT door stays closed. The CENTER glass door stays closed and visible the whole time. ONLY the RIGHT door swings open. The office is seen ONLY through the open right doorway; it does not replace or cover the wall, and the left and center doors never move or disappear.»
+- CONSISTENCY: añadir «The last frame must be identical to the first frame.»
+- AVOID: añadir «zooming in», «the door staying open at the end» y (intento 3) «cuts, transitions, wipes, circular reveals».
+
 ## 4) CATÁLOGO — NO usa la base anterior; usar el prompt 4 de `docs/prompts-videos-v8.md` (manos toman el libro), con el maestro v9 adjunto y el primer cuadro con las puertas cerradas.
