@@ -28,3 +28,4 @@ Decisión del usuario (2 nov 2026): los videos v8 salieron desfasados entre sí 
 ## Bitácora
 - 2 nov: carpeta y prompts creados; arrancando el maestro v9 en Gemini.
 - 2 nov: maestro v9 generado y aprobado (3 puertas cerradas, mismo taller). Siguiente: abrir UN chat de Crear vídeo (Vertical 9:16, Pro) con el maestro v9 adjunto y lanzar Fotos, luego Mostrador, Oficina y Catálogo en ese mismo chat (anotar su URL aquí). Pestaña Chrome de la sesión: 1149769238.
+- 2 nov ~14:20: CHAT ÚNICO DE VÍDEOS v9 = https://gemini.google.com/app/0dbea89327741b21 (maestro v9 adjunto, Vertical, Pro). Clip 1 FOTOS enviado y 'generando'. Para los demás: en ESTE mismo chat escribir el siguiente prompt (adjuntar de nuevo el maestro v9 si Gemini no lo conserva). Si sale error: recargar la URL + Rehacer. Descarga: fetch(video.currentSrc,{credentials:'include'}) → V9-1-FOTOS.mp4 en Videos/Mecanic walk in/v9/.
