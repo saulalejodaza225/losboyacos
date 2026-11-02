@@ -9,7 +9,7 @@ Decisión del usuario (2 nov 2026): los videos v8 salieron desfasados entre sí 
 - Sin personas (POV estricto), vertical 9:16, 10 s.
 
 ## Orden de trabajo (marcar con [x])
-- [ ] 1. Cuadro maestro v9 (puertas cerradas): generado en Gemini → `docs/sesion-v9/maestro-v9-cerradas-9x16.png`
+- [x] 1. Cuadro maestro v9 (puertas cerradas) HECHO → `docs/sesion-v9/maestro-v9-cerradas-9x16.jpg` (copia en VideosMecanic walk in9). Chat de imagen: https://gemini.google.com/app/3c0026ad575cdad2
 - [ ] 2. Clip Fotos (puerta izquierda)
 - [ ] 3. Clip Mostrador (puerta de vidrio)
 - [ ] 4. Clip Oficina (puerta derecha)
@@ -27,3 +27,4 @@ Decisión del usuario (2 nov 2026): los videos v8 salieron desfasados entre sí 
 
 ## Bitácora
 - 2 nov: carpeta y prompts creados; arrancando el maestro v9 en Gemini.
+- 2 nov: maestro v9 generado y aprobado (3 puertas cerradas, mismo taller). Siguiente: abrir UN chat de Crear vídeo (Vertical 9:16, Pro) con el maestro v9 adjunto y lanzar Fotos, luego Mostrador, Oficina y Catálogo en ese mismo chat (anotar su URL aquí). Pestaña Chrome de la sesión: 1149769238.
