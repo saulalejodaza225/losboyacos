@@ -10,7 +10,7 @@ Decisión del usuario (2 nov 2026): los videos v8 salieron desfasados entre sí 
 
 ## Orden de trabajo (marcar con [x])
 - [x] 1. Cuadro maestro v9 (puertas cerradas) HECHO → `docs/sesion-v9/maestro-v9-cerradas-9x16.jpg` (copia en la carpeta de videos: Videos/Mecanic walk in/v9/V9-0-maestro-cerradas-9x16.jpg). Chat de imagen: https://gemini.google.com/app/3c0026ad575cdad2
-- [ ] 2. Clip Fotos (puerta izquierda)
+- [x] 2. Clip Fotos (puerta izquierda) HECHO y revisado: V9-1-FOTOS.mp4 (cámara fija, 6 marcos vacíos, cierra igual)
 - [ ] 3. Clip Mostrador (puerta de vidrio)
 - [ ] 4. Clip Oficina (puerta derecha)
 - [ ] 5. Clip Catálogo vertical
@@ -29,3 +29,4 @@ Decisión del usuario (2 nov 2026): los videos v8 salieron desfasados entre sí 
 - 2 nov: carpeta y prompts creados; arrancando el maestro v9 en Gemini.
 - 2 nov: maestro v9 generado y aprobado (3 puertas cerradas, mismo taller). Siguiente: abrir UN chat de Crear vídeo (Vertical 9:16, Pro) con el maestro v9 adjunto y lanzar Fotos, luego Mostrador, Oficina y Catálogo en ese mismo chat (anotar su URL aquí). Pestaña Chrome de la sesión: 1149769238.
 - 2 nov ~14:20: CHAT ÚNICO DE VÍDEOS v9 = https://gemini.google.com/app/0dbea89327741b21 (maestro v9 adjunto, Vertical, Pro). Clip 1 FOTOS enviado y 'generando'. Para los demás: en ESTE mismo chat escribir el siguiente prompt (adjuntar de nuevo el maestro v9 si Gemini no lo conserva). Si sale error: recargar la URL + Rehacer. Descarga: fetch(video.currentSrc,{credentials:'include'}) → V9-1-FOTOS.mp4 en Videos/Mecanic walk in/v9/.
+- 2 nov ~14:35: V9-1-FOTOS.mp4 descargado a Videos/Mecanic walk in/v9/ y aprobado (1er intento). Siguiente: Mostrador en el mismo chat.
