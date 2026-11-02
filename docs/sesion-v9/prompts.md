@@ -1,0 +1,27 @@
+# Prompts v9 (copiar tal cual)
+
+## 0) Cuadro maestro — Gemini "Crear imagen", adjuntar `docs/fotogramas/maestro-puertas-9x16.jpg`
+Edit the attached image. Keep EVERYTHING exactly the same (same first-person seated view, the viewer's two hands on his knees at the bottom, same brown leather sofa, same dark walnut coffee table with the open book, espresso cup and silver toy car, same armchair and plant, same dark walnut slat walls, red neon line, steering wheel, piston and lit shelves, same warm amber moody lighting, same composition and framing), with ONE change: the three doors in the back wall must all be completely CLOSED. On the left a closed solid dark steel-framed door with a dark walnut slat panel; in the center the glass partition with its frameless glass door closed flush, brushed steel handle visible; on the right a closed solid dark steel-framed door matching the left one. The three closed doors are clearly visible side by side, evenly spaced, not hidden by furniture. Behind the glass you can only see a faint dark blur. No people. Vertical 9:16, photorealistic.
+
+## Base de los 4 clips (Gemini "Crear vídeo", Vertical, adjuntar el maestro v9 en cada petición)
+FIRST FRAME (must match the attached image exactly): first-person view seated on a brown leather sofa in a premium automotive workshop lounge, the viewer's two hands resting on his knees, dark walnut coffee table with an open book, espresso cup and silver toy car, three CLOSED doors in the back wall (left steel-framed door, center frameless glass door, right steel-framed door). Warm amber, dark, moody lighting. Vertical 9:16.
+
+CAMERA: completely FIXED, locked-off, strictly first-person from the seated position, the hands stay resting on the knees the whole time. No camera movement, no standing up, no walking. NO person, silhouette, arm or body appears anywhere; doors open and close by themselves smoothly. Duration 10 seconds, one continuous shot.
+
+TIMING: 0.0–1.0 s everything still, all doors closed. 1.0–3.0 s the <PUERTA> opens slowly and fully. 3.0–7.0 s the door stays open, perfectly still, and the <HABITACIÓN> beyond is clearly visible, sharp and well lit. 7.0–9.0 s the door closes slowly by itself. 9.0–10.0 s everything still again, all three doors closed exactly as in the first frame.
+
+CONSISTENCY: the room, sofa, table and the other two doors never change; no wall appears, disappears or morphs; the closed door at the end is identical to the first frame.
+
+AVOID: any person anywhere, a third-person view, camera shake or movement, standing up, extra doors, changing the room, text, logos, watermarks, music and speech.
+Photorealistic, same lighting and color grading as the first frame.
+
+## 1) FOTOS — sustituir en TIMING `<PUERTA>` = "LEFT steel-framed door" y `<HABITACIÓN>` por:
+dark gallery room, dark walnut slat walls, polished dark concrete floor, warm amber light, a feature wall facing the camera with exactly six empty picture frames in two rows of three, slim black frames with thin cream mats and completely empty dark matte interiors, lit by small brass picture lights; no text.
+
+## 2) MOSTRADOR — `<PUERTA>` = "CENTER frameless glass door" y `<HABITACIÓN>` por:
+small service reception of a car repair shop (NOT the open workshop floor, no cars, no lifts): a heavy dark walnut and steel counter with a vintage brass mechanical cash register, a small brass desk bell, a pen holder and a clipboard; on the FRONT FACE of the counter ONE straight horizontal row of exactly three small square blank white acrylic plaques of identical size, evenly spaced; behind it on the dark walnut slat wall a matte black key rack with car keys and a large wall panel in a thin brushed steel frame with an LED strip above whose surface is completely empty dark slate.
+
+## 3) OFICINA — `<PUERTA>` = "RIGHT steel-framed door" y `<HABITACIÓN>` por:
+small warm office with dark walnut slat walls: a large HORIZONTAL framed map of the city of Bogotá with a brown wooden frame hanging in the upper center of the wall, large and sharp; a wooden notice board with three blank white paper sheets on the left; a walnut desk with a black landline desk phone at the bottom.
+
+## 4) CATÁLOGO — NO usa la base anterior; usar el prompt 4 de `docs/prompts-videos-v8.md` (manos toman el libro), con el maestro v9 adjunto y el primer cuadro con las puertas cerradas.
