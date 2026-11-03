@@ -20,8 +20,10 @@ for(const [w,h] of [[390,844],[360,740]]){
   await p.addInitScript(()=>{window.__log=[];const t0=performance.now();const tick=()=>{const A=document.getElementById('vA'),B=document.getElementById('vB');if(A&&B){window.__log.push({o:+getComputedStyle(B).opacity,br:B.readyState,ar:A.readyState,ph:document.getElementById('app')&&document.getElementById('app').dataset.phase})}requestAnimationFrame(tick)};requestAnimationFrame(tick)});
   await p.goto('http://localhost:8123/',{waitUntil:'domcontentloaded'});
   await p.waitForTimeout(300); await shot(p,{path:out+'/'+tag+'-1-carga.png'});
-  await wf(p,()=>document.getElementById('app').dataset.phase==='intro',15000);
-  await p.waitForTimeout(3000); await shot(p,{path:out+'/'+tag+'-2-intro.png'});
+  // la intro v9 dura 2,5 s: puede terminar mientras se toma la captura de carga
+  await wf(p,()=>/^(intro|loop)$/.test(document.getElementById('app').dataset.phase),15000);
+  await p.waitForTimeout(900); await shot(p,{path:out+'/'+tag+'-2-intro.png'});
+  ok(tag+' la intro arrancó (vA corrió)',await p.evaluate(()=>vA.currentTime>0.3));
   await wf(p,()=>document.getElementById('app').dataset.phase==='loop');
   await p.waitForTimeout(2500); await shot(p,{path:out+'/'+tag+'-3-loop-invitacion.png'});
   const log=await p.evaluate(()=>window.__log);
