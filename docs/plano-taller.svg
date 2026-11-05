@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 760" font-family="Helvetica, Arial, sans-serif">
+  <title>Plano esquemático del taller Los Boyacos</title>
+  <rect width="1000" height="760" fill="#14110e"/>
+  <text x="500" y="40" text-anchor="middle" font-size="24" font-weight="700" fill="#f1e4cc" letter-spacing="3">LOS BOYACOS · PLANO DEL TALLER</text>
+  <text x="500" y="62" text-anchor="middle" font-size="12" fill="#a8977a">Esquema sin escala, según la distribución de la página (sala de espera con tres puertas)</text>
+
+  <!-- muros exteriores -->
+  <rect x="50" y="80" width="900" height="640" fill="#1d1813" stroke="#e8dcc4" stroke-width="6"/>
+
+  <!-- ZONA DE TRABAJO -->
+  <rect x="50" y="80" width="900" height="210" fill="#26211b" stroke="#e8dcc4" stroke-width="3"/>
+  <text x="500" y="108" text-anchor="middle" font-size="15" font-weight="700" fill="#f1e4cc" letter-spacing="2">ZONA DE TRABAJO · NAVE</text>
+  <g fill="none" stroke="#6b5d48" stroke-width="2" stroke-dasharray="6 5">
+    <rect x="80" y="125" width="170" height="145"/><rect x="270" y="125" width="170" height="145"/><rect x="560" y="125" width="170" height="145"/>
+  </g>
+  <g fill="#a8977a" font-size="12" text-anchor="middle">
+    <text x="165" y="205">Bahía 1</text><text x="355" y="205">Bahía 2</text><text x="645" y="205">Bahía 3</text>
+  </g>
+  <rect x="750" y="125" width="170" height="145" fill="#2f281f" stroke="#6b5d48" stroke-width="2"/>
+  <text x="835" y="190" text-anchor="middle" font-size="12" fill="#a8977a">Bodega de</text>
+  <text x="835" y="206" text-anchor="middle" font-size="12" fill="#a8977a">repuestos y</text>
+  <text x="835" y="222" text-anchor="middle" font-size="12" fill="#a8977a">herramientas</text>
+  <!-- portón de entrada de vehículos -->
+  <rect x="460" y="76" width="80" height="8" fill="#c0392b"/>
+  <text x="500" y="145" text-anchor="middle" font-size="11" fill="#c0392b">▲ portón de vehículos</text>
+  <!-- pasillo -->
+  <text x="500" y="284" text-anchor="middle" font-size="11" fill="#6b5d48">pasillo de servicio (entrega de vehículos)</text>
+
+  <!-- fila de tres habitaciones -->
+  <!-- Galería -->
+  <rect x="50" y="290" width="300" height="200" fill="#2a2018" stroke="#e8dcc4" stroke-width="3"/>
+  <text x="200" y="320" text-anchor="middle" font-size="16" font-weight="700" fill="#f1e4cc">GALERÍA DE FOTOS</text>
+  <g fill="none" stroke="#e8dcc4" stroke-width="2"><rect x="85" y="335" width="60" height="42"/><rect x="170" y="335" width="60" height="42"/><rect x="255" y="335" width="60" height="42"/><rect x="85" y="390" width="60" height="42"/><rect x="170" y="390" width="60" height="42"/><rect x="255" y="390" width="60" height="42"/></g>
+  <text x="200" y="465" text-anchor="middle" font-size="11" fill="#a8977a">pared con 6 marcos</text>
+
+  <!-- Recepción -->
+  <rect x="350" y="290" width="300" height="200" fill="#2a2018" stroke="#e8dcc4" stroke-width="3"/>
+  <text x="500" y="320" text-anchor="middle" font-size="16" font-weight="700" fill="#f1e4cc">RECEPCIÓN · MOSTRADOR</text>
+  <rect x="400" y="355" width="200" height="34" fill="#4a3a28" stroke="#e8dcc4" stroke-width="2"/>
+  <text x="500" y="377" text-anchor="middle" font-size="11" fill="#f1e4cc">mostrador · caja · campana</text>
+  <rect x="400" y="335" width="200" height="10" fill="#6b5d48"/>
+  <text x="500" y="418" text-anchor="middle" font-size="11" fill="#a8977a">tablero de llaves y pizarra al fondo</text>
+  <text x="500" y="438" text-anchor="middle" font-size="11" fill="#a8977a">3 placas al frente del mostrador</text>
+  <!-- paso a la nave -->
+  <rect x="470" y="286" width="60" height="8" fill="#1d1813"/>
+  <text x="500" y="301" text-anchor="middle" font-size="9" fill="#a8977a">paso a la nave</text>
+
+  <!-- Oficina -->
+  <rect x="650" y="290" width="300" height="200" fill="#2a2018" stroke="#e8dcc4" stroke-width="3"/>
+  <text x="800" y="320" text-anchor="middle" font-size="16" font-weight="700" fill="#f1e4cc">OFICINA</text>
+  <rect x="740" y="395" width="110" height="38" fill="#4a3a28" stroke="#e8dcc4" stroke-width="2"/>
+  <text x="795" y="418" text-anchor="middle" font-size="11" fill="#f1e4cc">escritorio · teléfono</text>
+  <rect x="680" y="340" width="55" height="40" fill="#3b2f20" stroke="#e8dcc4" stroke-width="2"/>
+  <text x="707" y="364" text-anchor="middle" font-size="10" fill="#f1e4cc">tablón</text>
+  <rect x="765" y="338" width="120" height="14" fill="#f1e4cc"/>
+  <text x="825" y="372" text-anchor="middle" font-size="11" fill="#a8977a">mapa de Bogotá (panel)</text>
+
+  <!-- SALA DE ESPERA -->
+  <rect x="50" y="490" width="900" height="230" fill="#201a14" stroke="#e8dcc4" stroke-width="3"/>
+  <text x="500" y="610" text-anchor="middle" font-size="16" font-weight="700" fill="#f1e4cc">SALA DE ESPERA</text>
+  <rect x="380" y="640" width="240" height="46" rx="12" fill="#5a3a2a" stroke="#e8dcc4" stroke-width="2"/>
+  <text x="500" y="668" text-anchor="middle" font-size="12" fill="#f1e4cc">sofá de cuero</text>
+  <rect x="440" y="622" width="120" height="14" rx="4" fill="#3b2f20" stroke="#e8dcc4" stroke-width="1.5"/>
+  <text x="500" y="632" text-anchor="middle" font-size="9" fill="#a8977a">mesa de centro</text>
+  <circle cx="500" cy="705" r="6" fill="#f1e4cc"/>
+  <text x="520" y="709" font-size="10" fill="#a8977a">punto de vista del visitante</text>
+  <!-- repisas -->
+  <rect x="62" y="505" width="14" height="150" fill="#3b2f20" stroke="#6b5d48"/>
+  <text x="95" y="585" font-size="10" fill="#a8977a">repisas</text>
+  <rect x="880" y="505" width="60" height="14" fill="#c0392b"/>
+  <text x="910" y="540" text-anchor="middle" font-size="10" fill="#a8977a">neón rojo</text>
+  <!-- entrada del público -->
+  <rect x="470" y="716" width="60" height="8" fill="#14110e"/>
+  <text x="500" y="740" text-anchor="middle" font-size="11" fill="#c0392b">▲ ENTRADA</text>
+  <!-- puertas hacia la sala de espera (arcos) -->
+  <g fill="#1d1813" stroke="none"><rect x="170" y="486" width="60" height="8"/><rect x="470" y="486" width="60" height="8"/><rect x="770" y="486" width="60" height="8"/></g>
+  <g fill="none" stroke="#c0392b" stroke-width="2"><path d="M170 490 A60 60 0 0 1 230 550"/><path d="M470 490 A60 60 0 0 1 530 550"/><path d="M830 490 A60 60 0 0 0 770 550"/></g>
+  <text x="200" y="574" text-anchor="middle" font-size="11" fill="#c0392b">puerta izquierda</text>
+  <text x="500" y="574" text-anchor="middle" font-size="11" fill="#c0392b">puerta de vidrio</text>
+  <text x="800" y="574" text-anchor="middle" font-size="11" fill="#c0392b">puerta derecha</text>
+
+</svg>
