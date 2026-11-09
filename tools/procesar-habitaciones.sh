@@ -10,7 +10,7 @@ mkdir -p "$OUT"
 # Variable ONLY="fotos mostrador" procesa solo esas habitaciones.
 # 5.º campo "fijo" (v9b, caminando): la entrada es el video entero y el reposo es su último fotograma quieto (el póster también).
 HAB=(
-  "fotos|v9/V9-1-FOTOS.mp4|99||fijo"
+  "fotos|v9/V11-1-FOTOS.mp4|99||fijo"
   "oficina|v9/V9-3-OFICINA.mp4|99||fijo"
   "mostrador|v9/V9-2-MOSTRADOR.mp4|99||fijo"
 )

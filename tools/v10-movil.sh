@@ -2,7 +2,7 @@
 # Videos móviles v10 (720×1280) a partir de los clips de Gemini (mismo maestro, 3 puertas cerradas).
 # Uso: tools/v10-movil.sh "<carpeta Mecanic walk in>"
 #   assets/clip2-loop.mp4      bucle de la sala = V10-4-BUCLE en vaivén (adelante y atrás)
-#   assets/clip1-entrada.mp4   intro = V10-6-INTRO (mira alrededor sentado y vuelve al frente; termina en el encuadre del bucle)
+#   assets/clip1-entrada.mp4   intro = V11-INTRO-origen al revés (llega al local caminando y se sienta; termina en el encuadre del bucle)
 #   assets/poster.webp         primer cuadro de la intro
 #   assets/clip3a-agarra.mp4   catálogo, tramo C: 0 – 4,4 s de V10-5-CATALOGO (toma el libro y muestra la 1.ª doble)
 #   assets/clip3b-pagina.mp4   catálogo, tramo D: 4,4 – 7,8 s (pasa la hoja y queda la 2.ª doble)
@@ -18,8 +18,8 @@ PP='setpts=PTS-STARTPTS,split[a][b];[b]reverse[r];[a][r]concat=n=2:v=1:a=0[v]'
 # 1) bucle: el clip completo adelante y atrás
 ffmpeg -v error -y -i "$V9/V10-4-BUCLE.mp4" -filter_complex "[0:v]$PP" -map "[v]" "${ENC[@]}" "$A/clip2-loop.mp4"
 
-# 2) intro: el clip tal cual
-ffmpeg -v error -y -i "$V9/V10-6-INTRO.mp4" "${ENC[@]}" "$A/clip1-entrada.mp4"
+# 2) intro: V11-INTRO se genera desde el maestro alejándose hacia atrás; al revés es «llega al local y se sienta» y termina exacto en el maestro
+ffmpeg -v error -y -i "$V9/V11-INTRO-origen.mp4" -vf reverse "${ENC[@]}" "$A/clip1-entrada.mp4"
 ffmpeg -v error -y -i "$A/clip1-entrada.mp4" -frames:v 1 -c:v libwebp -quality 80 "$A/poster.webp"
 
 # 3) catálogo: C, D y E (D al revés)
