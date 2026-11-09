@@ -34,10 +34,10 @@ for(const [w,h] of [[390,844],[360,740]]){
     ok(tag+' '+id+': barra superior con botón Sala ≥44 px y título',bar.hb>=44&&bar.wb>=44&&bar.t.length>0,JSON.stringify(bar));
     if(id==='fotos'){
       const ph=surf.filter(s=>/photo/.test(s.c));
-      const [cx,cy,s]=f(306.5,357.5);const m=ph[0];
+      const [cx,cy,s]=f(219,402);const m=ph[0];
       ok(tag+' fotos: 6 fotos colocadas sobre los 6 marcos',ph.length===6,String(ph.length));
       ok(tag+' fotos: la 1.ª foto cae sobre el marco 1 (±3 px)',Math.abs(m.x+m.w/2-cx)<3&&Math.abs(m.y+m.h/2-cy)<3,JSON.stringify([m.x+m.w/2,m.y+m.h/2,cx,cy]));
-      const m6=ph[5],[c6x,c6y]=f(452,448.5);
+      const m6=ph[5],[c6x,c6y]=f(496,556);
       ok(tag+' fotos: la 6.ª foto cae sobre el marco 6 (±3 px)',Math.abs(m6.x+m6.w/2-c6x)<3&&Math.abs(m6.y+m6.h/2-c6y)<3,JSON.stringify([m6.x+m6.w/2,m6.y+m6.h/2,c6x,c6y]));
       ok(tag+' fotos: cada foto, con su zona táctil ampliada (+11/+9 px), mide ≥44 px por lado',ph.every(x=>x.w+22*s>=44&&x.h+18*s>=44),JSON.stringify(ph.map(x=>[Math.round(x.w),Math.round(x.h)])));
       await p.tap('#rstage .photo >> nth=1');await p.waitForTimeout(500);
@@ -50,10 +50,10 @@ for(const [w,h] of [[390,844],[360,740]]){
       ok(tag+' fotos: al cerrar la hoja se vuelve a la habitación (fase room, contenido intacto)',await p.evaluate(()=>__boyacos.phase==='room'&&__boyacos.roomId==='fotos'&&document.querySelectorAll('#rstage .photo').length===6));
     }
     if(id==='oficina'){
-      const mp=surf.find(s=>/map/.test(s.c)),[mx,my]=f(436,514);
+      const mp=surf.find(s=>/map/.test(s.c)),[mx,my]=f(448,397.5);
       ok(tag+' oficina: la zona del mapa cae sobre el cuadro del mapa (±3 px)',!!mp&&Math.abs(mp.x+mp.w/2-mx)<3&&Math.abs(mp.y+mp.h/2-my)<3,JSON.stringify(mp));
       const sh=surf.filter(s=>/sheet/.test(s.c));
-      ok(tag+' oficina: 2 hojas del tablón con el título de un artículo',sh.length===2);
+      ok(tag+' oficina: 1 hoja del tablón con el título de un artículo y la pastilla Blog',sh.length===1&&surf.some(s=>/blogpill/.test(s.c)));
       const ph=surf.find(s=>/phone/.test(s.c));const href=await p.getAttribute('#rstage a.phone','href');
       ok(tag+' oficina: el teléfono es un enlace tel: con evento',!!ph&&/^tel:\+57\d{10}$/.test(href),href);
       await p.tap('#rstage .map');await p.waitForTimeout(1300);
@@ -61,7 +61,7 @@ for(const [w,h] of [[390,844],[360,740]]){
       await shot(p,{path:out+'/'+tag+'-hab-oficina-3-mapa.png'});
       await p.tap('#close');await p.waitForTimeout(700);
       ok(tag+' oficina: al cerrar la hoja se vuelve a la oficina',await p.evaluate(()=>__boyacos.phase==='room'&&__boyacos.roomId==='oficina'));
-      await p.tap('#rstage .sheet >> nth=1');await p.waitForTimeout(1800);
+      await p.tap('#rstage .sheet >> nth=0');await p.waitForTimeout(1800);
       ok(tag+' oficina: tocar una hoja del tablón abre el artículo',await p.evaluate(()=>__boyacos.phase==='open'&&!document.getElementById('v-blogpost').hidden&&document.getElementById('post-title').textContent.length>5));
       await shot(p,{path:out+'/'+tag+'-hab-oficina-4-articulo.png'});
       await p.tap('#close');await p.waitForTimeout(700);
@@ -69,8 +69,8 @@ for(const [w,h] of [[390,844],[360,740]]){
     if(id==='mostrador'){
       const pl=surf.filter(s=>/plaque/.test(s.c));
       ok(tag+' mostrador: 3 placas de redes sobre las 3 placas',pl.length===3);
-      const [p2x,p2y]=f(355,602.5);ok(tag+' mostrador: la placa central cae sobre la placa (±3 px)',Math.abs(pl[1].x+pl[1].w/2-p2x)<3&&Math.abs(pl[1].y+pl[1].h/2-p2y)<3,JSON.stringify([pl[1].x+pl[1].w/2,pl[1].y+pl[1].h/2,p2x,p2y]));
-      const bd=surf.find(s=>/board/.test(s.c)),[bx,by]=f(444.5,355);
+      const [p2x,p2y]=f(362.5,866);ok(tag+' mostrador: la placa central cae sobre la placa (±3 px)',Math.abs(pl[1].x+pl[1].w/2-p2x)<3&&Math.abs(pl[1].y+pl[1].h/2-p2y)<3,JSON.stringify([pl[1].x+pl[1].w/2,pl[1].y+pl[1].h/2,p2x,p2y]));
+      const bd=surf.find(s=>/board/.test(s.c)),[bx,by]=f(481,422);
       ok(tag+' mostrador: la pizarra cae sobre el pizarrón (±3 px)',!!bd&&Math.abs(bd.x+bd.w/2-bx)<3&&Math.abs(bd.y+bd.h/2-by)<3,JSON.stringify(bd));
       const txt=await p.evaluate(()=>document.querySelector('#rstage .board').innerText);
       ok(tag+' mostrador: la pizarra muestra las ofertas de banners.json (y tapa la palabra MENU del video)',/OFERTAS/i.test(txt)&&/Frenos completos/i.test(txt)&&!/MENU/i.test(txt),txt.replace(/\n/g,' | ').slice(0,120));

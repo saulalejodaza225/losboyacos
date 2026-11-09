@@ -89,12 +89,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 a{color:inherit;text-decoration:none}
 :focus-visible{outline:2px solid var(--text);outline-offset:3px}
 
-#app{position:relative;width:min(100vw,430px);height:100vh;height:100dvh;margin:0 auto;background:var(--bg);overflow:hidden;isolation:isolate}
+#app{position:relative;width:min(100vw,430px);height:100vh;height:100dvh;margin:0 auto;background:var(--bg);overflow:hidden;overflow:clip;isolation:isolate}   /* clip: un foco en una zona que roza el borde no desplaza la escena */
 #app>.layer{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 #poster{z-index:0}
 #vA{z-index:1}
 #vB{z-index:2;opacity:0;transition:opacity .15s linear}
 #vB.show{opacity:1}
+html:not(.wide) #vB{transition-duration:.4s}
 #vC,#vD,#vE{z-index:2;opacity:0;transition:opacity .15s linear}
 #vC.show,#vD.show,#vE.show{opacity:1}
 #hold{z-index:2;opacity:0;transition:opacity .3s ease}
@@ -232,21 +233,20 @@ a{color:inherit;text-decoration:none}
 .wide .rs.plaque svg{width:40px;height:40px}
 .wide .rs.plaque .pn{font-size:16px}.wide .rs.plaque .ps{font-size:13px}
 /* móvil v9: la sala se ve a través de la puerta, así que las zonas son pequeñas */
-html:not(.wide) .rs.board{padding:8px 10px}
-html:not(.wide) .rs.board .bt{font-size:19px;border-bottom-width:2px;padding-bottom:2px;margin-bottom:6px}
-html:not(.wide) .rs.board ul{gap:5px}
-html:not(.wide) .rs.board li{font-size:12.5px}
-html:not(.wide) .rs.board li small{font-size:8.5px;margin-bottom:1px}
-html:not(.wide) .rs.board .bm{font-size:10px;margin-top:5px;text-underline-offset:3px}
-html:not(.wide) .rs.photo,html:not(.wide) .rs.plaque{overflow:visible}
+html:not(.wide) .rs.board{padding:12px 16px}
+html:not(.wide) .rs.board .bt{font-size:30px;border-bottom-width:2px;padding-bottom:3px;margin-bottom:10px}
+html:not(.wide) .rs.board ul{gap:9px}
+html:not(.wide) .rs.board li{font-size:19px}
+html:not(.wide) .rs.board li small{font-size:12px;margin-bottom:2px}
+html:not(.wide) .rs.board .bm{font-size:14px;margin-top:8px;text-underline-offset:4px}
+html:not(.wide) .rs.photo{overflow:visible}
 html:not(.wide) .rs.photo::after{content:"";position:absolute;inset:-9px -11px}
-html:not(.wide) .rs.plaque::after{content:"";position:absolute;inset:-7px}
-html:not(.wide) .rs.plaque svg{width:34px;height:34px}
-html:not(.wide) .rs.plaque .pn,html:not(.wide) .rs.plaque .ps{display:none}
-.wide .pg{background:none;box-shadow:none;border-radius:0;-webkit-mask-image:none;mask-image:none}
-.wide .pg>*{visibility:hidden}
+.pg{background:none;box-shadow:none;border-radius:0;-webkit-mask-image:none;mask-image:none}
+.pg>*{visibility:hidden}
 .wide .parche{display:none;position:absolute;left:452px;top:495px;width:48px;height:23px;background:url(assets/escritorio/cat-parche.webp)}
 .wide #stage.p2 .parche{display:block}
+html:not(.wide) .parche{display:none;position:absolute;left:403px;top:778px;width:89px;height:24px;background:url(assets/cat-parche-movil.webp);-webkit-mask-image:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent),linear-gradient(to bottom,transparent,#000 18%,#000 82%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent),linear-gradient(to bottom,transparent,#000 18%,#000 82%,transparent);mask-composite:intersect}
+html:not(.wide) #stage.p2 .parche{display:block}
 .wide .bk-bottom{left:50%;right:auto;width:min(520px,92vw);transform:translateX(-50%)}
 /* cargador */
 #loader{position:absolute;left:0;right:0;bottom:0;height:2px;z-index:9;background:transparent;transition:opacity .3s}
@@ -502,23 +502,23 @@ html:not(.wide) .rs.plaque .pn,html:not(.wide) .rs.plaque .ps{display:none}
     <p class="bk-hint" id="bk-hint">Toca una hoja para abrirla</p>
     <div id="stage">
       <i class="parche" aria-hidden="true"></i>
-      <button class="pg" type="button" data-spread="1" data-view="servicios">
+      <button class="pg" type="button" data-spread="1" data-view="servicios" aria-label="Servicios: ver todos">
         <h2>Servicios</h2><i class="rule"></i>
         <ul><li>Discos y pastillas</li><li>Suspensión</li><li>Mecánica general</li><li>Motor y dirección</li><li>Llantas y batería</li></ul>
         <span class="more">Ver todo ›</span>
       </button>
-      <button class="pg" type="button" data-spread="1" data-view="repuestos">
+      <button class="pg" type="button" data-spread="1" data-view="repuestos" aria-label="Repuestos: ver todos">
         <h2>Repuestos</h2><i class="rule"></i>
         <ul><li>Pastillas</li><li>Discos</li><li>Llantas</li><li>Baterías</li><li>Amortiguadores</li></ul>
         <span class="more">Ver todo ›</span>
       </button>
-      <button class="pg" type="button" data-spread="2" data-view="vehiculos">
+      <button class="pg" type="button" data-spread="2" data-view="vehiculos" aria-label="Vehículos que atendemos">
         <h2>Vehículos que atendemos</h2><i class="rule"></i>
         <p>Multimarca: atendemos todo tipo de carros.</p>
         <ul class="brands"><li>Kia</li><li>Renault</li><li>Toyota</li><li>Mazda</li><li>Chevrolet</li><li>Suzuki</li><li>Nissan</li><li>Hyundai</li><li>Volkswagen</li><li>BYD</li><li>Otro</li></ul>
         <span class="more">Ver más ›</span>
       </button>
-      <button class="pg" type="button" data-spread="2" data-view="ayuda">
+      <button class="pg" type="button" data-spread="2" data-view="ayuda" aria-label="Pedir ayuda en carretera">
         <h2>Ayuda en carretera</h2><i class="rule"></i>
         <p>¿Te has varado? Llámanos de inmediato.</p>
         <span class="more">Pedir ayuda ›</span>
@@ -1133,8 +1133,8 @@ var SPREADS_W={
   2:{L:{q:[[290,142],[630,143],[632,605],[262,603]],i:[0,0,1,1]},R:{q:[[640,142],[990,148],[1003,605],[640,607]],i:[0,0,1,1]}}
 };
 var SPREADS={
-  1:{L:{q:[[80,490],[354,488],[357,880],[68,878]],i:[.16,.13,.97,.88]},R:{q:[[360,488],[615,486],[655,872],[360,880]],i:[.05,.13,.84,.88]}},
-  2:{L:{q:[[88,516],[354,512],[358,920],[50,920]],i:[.14,.07,.97,.82]},R:{q:[[360,512],[618,508],[668,912],[358,920]],i:[.05,.07,.84,.84]}}
+  1:{L:{q:[[78,560],[362,560],[362,950],[78,950]],i:[0,0,1,1]},R:{q:[[372,562],[650,562],[650,950],[372,950]],i:[0,0,1,1]}},
+  2:{L:{q:[[86,566],[370,566],[370,965],[86,965]],i:[0,0,1,1]},R:{q:[[380,566],[650,566],[650,965],[380,965]],i:[0,0,1,1]}}
 };
 function lerp(a,b,t){return a+(b-a)*t}
 function bil(q,u,v){
@@ -1443,7 +1443,7 @@ function openPostFromRoom(i){ openSheet('blog'); var n=0; (function w(){ if(blog
 function buildFotos(){
   return getJSON('contenido/galeria.json').then(function(d){
     var fotos=((d&&d.fotos)||[]).filter(function(f){ return f&&f.src; }).slice(0,6);
-    var X=WIDE?[[397,503],[587,693],[777,883]]:[[279,334],[351,407],[424,480]], Y=WIDE?[[115,265],[334,481]]:[[320,395],[412,485]];
+    var X=WIDE?[[397,503],[587,693],[777,883]]:[[179,259],[318,398],[456,536]], Y=WIDE?[[115,265],[334,481]]:[[351,453],[505,607]];
     fotos.forEach(function(f,i){
       var c=i%3, r=(i/3)|0, b=surf('button',rq(X[c][0],Y[r][0],X[c][1],Y[r][1]),'photo',0.12*i);
       b.type='button'; b.setAttribute('aria-label','Ampliar foto: '+(f.alt||('foto '+(i+1))));
@@ -1453,15 +1453,17 @@ function buildFotos(){
   }).catch(function(){});
 }
 function buildOficina(){
-  var mp=surf('button',WIDE?rq(455,92,846,458):rq(232,240,640,788),'hot map',0); mp.type='button'; mp.setAttribute('aria-label','Ver el mapa y cómo llegar');
-  var mi=new Image(); mi.src=HAB+'mapa-bogota.webp'; mi.alt='Mapa de Bogotá con la ubicación del taller en Suba'; mi.decoding='async'; mp.appendChild(mi); mp.appendChild(mk('small','osm','© OpenStreetMap'));
+  // móvil (v9b): el mapa de Bogotá ya viene en el video; zona transparente con «Ver mapa» (termina en x=654: dentro de la pantalla a 390 px)
+  var mp=surf('button',WIDE?rq(455,92,846,458):rq(242,240,654,555),'hot map',0); mp.type='button'; mp.setAttribute('aria-label','Ver el mapa y cómo llegar');
+  if(WIDE){ var mi=new Image(); mi.src=HAB+'mapa-bogota.webp'; mi.alt='Mapa de Bogotá con la ubicación del taller en Suba'; mi.decoding='async'; mp.appendChild(mi); mp.appendChild(mk('small','osm','© OpenStreetMap')); }
   mp.appendChild(mk('span','pill','Ver mapa')); mp.addEventListener('click',function(){ tocar('mapa'); sheetAt('home','#mapa'); });
-  var ph=surf('a',WIDE?rq(258,616,438,712):rq(40,1128,330,1275),'hot phone',0.1); ph.href='tel:'+TELEFONO; ph.setAttribute('data-call',''); ph.setAttribute('data-ev','llamar'); ph.setAttribute('data-src','oficina'); ph.setAttribute('aria-label','Llamar al taller');
+  var ph=surf('a',WIDE?rq(258,616,438,712):rq(85,855,370,985),'hot phone',0.1); ph.href='tel:'+TELEFONO; ph.setAttribute('data-call',''); ph.setAttribute('data-ev','llamar'); ph.setAttribute('data-src','oficina'); ph.setAttribute('aria-label','Llamar al taller');
   ph.appendChild(mk('span','pill','Llamar'));
-  var bl=surf('button',WIDE?rq(120,396,290,444):rq(64,632,200,692),'hot blogpill',0.15); bl.type='button'; bl.setAttribute('aria-label','Ver el blog'); bl.appendChild(mk('span','pill','Blog')); bl.addEventListener('click',function(){ tocar('blog'); sheetAt('blog'); });
+  var bl=surf('button',WIDE?rq(120,396,290,444):rq(76,452,184,572),'hot blogpill',0.15); bl.type='button'; bl.setAttribute('aria-label','Ver el blog'); bl.appendChild(mk('span','pill','Blog')); bl.addEventListener('click',function(){ tocar('blog'); sheetAt('blog'); });
   return getJSON('contenido/blog.json').then(function(d){
     var arts=(d&&d.articulos)||[];
-    (WIDE?[rq(63,213,149,334),rq(160,212,247,334)]:[rq(10,438,88,549),rq(97,437,175,549)]).forEach(function(q,i){
+    // móvil: solo la hoja del tablón que queda dentro de la pantalla (las del borde izquierdo se recortan)
+    (WIDE?[rq(63,213,149,334),rq(160,212,247,334)]:[rq(80,322,163,440)]).forEach(function(q,i){
       var a=arts[i]; if(!a) return;
       var b=surf('button',q,'sheet',0.2+0.15*i); b.type='button'; b.setAttribute('aria-label','Leer artículo: '+a.titulo);
       b.appendChild(mk('span','st',a.titulo)); b.addEventListener('click',function(){ tocar('articulo'); openPostFromRoom(i); });
@@ -1469,13 +1471,13 @@ function buildOficina(){
   }).catch(function(){});
 }
 function buildMostrador(){
-  var bd=surf('button',WIDE?rq(448,76,830,338):rq(340,259,549,451),'board',0); bd.type='button'; bd.setAttribute('aria-label','Ver las ofertas del taller');
+  var bd=surf('button',WIDE?rq(448,76,830,338):rq(308,247,654,597),'board',0); bd.type='button'; bd.setAttribute('aria-label','Ver las ofertas del taller');
   bd.appendChild(mk('span','bt','Ofertas'));
   bd.addEventListener('click',function(){ tocar('ofertas'); sheetAt('home','#banners'); });
   var redes=[['Instagram','ig',INSTAGRAM&&'@'+INSTAGRAM,INSTAGRAM&&'https://www.instagram.com/'+encodeURIComponent(INSTAGRAM)+'/'],
              ['Facebook','fb',FACEBOOK,FACEBOOK&&'https://www.facebook.com/'+encodeURIComponent(FACEBOOK)],
              ['TikTok','tt',TIKTOK&&'@'+TIKTOK,TIKTOK&&'https://www.tiktok.com/@'+encodeURIComponent(TIKTOK)]];
-  var Q=WIDE?[rq(426,530,535,659),rq(589,531,695,659),rq(747,531,855,659)]:[rq(247,573,305,631),rq(326,574,384,631),rq(404,574,463,631)];
+  var Q=WIDE?[rq(426,530,535,659),rq(589,531,695,659),rq(747,531,855,659)]:[rq(148,807,266,925),rq(303,807,422,925),rq(459,807,578,925)];
   redes.forEach(function(r,i){
     var url=r[3], el=surf(url?'a':'button',Q[i],'plaque',0.2+0.12*i);
     if(url){ el.href=url; el.target='_blank'; el.rel='noopener noreferrer'; el.setAttribute('aria-label','Abrir '+r[0]+' ('+r[2]+')'); }

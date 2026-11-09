@@ -31,3 +31,20 @@ small warm office with dark walnut slat walls: a large HORIZONTAL framed map of 
 - AVOID: añadir «zooming in», «the door staying open at the end» y (intento 3) «cuts, transitions, wipes, circular reveals».
 
 ## 4) CATÁLOGO — NO usa la base anterior; usar el prompt 4 de `docs/prompts-videos-v8.md` (manos toman el libro), con el maestro v9 adjunto y el primer cuadro con las puertas cerradas.
+
+## v9b — CAMINANDO (pedido del usuario, 4 nov): la persona se levanta, camina hasta la puerta, entra y se detiene
+Reemplaza la base de cámara fija (el usuario no quiere que la persona se quede sentada mientras la puerta se abre). Entrada = 0–8,5 s; reposo = 8,5–10 s quieto en vaivén; salida = entrada al revés (vuelve caminando y se sienta en el cuadro de la sala).
+Plantilla (sustituir `<LADO>`, `<PUERTA>`, `<SALA>` y `<DESCRIPCIÓN>`):
+
+FIRST FRAME (must match the attached image exactly): (igual que la base)
+
+ACTION (strictly first-person POV, one continuous smooth gimbal-like shot, 10 seconds): 0.0–1.0 s still, seated, hands on the knees. 1.0–2.5 s the viewer stands up smoothly from the sofa; the camera rises to standing eye level and the hands leave the frame. 2.5–6.0 s he walks slowly and steadily forward, passing to the <LADO> of the coffee table, straight toward the <PUERTA>; as he approaches, the door swings open by itself. 6.0–8.5 s he walks through the open doorway into <SALA> and stops facing its back wall. 8.5–10.0 s the camera is completely still at standing eye level, perfectly steady, looking at <DESCRIPCIÓN>.
+
+CONSISTENCY: while walking, the lounge stays exactly the same as the first frame: same sofa, table, armchair, shelves and the same three doors in the same positions; only the <PUERTA> opens. <SALA> is a small enclosed room behind that door, NOT the open workshop floor. No cuts, no transitions, no wipes, no dissolves, no circular reveals, no teleporting: the viewer physically walks the whole way.
+
+AVOID: any other person anywhere, a third-person view, seeing the viewer's body, camera shake, zoom tricks, flying camera, walking into the workshop, cars, car lifts, extra doors, text, logos, watermarks, music and speech.
+Photorealistic, same lighting and color grading as the first frame.
+
+- Fotos: LADO = LEFT, PUERTA = LEFT steel-framed wooden door, SALA = a dark gallery room, DESCRIPCIÓN = texto de la sección 1.
+- Mostrador: LADO = LEFT, PUERTA = CENTER frameless glass door, SALA = a small service reception, DESCRIPCIÓN = texto de la sección 2.
+- Oficina: LADO = RIGHT, PUERTA = RIGHT steel-framed wooden door, SALA = a small warm office, DESCRIPCIÓN = texto de la sección 3.

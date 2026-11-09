@@ -11,10 +11,10 @@ El resto sale con ffmpeg: salida = entrada al revés, reposo = último cuadro qu
 | 2 | Oficina | igual por la DERECHA: oficina con mapa de Bogotá, tablón y teléfono | `V9-3-OFICINA.mp4` | HECHO (4 nov, 1.er intento) |
 | 3 | Mostrador | por la izquierda, puerta de vidrio del centro, recepción con caja y 3 placas | `V9-2-MOSTRADOR.mp4` (el de cámara fija quedó como `-fija-reemplazado`) | HECHO (5 nov, 1.er intento) |
 | 4 | Bucle de la sala | casi inmóvil, 3 puertas cerradas, vapor del café y luz; ping-pong sin salto | `V10-4-BUCLE.mp4` | HECHO (5 nov, 1.er intento; diff medio 0,16, puertas cerradas) |
-| 5 | Catálogo | UN solo video: las manos toman el libro, 1.ª doble SERVICIOS/REPUESTOS quieta 2 s, pasa la hoja, 2.ª doble VEHÍCULOS/AYUDA quieta; ffmpeg lo parte en C (agarra), D (pasa) y E (D al revés) | `V10-5-CATALOGO.mp4` | PENDIENTE (prompt: `docs/prompts-videos-v8.md` §4) |
-| 6 | Intro | primer cuadro = maestro; plano que se asienta sobre la sala; termina en el cuadro con que arranca el bucle | `V10-6-INTRO.mp4` | PENDIENTE (si no sale, derivar con ffmpeg como `tools/v9-sala-movil.sh`) |
+| 5 | Catálogo | UN solo video: las manos toman el libro, 1.ª doble SERVICIOS/REPUESTOS quieta 2 s, pasa la hoja, 2.ª doble VEHÍCULOS/AYUDA quieta; ffmpeg lo parte en C (agarra), D (pasa) y E (D al revés) | `V10-5-CATALOGO.mp4` | HECHO (5 nov; chat nuevo `d55a20bb88b2eef8`: en el chat largo se atascó 2 veces) |
+| 6 | Intro | mira alrededor sentado y vuelve al frente; termina como el primer cuadro | `V10-6-INTRO.mp4` | HECHO (9 nov, chat `b6f3ac32330d9521`) |
 
-Total móvil = 6 (ya hay 2). El catálogo cuenta 1 porque se parte con ffmpeg (antes se pensó 2).
+Total móvil = 6 (los 6 hechos). El catálogo cuenta 1 porque se parte con ffmpeg (antes se pensó 2).
 
 ## Reglas
 - Un solo chat de Gemini, mismo maestro adjunto cada vez. Prompts COMPLETOS, no simplificar. Errores → recargar la URL + Rehacer. Cupo agotado → anotar la hora y reprogramar.
@@ -26,3 +26,16 @@ Total móvil = 6 (ya hay 2). El catálogo cuenta 1 porque se parte con ffmpeg (a
 ## Bitácora
 - 5 nov: carpeta de videos anteriores creada; sincronizado con la sesión en la nube (rama `main-pexueb`); el usuario confirma maestro cerrado y empezar por los clips del móvil.
 - 5 nov ~02:00: Mostrador caminando (se levanta, rodea la mesa, abre la puerta de vidrio, recepción con caja/3 placas/pizarra vacía) y Bucle aprobados, ambos al 1.er intento, en el mismo chat `0dbea89327741b21`. Cupo agotado: «los vídeos volverán a estar disponibles el 5 nov a las 5:26». Pendiente: Catálogo (prompt §4 de prompts-videos-v8.md con «three CLOSED doors» en el primer cuadro) e Intro. Con los 6 aprobados: procesar (procesar-habitaciones.sh + partir catálogo), medir zonas, integrar, regresión, push.
+- 5 nov: Catálogo aprobado (textos exactos en las dos dobles). Cortes: C = 0–4,4 s, D = 4,4–7,8 s, E = D al revés. Las hojas móviles pasan a ser zonas táctiles transparentes (el texto va en el video). Clips procesados a `assets` con `tools/v10-movil.sh` y `tools/procesar-habitaciones.sh`.
+
+## Prompt de la Intro (maestro adjunto, chat `d55a20bb88b2eef8`, Vídeos, Vertical, Pro)
+FIRST FRAME (must match the attached image exactly): first-person view seated on a brown leather sofa in a premium automotive workshop lounge, the viewer's two hands resting on his knees, dark walnut coffee table with an open book, espresso cup and silver toy car, three CLOSED doors in the back wall (left steel-framed door, center frameless glass door, right steel-framed door). Warm amber, dark, moody lighting. Vertical 9:16.
+
+ACTION (strictly first-person POV, one continuous smooth shot, 10 seconds, the viewer stays seated the whole time): 0.0–1.0 s still. 1.0–4.0 s he slowly turns his head a little to the left, looking at the armchair and the wall. 4.0–7.0 s he slowly turns his head a little to the right, looking at the lit shelves. 7.0–9.0 s he slowly returns to looking straight ahead. 9.0–10.0 s completely still, the view identical to the first frame. The hands stay resting on the knees.
+
+CONSISTENCY: all three doors stay CLOSED; the room, sofa, table, book, toy car, armchair, plant and shelves never change; no wall appears, disappears or morphs. The last frame must be identical to the first frame.
+
+AVOID: any other person anywhere, a third-person view, standing up, walking, doors opening, extra doors, cuts, transitions, zoom, shake, text, logos, watermarks, music and speech.
+Photorealistic, same lighting and color grading as the first frame.
+
+- 9 nov: Intro generada y aprobada (sentado, mira a la izquierda y a la derecha, vuelve al frente). Lección: en un chat con videos previos Gemini se queda colgado con «Detener» activo; cancelar (no gasta cupo) y usar un chat nuevo (Vídeos, Vertical, Pro). 2.ª doble del catálogo: «PEDIR AYUDA» salía dos veces, se tapa la de arriba con `assets/cat-parche-movil.webp`. INTEGRADOS los 6 en móvil (`tools/v10-movil.sh` + `tools/procesar-habitaciones.sh`). Pendiente: escritorio (imagen maestra 16:9 + 5 o 6 videos) y luego la nave.
