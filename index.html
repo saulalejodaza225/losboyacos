@@ -98,8 +98,8 @@ a{color:inherit;text-decoration:none}
 html:not(.wide) #vB{transition-duration:.4s}
 #vC,#vD,#vE{z-index:2;opacity:0;transition:opacity .15s linear}
 #vC.show,#vD.show,#vE.show{opacity:1}
-#vP{z-index:2;opacity:0;transition:opacity .25s linear}
-#vP.show{opacity:1}
+#vP{z-index:20;opacity:0;pointer-events:none;transition:opacity .25s linear}
+#vP.show{opacity:1;pointer-events:auto}
 #hold{z-index:2;opacity:0;transition:opacity .3s ease}
 #hold.show{opacity:1}
 
@@ -837,7 +837,7 @@ var conn = navigator.connection || {};
 var lowData = conn.saveData === true || /^(slow-2g|2g)$/.test(conn.effectiveType || '');
 var phase='loading', current='home', picks={}, lastFocus=null;
 
-function setPhase(p){phase=p; app.dataset.phase=p}
+function setPhase(p){phase=p; app.dataset.phase=p; navSync()}
 
 /* ---------- analítica ---------- */
 function track(name,params){
@@ -918,6 +918,7 @@ function show(view,opts){
   bar.hidden = el.hasAttribute('data-nobar');
   $('#body').scrollTop=0;
   refreshLinks();
+  navSync();
   if(view==='home'){ loadBanners(); observeMapa(); }
   if(view==='galeria') loadGaleria();
   if(view==='blog') loadBlog();
@@ -975,8 +976,8 @@ function loadGaleria(){
   }).catch(function(){ grid.innerHTML=''; $('#gal-err').hidden=false; galState=0; });
 }
 $$('.tab',$('#gal-tabs')).forEach(function(t){ t.addEventListener('click',function(){ filterGal(t.dataset.cat); }); });
-function openLightbox(f,from){ lbFrom=from; lbImg.src=f.src; lbImg.alt=f.alt||''; lb.hidden=false; lbClose.focus({preventScroll:true}); }
-function closeLightbox(){ if(lb.hidden) return; lb.hidden=true; lbImg.removeAttribute('src'); if(lbFrom&&lbFrom.focus) try{ lbFrom.focus({preventScroll:true}); }catch(e){} }
+function openLightbox(f,from){ lbFrom=from; lbImg.src=f.src; lbImg.alt=f.alt||''; lb.hidden=false; lbClose.focus({preventScroll:true}); navSync(); }
+function closeLightbox(){ if(lb.hidden) return; lb.hidden=true; lbImg.removeAttribute('src'); navSync(); if(lbFrom&&lbFrom.focus) try{ lbFrom.focus({preventScroll:true}); }catch(e){} }
 lbClose.addEventListener('click',closeLightbox);
 lb.addEventListener('click',function(e){ if(e.target===lb) closeLightbox(); });
 
@@ -1035,8 +1036,8 @@ function renderRedes(){
 
 /* privacidad: modal con foco atrapado */
 var pv=$('#privacy'), pvFrom=null;
-function openPrivacy(from){ pvFrom=from||document.activeElement; pv.hidden=false; $('#pv-close').focus({preventScroll:true}); }
-function closePrivacy(){ if(pv.hidden) return; pv.hidden=true; if(pvFrom&&pvFrom.focus) try{ pvFrom.focus({preventScroll:true}); }catch(e){} }
+function openPrivacy(from){ pvFrom=from||document.activeElement; pv.hidden=false; $('#pv-close').focus({preventScroll:true}); navSync(); }
+function closePrivacy(){ if(pv.hidden) return; pv.hidden=true; navSync(); if(pvFrom&&pvFrom.focus) try{ pvFrom.focus({preventScroll:true}); }catch(e){} }
 $('#open-privacy').addEventListener('click',function(e){ openPrivacy(e.currentTarget); });
 $('#open-privacy-footer').addEventListener('click',function(e){ openPrivacy(e.currentTarget); });
 $('#pv-close').addEventListener('click',closePrivacy);
@@ -1442,26 +1443,28 @@ function loadVideos(){
   setTimeout(go,7000); // red lenta: no bloquear
 }
 
-/* burbujas del menú: saca el celular, lo mira y entonces abre WhatsApp o Maps.
+/* todo enlace a WhatsApp, Google Maps o una llamada: saca el celular, lo mira y entonces abre la aplicación.
    Si el clip no está listo (o en escritorio, o con movimiento reducido) el enlace funciona normal, sin esperas.
    El clip es corto para abrir dentro de la ventana en que el navegador aún acepta la acción del toque. */
-var vP=$('#vP');
-function abrirBurbuja(a){
-  if(a.target==='_blank'){
-    var w=null; try{ w=window.open(a.href,'_blank'); }catch(e){}
+var vP=$('#vP'), celularBusy=false, ES_APP=/^(tel:|https:\/\/(wa\.me\/|(www\.)?google\.[^\/]+\/maps|maps\.google\.|maps\.app\.goo\.gl\/))/;
+function abrirApp(url,enOtra){
+  if(enOtra){
+    var w=null; try{ w=window.open(url,'_blank'); }catch(e){}
     if(w){ try{ w.opener=null; }catch(e){} return; }   // ventana bloqueada: se abre en esta misma pestaña
   }
-  location.href=a.href;
+  location.href=url;
 }
-$$('.fabs a').forEach(function(a){ a.addEventListener('click',function(e){
-  if(phase!=='loop'||WIDE||reduced||e.ctrlKey||e.metaKey||e.shiftKey||!vP.src||vP.readyState<3) return;
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[href]');
+  if(!a||!ES_APP.test(a.href)) return;
+  if(celularBusy){ e.preventDefault(); return; }
+  if(e.defaultPrevented||WIDE||reduced||e.ctrlKey||e.metaKey||e.shiftKey||!vP.src||vP.readyState<3) return;
   e.preventDefault();
-  invite.classList.remove('on'); hint.classList.remove('on'); pulse.classList.remove('on');
-  setPhase('phone');
-  var listo=false, t=0, fin=function(){
+  celularBusy=true;
+  var url=a.href, enOtra=a.target==='_blank', listo=false, t=0, fin=function(){
     if(listo) return; listo=true; clearTimeout(t); vP.onended=null;
-    abrirBurbuja(a);
-    setTimeout(function(){ vP.classList.remove('show'); setTimeout(function(){ try{vP.pause()}catch(e2){} },260); setPhase('loop'); showInvite(true); },350);
+    abrirApp(url,enOtra);
+    setTimeout(function(){ vP.classList.remove('show'); celularBusy=false; setTimeout(function(){ try{vP.pause()}catch(e2){} },260); },350);
   };
   vP.onended=fin; t=setTimeout(fin,3500);    // red lenta o clip detenido: la acción no se pierde
   try{ vP.currentTime=0; }catch(e2){}
@@ -1469,7 +1472,8 @@ $$('.fabs a').forEach(function(a){ a.addEventListener('click',function(e){
   if(p&&p.catch) p.catch(fin);
   var ver=function(){ vP.classList.add('show'); };
   if('requestVideoFrameCallback' in vP) vP.requestVideoFrameCallback(ver); else vP.addEventListener('playing',ver,{once:true});
-}); });
+});
+['pointerdown','pointerup','click'].forEach(function(ev){ vP.addEventListener(ev,function(e){ e.stopPropagation(); }); });   // mientras corre, los toques no llegan a lo de abajo
 
 /* primer toque en cualquier parte */
 app.addEventListener('pointerup',function(e){
@@ -1622,6 +1626,7 @@ function skipRoom(){
 function leaveRoom(){
   if(!roomId||roomLeaving) return;
   var id=roomId; roomLeaving=true; roomReady=false; clearTimeout(roomT);
+  navSync();
   track('salir_habitacion',{habitacion:id});
   var caminando=!roomReady&&!vRR.classList.contains('show');
   rstage.classList.remove('ready'); roomEl.classList.remove('ready','on'); roomEl.setAttribute('inert','');
@@ -1655,10 +1660,69 @@ rPill.addEventListener('click',function(){ tocar('ver_todas'); sheetAt('galeria'
 app.addEventListener('pointerup',function(e){ if(phase==='room'&&!roomReady&&!e.target.closest('button,a')) skipRoom(); });
 document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&phase==='room'&&lb.hidden) leaveRoom(); });
 
+/* ---------- flecha atrás del celular ----------
+   Cada sección abierta es una entrada del historial del navegador, así que «atrás» vuelve a la sección anterior.
+   «pila» refleja el historial: pila[i] es lo que se ve en la entrada i (0 = sala). navSync se llama tras cada cambio:
+   si lo que se ve es nuevo agrega una entrada; si ya estaba en la pila (se volvió con un botón de la página) retira las de encima. */
+var navListo=false, saltando=false, navPend=false, pila=['loop'], SID=String(Date.now());
+function nivel(){
+  if(!pv.hidden) return 'pv';
+  if(!lb.hidden) return 'lb';
+  if(phase==='open') return (staticMode&&current==='home')?'loop':'sheet:'+current;
+  if(bookActive) return 'book:'+pg;
+  if(roomId&&!roomLeaving) return 'room:'+roomId;
+  return 'loop';
+}
+function finSalto(){ saltando=false; if(navPend){ navPend=false; navSync(); } }
+function saltar(n){ saltando=true; history.go(n); setTimeout(function(){ if(saltando) finSalto(); },800); }
+function navSync(){
+  if(!navListo) return;
+  if(saltando){ navPend=true; return; }
+  var k=nivel(), cur=pila.length-1;
+  if(k===pila[cur]) return;
+  var i=pila.lastIndexOf(k);
+  if(i>=0){ var n=cur-i; pila.length=i+1; saltar(-n); return; }
+  pila.push(k);
+  try{ history.pushState({bo:pila.length-1,s:SID},''); }catch(e){}
+}
+function retroceder(dest){              // false si en este momento no se puede (la hoja está girando)
+  if(!pv.hidden){ closePrivacy(); return true; }
+  if(!lb.hidden){ closeLightbox(); return true; }
+  if(phase==='open'){
+    if(dest.indexOf('sheet:')===0){ show(dest.slice(6)); return true; }
+    if(staticMode){ show('home'); return true; }
+    closeSheet();
+    if(dest==='loop'&&bookActive) closeBook();
+    return true;
+  }
+  if(bookActive){
+    if(dest.indexOf('book:')===0){
+      var n=+dest.slice(5);
+      if(n===pg) return true;
+      if(phase!=='book'||seqBusy) return false;
+      turn(n>pg?1:-1); return true;
+    }
+    closeBook(); return true;
+  }
+  if(roomId){ leaveRoom(); return true; }
+  return true;
+}
+window.addEventListener('popstate',function(e){
+  if(saltando){ finSalto(); return; }
+  var st=e.state; if(!st||typeof st.bo!=='number') return;
+  if(st.s!==SID){ history.back(); return; }     // entrada de antes de recargar la página: se salta
+  var cur=pila.length-1, d=st.bo;
+  if(d===cur) return;
+  if(d>cur){ saltar(cur-d); return; }           // «adelante» no rehace la sección
+  var quitadas=pila.splice(d+1);
+  if(!retroceder(pila[d])){ pila=pila.concat(quitadas); saltar(quitadas.length); }
+});
+try{ history.scrollRestoration='manual'; history.replaceState({bo:0,s:SID},''); navListo=true; }catch(e){}
+
 placePages(); layoutStage(); layoutRoom();
 refreshLinks();
 boot();
-window.__boyacos={get phase(){return phase},open:openCatalog,close:closeBook,get page(){return pg},room:enterRoom,leave:leaveRoom,get roomId(){return roomId},get roomReady(){return roomReady}};
+window.__boyacos={get phase(){return phase},open:openCatalog,close:closeBook,get page(){return pg},room:enterRoom,leave:leaveRoom,get roomId(){return roomId},get roomReady(){return roomReady},get pila(){return pila.slice()}};
 })();
 </script>
 </body>

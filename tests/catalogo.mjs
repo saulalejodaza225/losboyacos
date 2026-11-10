@@ -28,16 +28,16 @@ for(const [w,h] of [[390,844],[360,740]]){
   await p.waitForFunction(()=>vP.readyState>=3,null,{timeout:20000});
   await p.evaluate(()=>{window.__abiertos=[];window.open=(u,t)=>{__abiertos.push(u);return {opener:1}}});
   await p.tap('#fab-map'); await p.waitForTimeout(600);
-  ok(tag+' burbuja Maps: corre el clip del celular y aún no abre',await p.evaluate(()=>__boyacos.phase==='phone'&&!vP.paused&&__abiertos.length===0));
+  ok(tag+' burbuja Maps: corre el clip del celular y aún no abre',await p.evaluate(()=>vP.classList.contains('show')&&!vP.paused&&__abiertos.length===0));
   await p.waitForFunction(()=>__abiertos.length>0,null,{timeout:6000});
   ok(tag+' burbuja Maps: abre Google Maps al terminar',await p.evaluate(()=>__abiertos[0].includes('google.com/maps')));
-  await p.waitForFunction(()=>__boyacos.phase==='loop',null,{timeout:3000}); await p.waitForTimeout(1600);
+  await p.waitForFunction(()=>__boyacos.phase==='loop'&&!vP.classList.contains('show'),null,{timeout:3000}); await p.waitForTimeout(1600);
   ok(tag+' burbuja Maps: vuelve al menú con las burbujas',await p.evaluate(()=>!vP.classList.contains('show')&&+getComputedStyle(document.getElementById('fab-wa').parentElement).opacity>0));
   let waUrl=''; await p.route(/wa.me/,r=>{waUrl=r.request().url();r.fulfill({status:204})});
   await p.waitForTimeout(1200);
   await p.tap('#fab-wa'); await p.waitForTimeout(600);
-  ok(tag+' burbuja WhatsApp: corre el clip antes de abrir',await p.evaluate(()=>__boyacos.phase==='phone')&&waUrl==='');
-  await p.waitForFunction(()=>__boyacos.phase==='loop',null,{timeout:6000});
+  ok(tag+' burbuja WhatsApp: corre el clip antes de abrir',await p.evaluate(()=>vP.classList.contains('show'))&&waUrl==='');
+  await p.waitForFunction(()=>!vP.classList.contains('show'),null,{timeout:6000});
   await p.waitForTimeout(300);
   ok(tag+' burbuja WhatsApp: abre wa.me al terminar',waUrl.includes('wa.me/'),waUrl);
   await p.goto('http://localhost:8123/',{waitUntil:'domcontentloaded'});
@@ -69,10 +69,34 @@ for(const [w,h] of [[390,844],[360,740]]){
   await swipe(w/2,h*0.65,w/2+12,h*0.3);
   await p.waitForTimeout(400);
   ok(tag+' un gesto vertical no pasa la página',await p.evaluate(()=>__boyacos.phase==='book'&&__boyacos.page===1));
+  // el botón de Maps del catálogo también usa el clip, y el video queda por encima de todo
+  await p.evaluate(()=>{window.__abiertos=[];window.open=(u,t)=>{__abiertos.push(u);return {opener:1}}});
+  await p.waitForFunction(()=>vP.readyState>=3,null,{timeout:20000});
+  await p.tap('.dock a.btn.map'); await p.waitForTimeout(600);
+  ok(tag+' catálogo, Cómo llegar: corre el clip por encima de todo y sigue en el libro',await p.evaluate(()=>{const e=document.elementFromPoint(innerWidth/2,innerHeight-40);return e===vP&&!vP.paused&&__boyacos.phase==='book'&&__abiertos.length===0}));
+  await p.waitForFunction(()=>__abiertos.length>0&&!vP.classList.contains('show'),null,{timeout:6000});
+  ok(tag+' catálogo, Cómo llegar: abre Maps y vuelve al libro',await p.evaluate(()=>__abiertos[0].includes('google.com/maps')&&__boyacos.phase==='book'));
   // tocar una hoja sigue abriéndola
   await p.waitForTimeout(700);
   await p.tap('.pg.on[data-view=servicios]'); await p.waitForTimeout(900);
   ok(tag+' tocar una hoja sigue abriéndola',await p.evaluate(()=>__boyacos.phase==='open'));
+  // WhatsApp desde una hoja (se deja de último porque navega)
+  waUrl=''; await p.tap('#bar-wa'); await p.waitForTimeout(600);
+  ok(tag+' hoja, WhatsApp: corre el clip y sigue en la hoja',await p.evaluate(()=>vP.classList.contains('show')&&__boyacos.phase==='open')&&waUrl==='');
+  await p.waitForFunction(()=>!vP.classList.contains('show'),null,{timeout:6000}); await p.waitForTimeout(300);
+  ok(tag+' hoja, WhatsApp: abre wa.me al terminar',waUrl.includes('wa.me/'),waUrl.slice(0,60));
+  // Llamar: en su propia pestaña, porque el navegador de pruebas deja colgado el enlace tel:
+  const q=await ctx.newPage(); q.on('pageerror',e=>errs.push(e.message));
+  await q.goto('http://localhost:8123/',{waitUntil:'domcontentloaded'});
+  await q.waitForFunction(()=>document.getElementById('app').dataset.phase==='loop',null,{timeout:20000});
+  await q.waitForTimeout(800);
+  await q.tap('#app',{position:{x:w/2,y:h*0.6}});
+  await q.waitForFunction(()=>__boyacos.phase==='book'&&__boyacos.page===1,null,{timeout:15000});
+  await q.waitForFunction(()=>vP.readyState>=3,null,{timeout:20000}); await q.waitForTimeout(900);
+  await q.tap('.dock a.btn.call'); await q.waitForTimeout(600);
+  ok(tag+' catálogo, Llamar: corre el clip del celular',await q.evaluate(()=>vP.classList.contains('show')&&!vP.paused&&__boyacos.phase==='book'));
+  await q.waitForFunction(()=>!vP.classList.contains('show'),null,{timeout:6000});
+  ok(tag+' catálogo, Llamar: al terminar sigue en el libro',await q.evaluate(()=>__boyacos.phase==='book'));
   ok(tag+' sin errores de JavaScript',errs.length===0,errs.join(' ; '));
   await ctx.close();
 }
