@@ -12,7 +12,7 @@ mkdir -p "$OUT"
 HAB=(
   "fotos|v9/V11-1-FOTOS.mp4|99||fijo"
   "oficina|v9/V9-3-OFICINA.mp4|99||fijo"
-  "mostrador|v9/V9-2-MOSTRADOR.mp4|99||fijo"
+  "mostrador|v9/V11-2-MOSTRADOR.mp4|99||fijo"
 )
 ENC=(-c:v libx264 -preset slow -crf 22 -pix_fmt yuv420p -r 24 -an -movflags +faststart)
 for h in "${HAB[@]}"; do

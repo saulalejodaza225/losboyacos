@@ -98,6 +98,8 @@ a{color:inherit;text-decoration:none}
 html:not(.wide) #vB{transition-duration:.4s}
 #vC,#vD,#vE{z-index:2;opacity:0;transition:opacity .15s linear}
 #vC.show,#vD.show,#vE.show{opacity:1}
+#vP{z-index:2;opacity:0;transition:opacity .25s linear}
+#vP.show{opacity:1}
 #hold{z-index:2;opacity:0;transition:opacity .3s ease}
 #hold.show{opacity:1}
 
@@ -245,8 +247,21 @@ html:not(.wide) .rs.photo::after{content:"";position:absolute;inset:-9px -11px}
 .pg>*{visibility:hidden}
 .wide .parche{display:none;position:absolute;left:452px;top:495px;width:48px;height:23px;background:url(assets/escritorio/cat-parche.webp)}
 .wide #stage.p2 .parche{display:block}
-html:not(.wide) .parche{display:none;position:absolute;left:403px;top:778px;width:89px;height:24px;background:url(assets/cat-parche-movil.webp);-webkit-mask-image:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent),linear-gradient(to bottom,transparent,#000 18%,#000 82%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent),linear-gradient(to bottom,transparent,#000 18%,#000 82%,transparent);mask-composite:intersect}
-html:not(.wide) #stage.p2 .parche{display:block}
+/* catálogo móvil: texto real sobre el papel sin letras del último cuadro; se ve nítido en cualquier pantalla */
+.nitido{display:none}
+html:not(.wide) .nitido{position:absolute;left:0;top:0;width:720px;height:1280px;background-size:720px 1280px}
+html:not(.wide) #stage:not(.p2) .nitido[data-spread="1"]{display:block;background-image:url(assets/cat-papel-1.webp)}
+html:not(.wide) #stage.p2 .nitido[data-spread="2"]{display:block;background-image:url(assets/cat-papel-2.webp)}
+.nt{position:absolute;white-space:nowrap;color:#ece6dd;font-family:var(--font-body);-webkit-font-smoothing:antialiased}
+.nt.c{text-align:center;transform:translateX(-50%)}
+.nt.h{font-size:28px;font-weight:700;line-height:28px;letter-spacing:.02em;text-transform:uppercase}
+.nt.h2{font-size:25px;font-weight:700;line-height:27px;letter-spacing:.01em;text-transform:uppercase}
+.nt.l{font-size:18.5px;font-weight:500;line-height:27px}
+.nt.p{font-size:17px;font-weight:500;line-height:20px}
+.nt.p.p2l{line-height:29px}
+.nt.b{font-size:16px;font-weight:500;line-height:21px}
+.nt.m{font-size:14px;font-weight:600;line-height:16px;letter-spacing:.1em;text-transform:uppercase;border-bottom:1.5px solid var(--accent);padding-bottom:2px}
+#app[data-phase="book"]{touch-action:pan-y}
 .wide .bk-bottom{left:50%;right:auto;width:min(520px,92vw);transform:translateX(-50%)}
 /* cargador */
 #loader{position:absolute;left:0;right:0;bottom:0;height:2px;z-index:9;background:transparent;transition:opacity .3s}
@@ -449,6 +464,7 @@ html:not(.wide) #stage.p2 .parche{display:block}
   <video id="vC" class="layer" muted playsinline webkit-playsinline preload="auto" data-src="assets/clip3a-agarra.mp4" aria-hidden="true" tabindex="-1"></video>
   <video id="vD" class="layer" muted playsinline webkit-playsinline preload="auto" data-src="assets/clip3b-pagina.mp4" aria-hidden="true" tabindex="-1"></video>
   <video id="vE" class="layer" muted playsinline webkit-playsinline preload="auto" data-src="assets/clip3c-atras.mp4" aria-hidden="true" tabindex="-1"></video>
+  <video id="vP" class="layer" muted playsinline webkit-playsinline preload="auto" data-src="assets/clip-celular.mp4" aria-hidden="true" tabindex="-1"></video>
   <script>if(document.documentElement.classList.contains('wide')){var _q=function(i){return document.getElementById(i)};_q('poster').src='assets/escritorio/poster.webp';_q('vA').poster=_q('vB').poster='assets/escritorio/poster.webp';_q('vA').dataset.src='assets/escritorio/entrada.mp4';_q('vB').dataset.src='assets/escritorio/loop.mp4';_q('vC').dataset.src='assets/escritorio/cat-abre.mp4';_q('vD').dataset.src='assets/escritorio/cat-pasa.mp4';_q('vE').dataset.src='assets/escritorio/cat-atras.mp4'}</script>
   <img id="hold" class="layer" alt="" aria-hidden="true" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
   <video id="vR" class="layer" muted playsinline webkit-playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
@@ -499,9 +515,27 @@ html:not(.wide) #stage.p2 .parche{display:block}
         </button>
       </div>
     </div>
-    <p class="bk-hint" id="bk-hint">Toca una hoja para abrirla</p>
+    <p class="bk-hint" id="bk-hint">Toca una hoja o desliza para pasar de página</p>
     <div id="stage">
       <i class="parche" aria-hidden="true"></i>
+      <div class="nitido" data-spread="1" aria-hidden="true">
+        <span class="nt h c" style="left:232px;top:586px">Servicios</span>
+        <span class="nt h c" style="left:504px;top:590px">Repuestos</span>
+        <span class="nt l c" style="left:228px;top:690px">Discos y pastillas<br>Suspensión<br>Mecánica general<br>Motor y dirección<br>Llantas y batería</span>
+        <span class="nt l c" style="left:509px;top:692px">Pastillas<br>Discos<br>Llantas<br>Baterías<br>Amortiguadores</span>
+        <span class="nt m c" style="left:223px;top:856px">Ver todo</span>
+        <span class="nt m c" style="left:510px;top:858px">Ver todo</span>
+      </div>
+      <div class="nitido" data-spread="2" aria-hidden="true">
+        <span class="nt h2" style="left:135px;top:602px">Vehículos<br>que atendemos</span>
+        <span class="nt p" style="left:131px;top:712px">Multimarca: atendemos<br>todo tipo de carros.</span>
+        <span class="nt b" style="left:130px;top:760px">Kia<br>Renault<br>Toyota<br>Mazda<br>Chevrolet<br>Suzuki</span>
+        <span class="nt b" style="left:247px;top:760px">Nissan<br>Hyundai<br>Volkswagen<br>BYD<br>Otro</span>
+        <span class="nt m" style="left:116px;top:920px">Ver más</span>
+        <span class="nt h2" style="left:414px;top:607px">Ayuda en<br>carretera</span>
+        <span class="nt p p2l" style="left:415px;top:720px">¿Te has varado?<br>Llámanos de inmediato.</span>
+        <span class="nt m" style="right:83px;top:920px">Pedir ayuda</span>
+      </div>
       <button class="pg" type="button" data-spread="1" data-view="servicios" aria-label="Servicios: ver todos">
         <h2>Servicios</h2><i class="rule"></i>
         <ul><li>Discos y pastillas</li><li>Suspensión</li><li>Mecánica general</li><li>Motor y dirección</li><li>Llantas y batería</li></ul>
@@ -1133,7 +1167,7 @@ var SPREADS_W={
   2:{L:{q:[[290,142],[630,143],[632,605],[262,603]],i:[0,0,1,1]},R:{q:[[640,142],[990,148],[1003,605],[640,607]],i:[0,0,1,1]}}
 };
 var SPREADS={
-  1:{L:{q:[[78,560],[362,560],[362,950],[78,950]],i:[0,0,1,1]},R:{q:[[372,562],[650,562],[650,950],[372,950]],i:[0,0,1,1]}},
+  1:{L:{q:[[82,537],[364,537],[364,945],[60,945]],i:[0,0,1,1]},R:{q:[[372,540],[645,542],[665,945],[372,945]],i:[0,0,1,1]}},
   2:{L:{q:[[86,566],[370,566],[370,965],[86,965]],i:[0,0,1,1]},R:{q:[[380,566],[650,566],[650,965],[380,965]],i:[0,0,1,1]}}
 };
 function lerp(a,b,t){return a+(b-a)*t}
@@ -1256,13 +1290,21 @@ $$('.pg').forEach(function(el){ el.addEventListener('click',function(e){
   // solo con el libro listo y no como eco de un toque anterior (apertura, salto, giro)
   if(swiped||phase!=='book'||seqBusy||!book.classList.contains('ready')||performance.now()-gestureT<600){ e.preventDefault(); return; }
   sheetFromBook=true; openSheet(el.dataset.view); }); });
-/* deslizar para pasar de página */
-var sx=0, sy=0, swiped=false;
-book.addEventListener('pointerdown',function(e){ sx=e.clientX; sy=e.clientY; swiped=false; });
-book.addEventListener('pointerup',function(e){
-  var dx=e.clientX-sx, dy=e.clientY-sy;
-  if(Math.abs(dx)>50&&Math.abs(dy)<70&&phase==='book'){ swiped=true; setTimeout(function(){swiped=false},350); turn(dx<0?1:-1); }
+/* deslizar para pasar de página: gesto horizontal en cualquier punto de la pantalla, salvo las barras de botones.
+   #book no recibe toques fuera de las hojas, por eso se escucha en el documento; touch-action (CSS) evita que el navegador cancele el gesto. */
+var sx=0, sy=0, swiped=false, swipeId=null;
+document.addEventListener('pointerdown',function(e){
+  swipeId=null;
+  if(phase!=='book'||!e.isPrimary||(e.target.closest&&e.target.closest('.bk-top,.bk-bottom'))) return;
+  swipeId=e.pointerId; sx=e.clientX; sy=e.clientY; swiped=false;
 });
+document.addEventListener('pointerup',function(e){
+  if(e.pointerId!==swipeId) return;
+  swipeId=null;
+  var dx=e.clientX-sx, dy=e.clientY-sy;
+  if(Math.abs(dx)>=40&&Math.abs(dx)>Math.abs(dy)*1.5&&phase==='book'){ swiped=true; setTimeout(function(){swiped=false},350); turn(dx<0?1:-1); }
+});
+document.addEventListener('pointercancel',function(){ swipeId=null; });
 
 function openSheet(view){
   if(phase==='open') return;
@@ -1337,7 +1379,7 @@ function startLoop(){
   if(phase!=='open') setPhase('loop');
   showInvite(false);
   // tramos del catálogo: se precargan en cadena cuando ya corre el loop
-  var chain=[vC,vD,vE];
+  var chain=(WIDE||reduced)?[vC,vD,vE]:[vC,vD,vE,vP];   // el celular de las burbujas es solo del móvil
   (function next(i){ if(i>=chain.length) return; var v=chain[i]; if(v.src) return next(i+1); v.src=v.dataset.src; v.load(); var done=false,fn=function(){ if(done) return; done=true; next(i+1); }; v.addEventListener('canplaythrough',fn,{once:true}); setTimeout(fn,6000); })(0);
 }
 
@@ -1399,6 +1441,35 @@ function loadVideos(){
   vA.src=vA.dataset.src; vB.src=vB.dataset.src; vA.load(); vB.load(); check();
   setTimeout(go,7000); // red lenta: no bloquear
 }
+
+/* burbujas del menú: saca el celular, lo mira y entonces abre WhatsApp o Maps.
+   Si el clip no está listo (o en escritorio, o con movimiento reducido) el enlace funciona normal, sin esperas.
+   El clip es corto para abrir dentro de la ventana en que el navegador aún acepta la acción del toque. */
+var vP=$('#vP');
+function abrirBurbuja(a){
+  if(a.target==='_blank'){
+    var w=null; try{ w=window.open(a.href,'_blank'); }catch(e){}
+    if(w){ try{ w.opener=null; }catch(e){} return; }   // ventana bloqueada: se abre en esta misma pestaña
+  }
+  location.href=a.href;
+}
+$$('.fabs a').forEach(function(a){ a.addEventListener('click',function(e){
+  if(phase!=='loop'||WIDE||reduced||e.ctrlKey||e.metaKey||e.shiftKey||!vP.src||vP.readyState<3) return;
+  e.preventDefault();
+  invite.classList.remove('on'); hint.classList.remove('on'); pulse.classList.remove('on');
+  setPhase('phone');
+  var listo=false, t=0, fin=function(){
+    if(listo) return; listo=true; clearTimeout(t); vP.onended=null;
+    abrirBurbuja(a);
+    setTimeout(function(){ vP.classList.remove('show'); setTimeout(function(){ try{vP.pause()}catch(e2){} },260); setPhase('loop'); showInvite(true); },350);
+  };
+  vP.onended=fin; t=setTimeout(fin,3500);    // red lenta o clip detenido: la acción no se pierde
+  try{ vP.currentTime=0; }catch(e2){}
+  var p; try{ p=vP.play(); }catch(e2){ fin(); return; }
+  if(p&&p.catch) p.catch(fin);
+  var ver=function(){ vP.classList.add('show'); };
+  if('requestVideoFrameCallback' in vP) vP.requestVideoFrameCallback(ver); else vP.addEventListener('playing',ver,{once:true});
+}); });
 
 /* primer toque en cualquier parte */
 app.addEventListener('pointerup',function(e){
@@ -1471,13 +1542,13 @@ function buildOficina(){
   }).catch(function(){});
 }
 function buildMostrador(){
-  var bd=surf('button',WIDE?rq(448,76,830,338):rq(308,247,654,597),'board',0); bd.type='button'; bd.setAttribute('aria-label','Ver las ofertas del taller');
+  var bd=surf('button',WIDE?rq(448,76,830,338):rq(320,212,598,520),'board',0); bd.type='button'; bd.setAttribute('aria-label','Ver las ofertas del taller');
   bd.appendChild(mk('span','bt','Ofertas'));
   bd.addEventListener('click',function(){ tocar('ofertas'); sheetAt('home','#banners'); });
   var redes=[['Instagram','ig',INSTAGRAM&&'@'+INSTAGRAM,INSTAGRAM&&'https://www.instagram.com/'+encodeURIComponent(INSTAGRAM)+'/'],
              ['Facebook','fb',FACEBOOK,FACEBOOK&&'https://www.facebook.com/'+encodeURIComponent(FACEBOOK)],
              ['TikTok','tt',TIKTOK&&'@'+TIKTOK,TIKTOK&&'https://www.tiktok.com/@'+encodeURIComponent(TIKTOK)]];
-  var Q=WIDE?[rq(426,530,535,659),rq(589,531,695,659),rq(747,531,855,659)]:[rq(148,807,266,925),rq(303,807,422,925),rq(459,807,578,925)];
+  var Q=WIDE?[rq(426,530,535,659),rq(589,531,695,659),rq(747,531,855,659)]:[rq(193,742,275,823),rq(320,742,402,823),rq(448,742,530,823)];
   redes.forEach(function(r,i){
     var url=r[3], el=surf(url?'a':'button',Q[i],'plaque',0.2+0.12*i);
     if(url){ el.href=url; el.target='_blank'; el.rel='noopener noreferrer'; el.setAttribute('aria-label','Abrir '+r[0]+' ('+r[2]+')'); }

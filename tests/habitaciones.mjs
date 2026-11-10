@@ -69,8 +69,8 @@ for(const [w,h] of [[390,844],[360,740]]){
     if(id==='mostrador'){
       const pl=surf.filter(s=>/plaque/.test(s.c));
       ok(tag+' mostrador: 3 placas de redes sobre las 3 placas',pl.length===3);
-      const [p2x,p2y]=f(362.5,866);ok(tag+' mostrador: la placa central cae sobre la placa (±3 px)',Math.abs(pl[1].x+pl[1].w/2-p2x)<3&&Math.abs(pl[1].y+pl[1].h/2-p2y)<3,JSON.stringify([pl[1].x+pl[1].w/2,pl[1].y+pl[1].h/2,p2x,p2y]));
-      const bd=surf.find(s=>/board/.test(s.c)),[bx,by]=f(481,422);
+      const [p2x,p2y]=f(361,782.5);ok(tag+' mostrador: la placa central cae sobre la placa (±3 px)',Math.abs(pl[1].x+pl[1].w/2-p2x)<3&&Math.abs(pl[1].y+pl[1].h/2-p2y)<3,JSON.stringify([pl[1].x+pl[1].w/2,pl[1].y+pl[1].h/2,p2x,p2y]));
+      const bd=surf.find(s=>/board/.test(s.c)),[bx,by]=f(459,366);
       ok(tag+' mostrador: la pizarra cae sobre el pizarrón (±3 px)',!!bd&&Math.abs(bd.x+bd.w/2-bx)<3&&Math.abs(bd.y+bd.h/2-by)<3,JSON.stringify(bd));
       const txt=await p.evaluate(()=>document.querySelector('#rstage .board').innerText);
       ok(tag+' mostrador: la pizarra muestra las ofertas de banners.json (y tapa la palabra MENU del video)',/OFERTAS/i.test(txt)&&/Frenos completos/i.test(txt)&&!/MENU/i.test(txt),txt.replace(/\n/g,' | ').slice(0,120));
